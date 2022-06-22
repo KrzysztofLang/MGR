@@ -1,3 +1,4 @@
+from typing import Type
 import numpy as np
 import pandas as pd
 from sympy import true
@@ -6,8 +7,8 @@ import keras
 
 ##Wczytanie pliku danych
 df = pd.read_csv("adult.data")
-print(df.info())
-print(df)
+""" print(df.info())
+print(df) """
 
 ##Zamiana typow danych na kategorie, a następnie zakodowanie jako dane numeryczne w nowym DF
 colsObjects = df.columns[df.dtypes == "object"].tolist()
@@ -15,9 +16,13 @@ for col in colsObjects:
     df[col] = df[col].astype('category')
     dfCoded = df
     dfCoded[col] = dfCoded[col].cat.codes
+    dfCoded.loc[dfCoded[col] == -1, col] = np.nan
+
+##Zamiana na float dla ujednolicenia typu
+dfCoded = dfCoded.astype('float64')
 
 print(dfCoded.info())
-print(dfCoded)
+print(dfCoded.head(30))
 
 ##Wybranie kolumny do wypełnienia
 cols = dfCoded.columns.to_list()
@@ -33,17 +38,24 @@ while true:
     else:
         print('Nie ma takiej kolumny!')
 
+
+
 ##Przeniesienie wybranej kolumny na koniec
-cols.sort(key = col.__eq__)
-dfCoded = dfCoded[cols]
+""" cols.sort(key = col.__eq__)
+dfCoded = dfCoded[cols] """
 
 ##Podzielenie Dataframe na zawierające NaN w wybranej kolumnie i wypełnione
 dfAllNan = dfCoded[dfCoded[col].isnull()]
 dfNoNan = dfCoded[~dfCoded[col].isnull()]
 
-print(dfAllNan)
-""" ##Rozdzielenie na dane wejściowe i wyjściowe
-x_df_no_nan = df_no_nan[:,0:13]
+dfNoNanTarget = dfNoNan.pop(col)
+dfAllNanTarget = dfAllNan.pop(col)
+
+""" print(dfNoNan)
+print(dfNoNanTarget) """
+
+##Rozdzielenie na dane wejściowe i wyjściowe
+""" x_df_no_nan = df_no_nan[:,0:13]
 y_df_no_nan = df_no_nan[:,13]
 
 print(x_df_no_nan)
