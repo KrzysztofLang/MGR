@@ -1,18 +1,50 @@
-
 import numpy as np
 import pandas as pd
-s = pd.read_csv("adult.data")
-#print(s.info())
-#unique_counts = pd.DataFrame.from_records([(col, s[col].nunique()) for col in s.columns],
-#                          columns=['Column_Name', 'Num_Unique']).sort_values(by=['Num_Unique'])
-#print(unique_counts)
+from sympy import true
+import tensorflow as tf
+import keras
 
-######Zamiana typow danych na kategorie
-cols_to_include = ['workclass', 'education', 'martial-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', 'attribute']
-for col in s.columns:
-    if col in cols_to_include:
-        s[col] = s[col].astype('category')
+##Wczytanie pliku danych
+df = pd.read_csv("adult.data")
+print(df.info())
+print(df)
 
-print(s.info())
-print(s)
-print(s.iloc[1])
+##Zamiana typow danych na kategorie, a następnie zakodowanie jako dane numeryczne w nowym DF
+colsObjects = df.columns[df.dtypes == "object"].tolist()
+for col in colsObjects:
+    df[col] = df[col].astype('category')
+    dfCoded = df
+    dfCoded[col] = dfCoded[col].cat.codes
+
+print(dfCoded.info())
+print(dfCoded)
+
+##Wybranie kolumny do wypełnienia
+cols = dfCoded.columns.to_list()
+print("Dostępne kolumny:")
+print(cols)
+while true:
+    col = input("Etykieta kolumny do wypełnienia (aby anulować, wpisz \"koniec\"): ")
+    if col in cols:
+        print('Wpisano poprawnie')
+        break
+    elif col == 'koniec':
+        exit()
+    else:
+        print('Nie ma takiej kolumny!')
+
+##Przeniesienie wybranej kolumny na koniec
+cols.sort(key = col.__eq__)
+dfCoded = dfCoded[cols]
+
+##Podzielenie Dataframe na zawierające NaN w wybranej kolumnie i wypełnione
+dfAllNan = dfCoded[dfCoded[col].isnull()]
+dfNoNan = dfCoded[~dfCoded[col].isnull()]
+
+print(dfAllNan)
+""" ##Rozdzielenie na dane wejściowe i wyjściowe
+x_df_no_nan = df_no_nan[:,0:13]
+y_df_no_nan = df_no_nan[:,13]
+
+print(x_df_no_nan)
+print(y_df_no_nan) """
