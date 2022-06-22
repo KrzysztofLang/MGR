@@ -5,6 +5,18 @@ from sympy import true
 import tensorflow as tf
 import keras
 
+def get_basic_model():
+    model = tf.keras.Sequential([
+        tf.keras.layers.Dense(10, activation='relu'),
+        tf.keras.layers.Dense(10, activation='relu'),
+        tf.keras.layers.Dense(1)
+    ])
+    model.compile(optimizer='adam',
+                loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
+                metrics=['accuracy'])
+    return model
+
+
 ##Wczytanie pliku danych
 df = pd.read_csv("adult.data")
 """ print(df.info())
@@ -19,9 +31,8 @@ for col in colsObjects:
     dfCoded.loc[dfCoded[col] == -1, col] = np.nan
 
 ##Zamiana na float dla ujednolicenia typu
-dfCoded = dfCoded.astype('float64')
+dfCoded = dfCoded.astype(np.float64)
 
-print(dfCoded.info())
 print(dfCoded.head(30))
 
 ##Wybranie kolumny do wypełnienia
@@ -50,6 +61,9 @@ dfNoNan = dfCoded[~dfCoded[col].isnull()]
 
 dfNoNanTarget = dfNoNan.pop(col)
 dfAllNanTarget = dfAllNan.pop(col)
+
+model = get_basic_model()
+model.fit(dfNoNan, dfNoNanTarget, epochs=15, batch_size=2)
 
 """ print(dfNoNan)
 print(dfNoNanTarget) """
