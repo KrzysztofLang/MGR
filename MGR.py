@@ -5,6 +5,7 @@ from sympy import true
 import tensorflow as tf
 import keras
 
+##Przygotowanie modelu
 def get_basic_model():
     model = tf.keras.Sequential([
         tf.keras.layers.Dense(10, activation='relu'),
@@ -16,11 +17,8 @@ def get_basic_model():
                 metrics=['accuracy'])
     return model
 
-
 ##Wczytanie pliku danych
 df = pd.read_csv("adult.data")
-""" print(df.info())
-print(df) """
 
 ##Zamiana typow danych na kategorie, a następnie zakodowanie jako dane numeryczne w nowym DF
 colsObjects = df.columns[df.dtypes == "object"].tolist()
@@ -49,12 +47,6 @@ while true:
     else:
         print('Nie ma takiej kolumny!')
 
-
-
-##Przeniesienie wybranej kolumny na koniec
-""" cols.sort(key = col.__eq__)
-dfCoded = dfCoded[cols] """
-
 ##Podzielenie Dataframe na zawierające NaN w wybranej kolumnie i wypełnione
 dfAllNan = dfCoded[dfCoded[col].isnull()]
 dfNoNan = dfCoded[~dfCoded[col].isnull()]
@@ -65,12 +57,3 @@ dfAllNanTarget = dfAllNan.pop(col)
 model = get_basic_model()
 model.fit(dfNoNan, dfNoNanTarget, epochs=15, batch_size=2)
 
-""" print(dfNoNan)
-print(dfNoNanTarget) """
-
-##Rozdzielenie na dane wejściowe i wyjściowe
-""" x_df_no_nan = df_no_nan[:,0:13]
-y_df_no_nan = df_no_nan[:,13]
-
-print(x_df_no_nan)
-print(y_df_no_nan) """
