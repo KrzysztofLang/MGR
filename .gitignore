@@ -1,2 +1,2 @@
-#ignorowanie środowiska wirtualnego
 venv/
+.vs/
