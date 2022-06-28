@@ -31,8 +31,6 @@ for col in colsObjects:
 ##Zamiana na float dla ujednolicenia typu
 dfCoded = dfCoded.astype(np.float64)
 
-print(dfCoded.head(30))
-
 ##Wybranie kolumny do wypełnienia
 cols = dfCoded.columns.to_list()
 print("Dostępne kolumny:")
