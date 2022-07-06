@@ -54,4 +54,3 @@ dfAllNanTarget = dfAllNan.pop(col)
 
 model = get_basic_model()
 model.fit(dfNoNan, dfNoNanTarget, epochs=15, batch_size=2)
-
