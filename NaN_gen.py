@@ -45,10 +45,8 @@ def wybor_procentow():    ##Wybranie ile % pustych wartości ma zostać stworzon
 def usuwanie_wartosci(df, col, nanRate):    ##Usuwanie wybranej ilości wartości z wskazanej kolumny i zapisanie jako nowy plik
     ind = len(df.index)
     numToRem = int(nanRate*0.01*ind)
-    print(numToRem)
     indToRem = sample(range(ind),numToRem)
     indToRem.sort()
-    print(indToRem)
     for i in indToRem:
         df.loc[i,col] = np.nan
     df.to_csv('test.csv', index=False)
