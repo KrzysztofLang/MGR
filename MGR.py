@@ -7,6 +7,7 @@ import keras
 
 
 def get_basic_model():  ##Przygotowanie modelu
+
     model = tf.keras.Sequential([
         tf.keras.layers.Dense(10, activation='relu'),
         tf.keras.layers.Dense(10, activation='relu'),
@@ -17,13 +18,41 @@ def get_basic_model():  ##Przygotowanie modelu
                 metrics=['accuracy'])
     return model
 
-def wybor_kolumny():    ##Wybranie kolumny do wypełnienia
+def wybory(): ##Funkcje wyboru
+    print("Aby wyjśćz programu, wpisz \"koniec\".")
+
+    df = wybor_pliku()
+    col = wybor_kolumny(df)
+
+    return df, col
+
+def wybor_pliku():  ##Wybranie i wczytanie pliku do pracy
+
+    while true:
+        file = input("Wpisz nazwę pliku lub wciśnij Enter aby wybrać domyślny: ")
+        if file == None:
+            print("Wybrano domyślny plik adult.data")
+            df = pd.read_csv("adult.data")
+            break
+        elif file == 'koniec':
+            exit()
+        else:
+            print("Wybrano plik " + file)
+            try:
+                df = pd.read_csv(file)
+                break
+            except:
+                print("Wpisano niepoprawną nazwę pliku, proszę upewnić się czy plik znajduje się w folderze programu.")
+
+    return df
+
+def wybor_kolumny(df):    ##Wybranie kolumny do wypełnienia
     
     cols = df.columns.to_list()
     print("Dostępne kolumny:")
     print(cols)
     while true:
-        col = input("Etykieta kolumny do wypełnienia (aby anulować, wpisz \"koniec\"): ")
+        col = input("Etykieta kolumny do wypełnienia: ")
         if col in cols:
             print('Wybrano poprawną kolumnę ' + col)
             break
@@ -34,7 +63,7 @@ def wybor_kolumny():    ##Wybranie kolumny do wypełnienia
 
     return col
 
-def przygotowanie_danych():
+def przygotowanie_danych(): ##Główna funkcja przygotowująca dane do nauki modelu
     
     ##Zamiana typow danych na kategorie, a następnie zakodowanie jako dane numeryczne w nowym DF
     colsObjects = df.columns[df.dtypes == "object"].tolist()
@@ -58,9 +87,7 @@ def przygotowanie_danych():
     return dfAllNan, dfNoNan, dfAllNanTarget, dfNoNanTarget
 
 ##Wczytanie pliku danych
-df = pd.read_csv("adult.data")
-
-col = wybor_kolumny()
+df, col = wybory()
 
 dfAllNan, dfNoNan, dfAllNanTarget, dfNoNanTarget = przygotowanie_danych()
 
