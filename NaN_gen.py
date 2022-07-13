@@ -5,57 +5,91 @@ import pandas as pd
 from sympy import true
 from random import sample
 
-def wybory():   ##Uruchamianie funkcji wyboru
-    print("Aby wyjśćz programu, wpisz \"koniec\".")
-    col = wybor_kolumny()
-    nanRate = wybor_procentow()
 
-    return col, nanRate
+# Funkcje wyboru
+def wybory():
+    print('Aby wyjść z programu, wpisz "koniec".')
 
-def wybor_kolumny():    ##Wybranie kolumny do dziurawienia
+    df = wybor_pliku()
+    col = wybor_kolumny(df)
+    nan_rate = wybor_procentow()
+
+    return df, col, nan_rate
+
+
+# Wybranie i wczytanie pliku do pracy
+def wybor_pliku():
+    while true:
+        file = input(
+            "Wpisz nazwę pliku lub wciśnij Enter aby wybrać domyślny: "
+        )
+        if not file:
+            print("Wybrano domyślny plik indexData_NYA.csv")
+            df = pd.read_csv("indexData_NYA.csv")
+            break
+        elif file == "koniec":
+            exit()
+        else:
+            print("Wybrano plik " + file)
+            try:
+                df = pd.read_csv(file)
+                break
+            except:
+                print(
+                    "Wpisano niepoprawną nazwę pliku, proszę upewnić się czy \
+                        plik znajduje się w folderze programu."
+                )
+
+    return df
+
+
+# Wybranie kolumny do dziurawienia
+def wybor_kolumny(df):
     cols = df.columns.to_list()
     print("Dostępne kolumny:")
     print(cols)
     while true:
-        col = input("Etykieta kolumny usunięcia wartości: ")
+        col = input("Wpisz etykietę kolumny do usunięcia wartości: ")
         if col in cols:
-            print('Wybrano poprawną kolumnę ' + col)
+            print("Wybrano kolumnę " + col)
             break
-        elif col == 'koniec':
+        elif col == "koniec":
             exit()
         else:
-            print('Nie ma takiej kolumny!')
+            print("Nie ma takiej kolumny!")
 
     return col
 
-def wybor_procentow():    ##Wybranie ile % pustych wartości ma zostać stworzone
+
+# Wybranie ile % pustych wartości ma zostać stworzone
+def wybor_procentow():
     while true:
-        nanRate = input("Ile % wartości ma być usuniętych?: ")
-        if nanRate == 'koniec':
+        nan_rate = input("Ile % wartości ma być usuniętych?: ")
+        if nan_rate == "koniec":
             exit()
         else:
             try:
-                nanRate = float(nanRate)
+                nan_rate = float(nan_rate)
                 break
             except ValueError:
-                print("Błąd wartości: proszę podać liczbę rzeczywistą, z kropką jako separator.")
+                print(
+                    "Błąd wartości: proszę podać liczbę rzeczywistą, \
+                        z kropką jako separator."
+                )
 
-    return nanRate
+    return nan_rate
 
-def usuwanie_wartosci(df, col, nanRate):    ##Usuwanie wybranej ilości wartości z wskazanej kolumny i zapisanie jako nowy plik
+
+# Usuwanie wybranej ilości wartości z wskazanej kolumny i zapisanie
+# jako nowy plik
+def usuwanie_wartosci(df, col, nan_rate):
     ind = len(df.index)
-    numToRem = int(nanRate*0.01*ind)
-    indToRem = sample(range(ind),numToRem)
-    indToRem.sort()
-    for i in indToRem:
-        df.loc[i,col] = np.nan
-    df.to_csv('test.csv', index=False)
+    num_to_rem = int(nan_rate * 0.01 * ind)
+    ind_to_rem = sample(range(ind), num_to_rem)
+    ind_to_rem.sort()
+    for i in ind_to_rem:
+        df.loc[i, col] = np.nan
+    df.to_csv("test.csv", index=False)
 
-##Wczytanie pliku danych
-df = pd.read_csv("indexData_NYA.csv")
 
-print(df.info())
-
-col, nanRate = wybory()
-
-usuwanie_wartosci(df, col, nanRate)
+usuwanie_wartosci(wybory())
