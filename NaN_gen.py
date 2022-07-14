@@ -8,7 +8,7 @@ from random import sample
 
 # Funkcje wyboru
 def wybory():
-    print('Aby wyjść z programu, wpisz "koniec".')
+    print("Aby wyjść z programu, wpisz \"koniec\".\n")
 
     df = wybor_pliku()
     col = wybor_kolumny(df)
@@ -24,21 +24,19 @@ def wybor_pliku():
             "Wpisz nazwę pliku lub wciśnij Enter aby wybrać domyślny: "
         )
         if not file:
-            print("Wybrano domyślny plik indexData_NYA.csv")
+            print("Wybrano domyślny plik indexData_NYA.csv\n")
             df = pd.read_csv("indexData_NYA.csv")
             break
         elif file == "koniec":
             exit()
         else:
-            print("Wybrano plik " + file)
             try:
                 df = pd.read_csv(file)
+                print("Wybrano plik " + file + "\n")
                 break
             except:
-                print(
-                    "Wpisano niepoprawną nazwę pliku, proszę upewnić się czy \
-                        plik znajduje się w folderze programu."
-                )
+                print("Wpisano niepoprawną nazwę pliku, proszę upewnić się")
+                print("czy plik znajduje się w folderze programu.\n")
 
     return df
 
@@ -51,12 +49,12 @@ def wybor_kolumny(df):
     while true:
         col = input("Wpisz etykietę kolumny do usunięcia wartości: ")
         if col in cols:
-            print("Wybrano kolumnę " + col)
+            print("Wybrano kolumnę " + col + "\n")
             break
         elif col == "koniec":
             exit()
         else:
-            print("Nie ma takiej kolumny!")
+            print("Nie ma takiej kolumny!\n")
 
     return col
 
@@ -72,10 +70,8 @@ def wybor_procentow():
                 nan_rate = float(nan_rate)
                 break
             except ValueError:
-                print(
-                    "Błąd wartości: proszę podać liczbę rzeczywistą, \
-                        z kropką jako separator."
-                )
+                print("Błąd wartości: proszę podać liczbę rzeczywistą,")
+                print("z kropką jako separator.\n")
 
     return nan_rate
 
@@ -91,5 +87,6 @@ def usuwanie_wartosci(df, col, nan_rate):
         df.loc[i, col] = np.nan
     df.to_csv("test.csv", index=False)
 
+df, col, nan_rate = wybory()
 
-usuwanie_wartosci(wybory())
+usuwanie_wartosci(df, col, nan_rate)
