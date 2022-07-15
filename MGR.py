@@ -27,7 +27,7 @@ def get_basic_model():
 
 # Funkcje wyboru
 def wybory():
-    print("Aby wyjść z programu, wpisz \"koniec\".\n")
+    print('Aby wyjść z programu, wpisz "koniec".\n')
 
     df = wybor_pliku()
     col = wybor_kolumny(df)

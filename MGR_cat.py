@@ -35,7 +35,7 @@ def get_basic_model():
 
 # Funkcje wyboru
 def wybory():
-    print("Aby wyjść z programu, wpisz \"koniec\".\n")
+    print('Aby wyjść z programu, wpisz "koniec".\n')
 
     df = wybor_pliku()
     col = wybor_kolumny(df)
@@ -101,8 +101,6 @@ def przygotowanie_danych(df, col):
     # Zamiana na float dla ujednolicenia typu
     df = df.astype(np.float64)
 
-    
-
     # Podzielenie Dataframe na zawierające NaN w wybranej kolumnie i
     # wypełnione
     df_all_nan = df[df[col].isnull()]
@@ -110,8 +108,9 @@ def przygotowanie_danych(df, col):
 
     print(df_all_nan.info())
     print(df_no_nan.info())
-    
+
     return df_all_nan, df_no_nan
+
 
 """     # Wydzielenie danych uczących
     df_no_nan_target = df_no_nan.pop(col)
@@ -125,37 +124,39 @@ df, col = wybory()
 
 df_all_nan, df_no_nan = przygotowanie_danych(df, col)
 
-target_column = [col] 
-predictors = list(set(list(df_no_nan.columns))-set(target_column))
-df_no_nan[predictors] = df_no_nan[predictors]/df_no_nan[predictors].max()
+target_column = [col]
+predictors = list(set(list(df_no_nan.columns)) - set(target_column))
+df_no_nan[predictors] = df_no_nan[predictors] / df_no_nan[predictors].max()
 print(df_no_nan.describe())
 
 X = df_no_nan[predictors].values
 y = df_no_nan[target_column].values
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=40)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.30, random_state=40
+)
 print(X_train.shape)
 print(X_test.shape)
 
 print(y_train)
 
 # y_train = to_categorical(y_train)
-#  
+#
 # y_test = to_categorical(y_test)
 
 count_classes = y_test.shape[1]
 print(count_classes)
 
 model = Sequential()
-model.add(Dense(500, activation='relu', input_dim=7))
-model.add(Dense(100, activation='relu'))
-model.add(Dense(50, activation='relu'))
-model.add(Dense(count_classes, activation='softmax'))
+model.add(Dense(500, activation="relu", input_dim=7))
+model.add(Dense(100, activation="relu"))
+model.add(Dense(50, activation="relu"))
+model.add(Dense(count_classes, activation="softmax"))
 
 # Compile the model
-model.compile(optimizer='adam', 
-              loss='categorical_crossentropy', 
-              metrics=['accuracy'])
+model.compile(
+    optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"]
+)
 
 model.fit(X_train, y_train, epochs=20)
 

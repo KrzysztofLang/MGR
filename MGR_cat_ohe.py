@@ -15,25 +15,6 @@ from math import sqrt
 import re
 
 
-# Przygotowanie modelu
-def get_basic_model():
-    model = tf.keras.Sequential(
-        [
-            tf.keras.layers.Dense(10, activation="relu"),
-            tf.keras.layers.Dense(10, activation="relu"),
-            tf.keras.layers.Dense(1),
-        ]
-    )
-
-    model.compile(
-        optimizer="adam",
-        loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
-        metrics=["accuracy"],
-    )
-
-    return model
-
-
 # Funkcje wyboru
 def wybory():
     print('Aby wyjść z programu, wpisz "koniec".\n')
@@ -47,7 +28,9 @@ def wybory():
 # Wybranie i wczytanie pliku do pracy
 def wybor_pliku():
     while true:
-        file = input("Wpisz nazwę pliku lub wciśnij Enter aby wybrać domyślny: ")
+        file = input(
+            "Wpisz nazwę pliku lub wciśnij Enter aby wybrać domyślny: "
+        )
 
         if not file:
             print("Wybrano domyślny plik adult.data\n")
@@ -73,7 +56,9 @@ def wybor_kolumny(df):
     print("Dostępne kolumny:")
     print(cols)
     while true:
-        col = input("Wpisz nazwę kolumny lub wciśnij Enter aby wybrać domyślną: ")
+        col = input(
+            "Wpisz nazwę kolumny lub wciśnij Enter aby wybrać domyślną: "
+        )
         if not col:
             print("Wybrano domyślną kolumnę workclass\n")
             col = "workclass"
@@ -119,7 +104,9 @@ def przygotowanie_danych(df, col):
 
     targets = df.columns[df.columns.str.startswith(col + "_")]
 
-    df = df[[c for c in df if c not in targets] + [c for c in targets if c in df]]
+    df = df[
+        [c for c in df if c not in targets] + [c for c in targets if c in df]
+    ]
     print(df)
     print(df.info())
     cat_num = len(targets)
@@ -136,25 +123,7 @@ def przygotowanie_danych(df, col):
     return df_all_nan, df_no_nan, cat_num
 
 
-"""     # Wydzielenie danych uczących
-    df_no_nan_target = df_no_nan.pop(col)
-    df_all_nan_target = df_all_nan.pop(col)
-
-    return df_all_nan, df_no_nan, df_all_nan_target, df_no_nan_target """
-
-
 # Wczytanie pliku danych
 df, col = wybory()
 
 df_all_nan, df_no_nan, cat_num = przygotowanie_danych(df, col)
-
-
-""" (
-    df_all_nan,
-    df_no_nan,
-    df_all_nan_target,
-    df_no_nan_target,
-) = przygotowanie_danych()
-
-model = get_basic_model()
-model.fit(df_no_nan, df_no_nan_target, epochs=15, batch_size=2) """
