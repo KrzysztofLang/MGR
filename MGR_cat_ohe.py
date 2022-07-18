@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import sklearn
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
+from sklearn import svm
 from math import sqrt
 import re
 
@@ -127,3 +128,6 @@ def przygotowanie_danych(df, col):
 df, col = wybory()
 
 df_all_nan, df_no_nan, cat_num = przygotowanie_danych(df, col)
+
+
+clf = svm.SVC(kernel='linear')

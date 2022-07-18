@@ -35,7 +35,7 @@ def get_basic_model():
 
 # Funkcje wyboru
 def wybory():
-    print('Aby wyjść z programu, wpisz "koniec".\n')
+    print("Aby wyjść z programu, wpisz \"koniec\".\n")
 
     df = wybor_pliku()
     col = wybor_kolumny(df)
@@ -108,7 +108,7 @@ def przygotowanie_danych(df, col):
 
     print(df_all_nan.info())
     print(df_no_nan.info())
-
+    
     return df_all_nan, df_no_nan
 
 
@@ -124,7 +124,7 @@ df, col = wybory()
 
 df_all_nan, df_no_nan = przygotowanie_danych(df, col)
 
-target_column = [col]
+target_column = [col] 
 predictors = list(set(list(df_no_nan.columns)) - set(target_column))
 df_no_nan[predictors] = df_no_nan[predictors] / df_no_nan[predictors].max()
 print(df_no_nan.describe())
@@ -141,7 +141,7 @@ print(X_test.shape)
 print(y_train)
 
 # y_train = to_categorical(y_train)
-#
+#  
 # y_test = to_categorical(y_test)
 
 count_classes = y_test.shape[1]
