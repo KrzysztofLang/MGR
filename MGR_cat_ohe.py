@@ -12,69 +12,70 @@ from math import sqrt
 import re
 
 
-# Funkcje wyboru
-def wybory():
-    print('Aby wyjść z programu, wpisz "koniec".\n')
+class Dane:
+    def __init__(self) -> None:
+        
+        print('Aby wyjść z programu, wpisz "koniec".\n')
+        self.df = self.wybor_pliku()
+        self.col = self.wybor_kolumny(self.df)
+        self.col_type = self.df[self.col].dtype
 
-    df = wybor_pliku()
-    col = wybor_kolumny(df)
+    # Wybranie i wczytanie pliku do pracy
+    @staticmethod
+    def wybor_pliku():
+        while true:
+            file = input(
+                "Wpisz nazwę pliku lub wciśnij Enter aby wybrać domyślny: "
+            )
 
-    return df, col
-
-
-# Wybranie i wczytanie pliku do pracy
-def wybor_pliku():
-    while true:
-        file = input(
-            "Wpisz nazwę pliku lub wciśnij Enter aby wybrać domyślny: "
-        )
-
-        if not file:
-            print("Wybrano domyślny plik adult.data\n")
-            df = pd.read_csv("adult.data")
-            break
-        elif file == "koniec":
-            exit()
-        else:
-            try:
-                df = pd.read_csv(file)
-                print("Wybrano plik " + file + "\n")
+            if not file:
+                print("Wybrano domyślny plik adult.data\n")
+                df = pd.read_csv("adult.data")
                 break
-            except:
-                print("Wpisano niepoprawną nazwę pliku, proszę upewnić się")
-                print("czy plik znajduje się w folderze programu.\n")
+            elif file == "koniec":
+                exit()
+            else:
+                try:
+                    df = pd.read_csv(file)
+                    print("Wybrano plik " + file + "\n")
+                    break
+                except:
+                    print("Wpisano niepoprawną nazwę pliku, proszę upewnić się")
+                    print("czy plik znajduje się w folderze programu.\n")
 
-    return df
+        return df
+
+    @staticmethod
+    # Wybranie kolumny do wypełnienia
+    def wybor_kolumny(df):
+        cols = df.columns.to_list()
+        print("Dostępne kolumny:")
+        print(cols)
+        while true:
+            col = input(
+                "Wpisz nazwę kolumny lub wciśnij Enter aby wybrać domyślną: "
+            )
+            if not col:
+                print("Wybrano domyślną kolumnę workclass\n")
+                col = "workclass"
+                break
+            elif col in cols:
+                print("Wybrano poprawną kolumnę " + col + "\n")
+                break
+            elif col == "koniec":
+                exit()
+            else:
+                print("Nie ma takiej kolumny!\n")
+
+        return col
 
 
-# Wybranie kolumny do wypełnienia
-def wybor_kolumny(df):
-    cols = df.columns.to_list()
-    print("Dostępne kolumny:")
-    print(cols)
-    while true:
-        col = input(
-            "Wpisz nazwę kolumny lub wciśnij Enter aby wybrać domyślną: "
-        )
-        if not col:
-            print("Wybrano domyślną kolumnę workclass\n")
-            col = "workclass"
-            break
-        elif col in cols:
-            print("Wybrano poprawną kolumnę " + col + "\n")
-            break
-        elif col == "koniec":
-            exit()
-        else:
-            print("Nie ma takiej kolumny!\n")
-
-    return col
-
-
-# Główna funkcja przygotowująca dane do nauki modelu
-def przygotowanie_danych(df, col):
+def przygotowanie_danych_kategoryczne(dane):
     # Zamiana typow danych na kategorie, a następnie zakodowanie jako dane
     # numeryczne w nowym DF
+    col = dane.col
+    df = dane.df
+
     cols_objects = df.columns[df.dtypes == "object"].tolist()
     for cols in cols_objects:
         df[cols] = df[cols].astype("category")
@@ -130,8 +131,8 @@ def naucz_model(df):
     print("Skuteczność: ", metrics.accuracy_score(y_test, y_pred))
 
 
-df, col = wybory()
+dane = Dane()
 
-df_all_nan, df_no_nan = przygotowanie_danych(df, col)
+df_all_nan, df_no_nan = przygotowanie_danych_kategoryczne(dane)
 
 naucz_model(df_no_nan)
