@@ -2,11 +2,6 @@ from typing import Type
 import numpy as np
 import pandas as pd
 from sympy import true
-""" import tensorflow as tf
-import keras
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.utils import to_categorical """
 import matplotlib.pyplot as plt
 import sklearn
 from sklearn.model_selection import train_test_split
@@ -110,42 +105,33 @@ def przygotowanie_danych(df, col):
     df_temp = df.pop(col)
     df.insert(0, col, df_temp)
 
-    print(df)
-    print(df.info())
-
     # Podzielenie Dataframe na zawierające NaN w wybranej kolumnie i
     # wypełnione
     df_all_nan = df[df[col].isnull()]
     df_no_nan = df[~df[col].isnull()]
 
-    print(df_all_nan.info())
-    print(df_no_nan.info())
-
     return df_all_nan, df_no_nan
 
 
-def svm_model(df):
-
+def naucz_model(df):
+    # Zamiana DataFrame na array
     df = df.to_numpy()
 
-    print("\nTu powinno pojawić się info o numpy array:\n\n")
-
-    print(df)
-
     # Wydzielenie zbiorów uczących i testowych
-    x_train, x_test, y_train, y_test = train_test_split(df[:, 1:], df[:, 0], test_size=0.3,random_state=109)
+    x_train, x_test, y_train, y_test = train_test_split(
+        df[:, 1:], df[:, 0], test_size=0.3, random_state=109
+    )
 
     # Nauka modelu
     clf = HistGradientBoostingClassifier(max_iter=100).fit(x_train, y_train)
 
-
     # Test skuteczności modelu
     y_pred = clf.predict(x_test)
-    print("Skuteczność: ",metrics.accuracy_score(y_test, y_pred))
+    print("Skuteczność: ", metrics.accuracy_score(y_test, y_pred))
 
 
 df, col = wybory()
 
 df_all_nan, df_no_nan = przygotowanie_danych(df, col)
 
-svm_model(df_no_nan)
+naucz_model(df_no_nan)

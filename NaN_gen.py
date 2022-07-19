@@ -24,8 +24,8 @@ def wybor_pliku():
             "Wpisz nazwę pliku lub wciśnij Enter aby wybrać domyślny: "
         )
         if not file:
-            print("Wybrano domyślny plik indexData_NYA.csv\n")
-            df = pd.read_csv("indexData_NYA.csv")
+            print("Wybrano domyślny plik indexData_NYA_datecoded.csv\n")
+            df = pd.read_csv("indexData_NYA_datecoded.csv")
             break
         elif file == "koniec":
             exit()
