@@ -18,7 +18,16 @@ class Dane:
         print('Aby wyjść z programu, wpisz "koniec".\n')
         self.df = self.wybor_pliku()
         self.col = self.wybor_kolumny(self.df)
-        self.col_type = self.df[self.col].dtype
+        col_type = self.df[self.col].dtype
+        print("\n")
+        print(col_type)
+        print("\n")
+
+        match col_type:
+            case "object" | "category":
+                self.df_all_nan, self.df_no_nan = self.przygotowanie_danych_kategoryczne()
+            case _:
+                raise ValueError("Nieobsługiwany typ danych do wypełnienia")
 
     # Wybranie i wczytanie pliku do pracy
     @staticmethod
@@ -68,50 +77,47 @@ class Dane:
                 print("Nie ma takiej kolumny!\n")
 
         return col
+    
+    #Przygotowanie danych do dalszej pracy w wypadku gdy wybrana kolumna zawiera dane kategoryczne
+    def przygotowanie_danych_kategoryczne(self):
+        # Zamiana typow danych na kategorie, a następnie zakodowanie jako dane
+        # numeryczne w nowym DF
+        cols_objects = self.df.columns[self.df.dtypes == "object"].tolist()
+        for cols in cols_objects:
+            self.df[cols] = self.df[cols].astype("category")
 
+        self.df[self.col] = self.df[self.col].cat.codes
+        self.df.loc[self.df[self.col] == -1, self.col] = np.nan
 
-def przygotowanie_danych_kategoryczne(dane):
-    # Zamiana typow danych na kategorie, a następnie zakodowanie jako dane
-    # numeryczne w nowym DF
-    col = dane.col
-    df = dane.df
+        self.df = pd.get_dummies(self.df, dummy_na=True)
+        print(self.df)
 
-    cols_objects = df.columns[df.dtypes == "object"].tolist()
-    for cols in cols_objects:
-        df[cols] = df[cols].astype("category")
+        nan_df = self.df.loc[:, self.df.columns.str.endswith("_nan")]
+        print(nan_df)
 
-    df[col] = df[col].cat.codes
-    df.loc[df[col] == -1, col] = np.nan
+        pattern = "^([^_]*)_"
+        regex = re.compile(pattern)
 
-    df = pd.get_dummies(df, dummy_na=True)
-    print(df)
+        for index in self.df.index:
+            for col_nan in nan_df.columns:
+                if self.df.loc[index, col_nan] == 1:
+                    col_id = regex.search(col_nan).group(1)
+                    targets = self.df.columns[self.df.columns.str.startswith(col_id + "_")]
+                    self.df.loc[index, targets] = np.nan
 
-    nan_df = df.loc[:, df.columns.str.endswith("_nan")]
-    print(nan_df)
+        self.df.drop(self.df.columns[self.df.columns.str.endswith("_nan")], axis=1, inplace=True)
 
-    pattern = "^([^_]*)_"
-    regex = re.compile(pattern)
+        self.df = self.df.astype(np.float64)
 
-    for index in df.index:
-        for col_nan in nan_df.columns:
-            if df.loc[index, col_nan] == 1:
-                col_id = regex.search(col_nan).group(1)
-                targets = df.columns[df.columns.str.startswith(col_id + "_")]
-                df.loc[index, targets] = np.nan
+        df_temp = self.df.pop(self.col)
+        self.df.insert(0, self.col, df_temp)
 
-    df.drop(df.columns[df.columns.str.endswith("_nan")], axis=1, inplace=True)
+        # Podzielenie Dataframe na zawierające NaN w wybranej kolumnie i
+        # wypełnione
+        df_all_nan = self.df[self.df[self.col].isnull()]
+        df_no_nan = self.df[~self.df[self.col].isnull()]
 
-    df = df.astype(np.float64)
-
-    df_temp = df.pop(col)
-    df.insert(0, col, df_temp)
-
-    # Podzielenie Dataframe na zawierające NaN w wybranej kolumnie i
-    # wypełnione
-    df_all_nan = df[df[col].isnull()]
-    df_no_nan = df[~df[col].isnull()]
-
-    return df_all_nan, df_no_nan
+        return df_all_nan, df_no_nan
 
 
 def naucz_model(df):
@@ -133,6 +139,4 @@ def naucz_model(df):
 
 dane = Dane()
 
-df_all_nan, df_no_nan = przygotowanie_danych_kategoryczne(dane)
-
-naucz_model(df_no_nan)
+naucz_model(dane.df_no_nan)
