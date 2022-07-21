@@ -13,17 +13,19 @@ import re
 
 
 class Dane:
+    """Pola"""
+
     def __init__(self) -> None:
 
-        print("\nAby wyjść z programu, wpisz \"koniec\".\n")
+        print('Aby wyjść z programu, wpisz "koniec".\n')
         self.df = self.wybor_pliku()
         self.col = self.wybor_kolumny(self.df)
-        self.col_type = self.df[self.col].dtype
+        col_type = self.df[self.col].dtype
         print("\n")
-        print(self.col_type)
+        print(col_type)
         print("\n")
 
-        match self.col_type:
+        match col_type:
             case "object" | "category":
                 (
                     self.df_all_nan,
@@ -41,7 +43,7 @@ class Dane:
             )
 
             if not file:
-                print("\nWybrano domyślny plik adult.data\n")
+                print("Wybrano domyślny plik adult.data\n")
                 df = pd.read_csv("adult.data")
                 break
             elif file == "koniec":
@@ -49,11 +51,11 @@ class Dane:
             else:
                 try:
                     df = pd.read_csv(file)
-                    print("\nWybrano plik " + file + "\n")
+                    print("Wybrano plik " + file + "\n")
                     break
                 except Exception:
                     print(
-                        "\nWpisano niepoprawną nazwę pliku, proszę upewnić się"
+                        "Wpisano niepoprawną nazwę pliku, proszę upewnić się"
                     )
                     print("czy plik znajduje się w folderze programu.\n")
 
@@ -83,8 +85,8 @@ class Dane:
 
         return col
 
-    # Przygotowanie danych do dalszej pracy w wypadku
-    # gdy wybrana kolumna zawiera dane kategoryczne
+    # Przygotowanie danych do dalszej pracy w wypadku gdy
+    # Wybrana kolumna zawiera dane kategoryczne
     def przygotowanie_danych_kategoryczne(self):
         # Zamiana typow danych na kategorie, a następnie zakodowanie jako dane
         # numeryczne w nowym DF
