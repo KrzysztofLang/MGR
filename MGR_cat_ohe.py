@@ -14,18 +14,21 @@ import re
 
 class Dane:
     def __init__(self) -> None:
-        
-        print('Aby wyjść z programu, wpisz "koniec".\n')
+
+        print("\nAby wyjść z programu, wpisz \"koniec\".\n")
         self.df = self.wybor_pliku()
         self.col = self.wybor_kolumny(self.df)
-        col_type = self.df[self.col].dtype
+        self.col_type = self.df[self.col].dtype
         print("\n")
-        print(col_type)
+        print(self.col_type)
         print("\n")
 
-        match col_type:
+        match self.col_type:
             case "object" | "category":
-                self.df_all_nan, self.df_no_nan = self.przygotowanie_danych_kategoryczne()
+                (
+                    self.df_all_nan,
+                    self.df_no_nan,
+                ) = self.przygotowanie_danych_kategoryczne()
             case _:
                 raise ValueError("Nieobsługiwany typ danych do wypełnienia")
 
@@ -38,7 +41,7 @@ class Dane:
             )
 
             if not file:
-                print("Wybrano domyślny plik adult.data\n")
+                print("\nWybrano domyślny plik adult.data\n")
                 df = pd.read_csv("adult.data")
                 break
             elif file == "koniec":
@@ -46,10 +49,12 @@ class Dane:
             else:
                 try:
                     df = pd.read_csv(file)
-                    print("Wybrano plik " + file + "\n")
+                    print("\nWybrano plik " + file + "\n")
                     break
-                except:
-                    print("Wpisano niepoprawną nazwę pliku, proszę upewnić się")
+                except Exception:
+                    print(
+                        "\nWpisano niepoprawną nazwę pliku, proszę upewnić się"
+                    )
                     print("czy plik znajduje się w folderze programu.\n")
 
         return df
@@ -77,8 +82,9 @@ class Dane:
                 print("Nie ma takiej kolumny!\n")
 
         return col
-    
-    #Przygotowanie danych do dalszej pracy w wypadku gdy wybrana kolumna zawiera dane kategoryczne
+
+    # Przygotowanie danych do dalszej pracy w wypadku
+    # gdy wybrana kolumna zawiera dane kategoryczne
     def przygotowanie_danych_kategoryczne(self):
         # Zamiana typow danych na kategorie, a następnie zakodowanie jako dane
         # numeryczne w nowym DF
@@ -102,10 +108,16 @@ class Dane:
             for col_nan in nan_df.columns:
                 if self.df.loc[index, col_nan] == 1:
                     col_id = regex.search(col_nan).group(1)
-                    targets = self.df.columns[self.df.columns.str.startswith(col_id + "_")]
+                    targets = self.df.columns[
+                        self.df.columns.str.startswith(col_id + "_")
+                    ]
                     self.df.loc[index, targets] = np.nan
 
-        self.df.drop(self.df.columns[self.df.columns.str.endswith("_nan")], axis=1, inplace=True)
+        self.df.drop(
+            self.df.columns[self.df.columns.str.endswith("_nan")],
+            axis=1,
+            inplace=True,
+        )
 
         self.df = self.df.astype(np.float64)
 
