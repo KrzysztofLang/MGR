@@ -24,8 +24,8 @@ def wybor_pliku():
             "Wpisz nazwę pliku lub wciśnij Enter aby wybrać domyślny: "
         )
         if not file:
-            print("Wybrano domyślny plik indexData_NYA_datecoded.csv\n")
-            df = pd.read_csv("indexData_NYA_datecoded.csv")
+            print("Wybrano domyślny plik adult.csv\n")
+            df = pd.read_csv("adult.csv")
             break
         elif file == "koniec":
             exit()
@@ -86,6 +86,7 @@ def usuwanie_wartosci(df, col, nan_rate):
     for i in ind_to_rem:
         df.loc[i, col] = np.nan
     df.to_csv("test.csv", index=False)
+    print(df.info())
 
 df, col, nan_rate = wybory()
 
