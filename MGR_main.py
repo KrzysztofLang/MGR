@@ -1,38 +1,38 @@
-from typing import Type
 import numpy as np
 import pandas as pd
 from sympy import true
-import matplotlib.pyplot as plt
-import sklearn
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
-from sklearn import svm
 from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.preprocessing import OrdinalEncoder
 from math import sqrt
 import re
 
 
 class Dane:
-    """Pola"""
-
     def __init__(self) -> None:
 
+        self.enc = OrdinalEncoder(
+            handle_unknown="use_encoded_value", unknown_value=np.nan
+        )
+        # Wybranie pliku do wypełniania
         print('Aby wyjść z programu, wpisz "koniec".\n')
         self.df = self.wybor_pliku()
-        self.col = self.wybor_kolumny(self.df)
-        col_type = self.df[self.col].dtype
+        self.cols_to_fill = {}
+        for cols in self.df.columns[self.df.isna().any()].tolist():
+            if (
+                self.df[cols].dtypes == "object"
+                or self.df[cols].dtypes == "category"
+            ):
+                self.cols_to_fill[cols] = self.df[cols].isna().sum()
 
-        match col_type:
-            case "object" | "category":
-                (
-                    self.features_all_nan,
-                    self.target_all_nan,
-                    self.features_no_nan,
-                    self.target_no_nan,
-                    self.cat_arr
-                ) = self.przygotowanie_danych_kategoryczne()
-            case _:
-                raise ValueError("Nieobsługiwany typ danych do wypełnienia")
+        self.cols_to_fill = list(
+            dict(
+                sorted(self.cols_to_fill.items(), key=lambda item: item[1])
+            ).keys()
+        )
+        print(self.cols_to_fill)
+        exit()
 
     # Wybranie i wczytanie pliku do pracy
     @staticmethod
@@ -43,8 +43,8 @@ class Dane:
             )
 
             if not file:
-                print("Wybrano domyślny plik wrkcls_occ.csv\n")
-                df = pd.read_csv("wrkcls_occ.csv")
+                print("Wybrano domyślny plik adult_holes.csv\n")
+                df = pd.read_csv("adult_holes.csv")
                 break
             elif file == "koniec":
                 exit()
@@ -61,45 +61,16 @@ class Dane:
 
         return df
 
-    @staticmethod
-    # Wybranie kolumny do wypełnienia
-    def wybor_kolumny(df):
-        cols = df.columns.to_list()
-        print("Dostępne kolumny:")
-        print(cols)
-        while true:
-            col = input(
-                "Wpisz nazwę kolumny lub wciśnij Enter aby wybrać domyślną: "
-            )
-            if not col:
-                print("Wybrano domyślną kolumnę workclass\n")
-                col = "workclass"
-                break
-            elif col in cols:
-                print("Wybrano poprawną kolumnę " + col + "\n")
-                break
-            elif col == "koniec":
-                exit()
-            else:
-                print("Nie ma takiej kolumny!\n")
-
-        return col
-
     # Przygotowanie danych do dalszej pracy w wypadku gdy
     # Wybrana kolumna zawiera dane kategoryczne
     def przygotowanie_danych_kategoryczne(self):
         # Zamiana typow danych na kategorie, a następnie zakodowanie jako dane
         # numeryczne w nowym DF
-        cols_objects = self.df.columns[self.df.dtypes == "object"].tolist()
+        cols_with_objects = self.df.columns[
+            self.df.dtypes == "object"
+        ].tolist()
 
         # Kodowanie danych katygorycznych z uzyciem etykiet
-        for cols in cols_objects:
-            self.df[cols] = self.df[cols].astype("category")
-            self.df[cols] = self.df[cols].cat.codes
-            self.df.loc[self.df[cols] == -1, cols] = np.nan
-
-        # Zamiana na float dla ujednolicenia typu
-        self.df = self.df.astype(np.float64)
 
         # Podzielenie Dataframe na zawierające NaN w wybranej kolumnie i
         # wypełnione
@@ -113,15 +84,20 @@ class Dane:
         features_no_nan = df_no_nan.drop(self.col, axis=1)
         target_no_nan = df_no_nan[self.col]
 
-
         # Utworzenie listy z ID kolumn zawierających dane kategoryczne
         cat_arr = []
 
         for cols in features_all_nan:
-            if cols in cols_objects:
+            if cols in cols_with_objects:
                 cat_arr.append(features_all_nan.columns.get_loc(cols))
 
-        return features_all_nan, target_all_nan, features_no_nan, target_no_nan, cat_arr
+        return (
+            features_all_nan,
+            target_all_nan,
+            features_no_nan,
+            target_no_nan,
+            cat_arr,
+        )
 
 
 def naucz_model(dane):
@@ -134,7 +110,9 @@ def naucz_model(dane):
     )
 
     # Nauka modelu
-    clf = HistGradientBoostingClassifier(max_iter=100,categorical_features=dane.cat_arr).fit(x_train, y_train)
+    clf = HistGradientBoostingClassifier(
+        max_iter=100, categorical_features=dane.cat_arr
+    ).fit(x_train, y_train)
 
     # Test skuteczności modelu
     y_pred = clf.predict(x_test)

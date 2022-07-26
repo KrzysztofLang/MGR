@@ -29,7 +29,7 @@ class Dane:
                     self.target_all_nan,
                     self.features_no_nan,
                     self.target_no_nan,
-                    self.cat_arr
+                    self.cat_arr,
                 ) = self.przygotowanie_danych_kategoryczne()
             case _:
                 raise ValueError("Nieobsługiwany typ danych do wypełnienia")
@@ -113,7 +113,6 @@ class Dane:
         features_no_nan = df_no_nan.drop(self.col, axis=1)
         target_no_nan = df_no_nan[self.col]
 
-
         # Utworzenie listy z ID kolumn zawierających dane kategoryczne
         cat_arr = []
 
@@ -121,7 +120,13 @@ class Dane:
             if cols in cols_objects:
                 cat_arr.append(features_all_nan.columns.get_loc(cols))
 
-        return features_all_nan, target_all_nan, features_no_nan, target_no_nan, cat_arr
+        return (
+            features_all_nan,
+            target_all_nan,
+            features_no_nan,
+            target_no_nan,
+            cat_arr,
+        )
 
 
 def naucz_model(dane):
@@ -134,7 +139,9 @@ def naucz_model(dane):
     )
 
     # Nauka modelu
-    clf = HistGradientBoostingClassifier(max_iter=100,categorical_features=dane.cat_arr).fit(x_train, y_train)
+    clf = HistGradientBoostingClassifier(
+        max_iter=100, categorical_features=dane.cat_arr
+    ).fit(x_train, y_train)
 
     # Test skuteczności modelu
     y_pred = clf.predict(x_test)
