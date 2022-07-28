@@ -27,7 +27,7 @@ class Dane:
 
         # Wybranie pliku do wypełniania
         print('Aby wyjść z programu, wpisz "koniec".\n')
-        self.df = self.wybor_pliku()
+        self.wybor_pliku()
 
         # Lista wszystkichh kolumn
         self.columns = list(self.df)
@@ -54,23 +54,21 @@ class Dane:
         )
 
     # Wybranie i wczytanie pliku do pracy
-    @staticmethod
-    def wybor_pliku():
+    def wybor_pliku(self):
         while true:
-            file = input(
+            self.file = input(
                 "Wpisz nazwę pliku lub wciśnij Enter aby wybrać domyślny: "
             )
 
-            if not file:
+            if not self.file:
                 print("Wybrano domyślny plik adult_holes.csv\n")
-                df = pd.read_csv("adult_holes.csv")
+                self.file = "adult_holes.csv"
                 break
-            elif file == "koniec":
+            elif self.file == "koniec":
                 exit()
             else:
                 try:
-                    df = pd.read_csv(file)
-                    print("Wybrano plik " + file + "\n")
+                    print("Wybrano plik " + self.file + "\n")
                     break
                 except Exception:
                     print(
@@ -78,7 +76,7 @@ class Dane:
                     )
                     print("czy plik znajduje się w folderze programu.\n")
 
-        return df
+        self.df = pd.read_csv(self.file)
 
     # Przygotowanie danych do dalszej pracy w wypadku gdy
     # wybrana kolumna zawiera dane kategoryczne
@@ -92,9 +90,6 @@ class Dane:
         df_all_nan = self.df[self.df[self.col].isnull()]
         df_no_nan = self.df[~self.df[self.col].isnull()]
 
-        # Usinięcie rekordów z NaN dla poprawienia jakości uczenia
-        df_no_nan = df_no_nan.dropna()
-
         # Podzielenie DF na dane uczące i cele
         self.features_all_nan = df_all_nan.drop(self.col, axis=1)
         self.target_all_nan = df_all_nan[self.col]
@@ -103,9 +98,9 @@ class Dane:
 
         # Utworzenie list z nazwami kolumn
         self.features_all_nan_columns = list(self.features_all_nan)
-        self.target_all_nan_columns = list(self.target_all_nan)
+        self.target_all_nan_columns = self.target_all_nan.name
         self.features_no_nan_columns = list(self.features_no_nan)
-        self.target_no_nan_columns = list(self.target_no_nan)
+        self.target_no_nan_columns = self.target_no_nan.name
 
         # Utworzenie listy z ID kolumn zawierających dane kategoryczne
         self.cat_arr = []
@@ -116,27 +111,28 @@ class Dane:
                     self.features_all_nan.columns.get_loc(cols)
                 )
 
-        # Konwersja DF na numpy array i kodowanie Label Encoding
+        # Konwersja DF na numpy array
         self.features_all_nan = self.features_all_nan.to_numpy()
         self.target_all_nan = self.target_all_nan.to_numpy()
         self.features_no_nan = self.features_no_nan.to_numpy()
         self.target_no_nan = self.target_no_nan.to_numpy()
+
+        # Kodowanie Label Encoding
         self.features_no_nan = self.enc_features_no.fit_transform(
             self.features_no_nan
         )
+
         self.target_no_nan = self.enc_target.fit_transform(
             self.target_no_nan.reshape(-1, 1)
         ).ravel()
+
         self.features_all_nan = self.enc_features_all.fit_transform(
             self.features_all_nan
         )
-        self.target_all_nan = self.enc_target.fit_transform(
-            self.target_all_nan.reshape(-1, 1)
-        ).ravel()
-
 
         del self.cols_to_fill[0]
 
+    # Przywrócenie danym ich pierwotnej formy
     def przywroc_df(self):
 
         # Przywrócenie danym kategorycznym odpowiednich wartości
@@ -153,51 +149,67 @@ class Dane:
             self.target_all_nan.reshape(-1, 1)
         ).ravel()
 
-
         # Zamiana Numpy Array na DataFrame
         self.features_all_nan = pd.DataFrame(
             self.features_all_nan, columns=self.features_all_nan_columns
         )
-        self.target_all_nan = pd.DataFrame(
-            self.target_all_nan, columns=self.target_all_nan_columns
+        self.target_all_nan = pd.Series(
+            self.target_all_nan, name=self.target_all_nan_columns
         )
         self.features_no_nan = pd.DataFrame(
             self.features_no_nan, columns=self.features_no_nan_columns
         )
-        self.target_no_nan = pd.DataFrame(
-            self.target_no_nan, columns=self.target_no_nan_columns
+        self.target_no_nan = pd.Series(
+            self.target_no_nan, name=self.target_no_nan_columns
         )
 
-        self.df_all_nan = self.features_all_nan.merge(self.target_all_nan)
-        self.df_no_nan = self.features_no_nan.merge(self.target_no_nan)
+        self.df_all_nan = self.features_all_nan.join(self.target_all_nan)
+        self.df_no_nan = self.features_no_nan.join(self.target_no_nan)
 
-        print(self.df_all_nan.info())
+        self.df = pd.concat([self.df_all_nan, self.df_no_nan])
+
+        print(self.df.info())
+
+    def zapisz_plik(self):
+        new_file = "filled_" + self.file
+        self.df.to_csv(new_file, index=False)
+        exit()
 
 
 def naucz_i_wypełnij(dane):
 
-    dane.przygotowanie_danych_kategoryczne()
+    while true:
+        if dane.cols_to_fill:
 
-    # Wydzielenie zbiorów uczących i testowych
-    x_train, x_test, y_train, y_test = train_test_split(
-        dane.features_no_nan,
-        dane.target_no_nan,
-        test_size=0.3,
-        random_state=109,
-    )
+            dane.przygotowanie_danych_kategoryczne()
 
-    # Nauka modelu
-    clf = HistGradientBoostingClassifier(
-        max_iter=100, categorical_features=dane.cat_arr
-    ).fit(x_train, y_train)
+            # Wydzielenie zbiorów uczących i testowych
+            x_train, x_test, y_train, y_test = train_test_split(
+                dane.features_no_nan,
+                dane.target_no_nan,
+                test_size=0.3,
+                random_state=109,
+            )
 
-    # Test skuteczności modelu
-    y_pred = clf.predict(x_test)
-    print("Skuteczność: ", metrics.accuracy_score(y_test, y_pred))
+            # Nauka modelu
+            clf = HistGradientBoostingClassifier(
+                max_iter=100, categorical_features=dane.cat_arr
+            ).fit(x_train, y_train)
 
-    dane.target_all_nan = clf.predict(dane.features_all_nan)
+            # Test skuteczności modelu
+            y_pred = clf.predict(x_test)
+            print(
+                "Skuteczność nauczania wypełniania kolumny",
+                dane.col,
+                ":",
+                metrics.accuracy_score(y_test, y_pred),
+            )
 
-    dane.przywroc_df()
+            dane.target_all_nan = clf.predict(dane.features_all_nan)
+
+            dane.przywroc_df()
+        else:
+            dane.zapisz_plik()
 
 
 dane = Dane()
