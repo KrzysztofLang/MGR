@@ -10,6 +10,13 @@ from math import sqrt
 
 class Dane:
     def __init__(self) -> None:
+        
+        print(" _   _       _   _   ______ _ _ _ ")
+        print("| \ | |     | \ | | |  ____(_) | |")
+        print("|  \| | __ _|  \| | | |__   _| | | ___ _ __ ")
+        print("| . ` |/ _` | . ` | |  __| | | | |/ _ \ '__|")
+        print("| |\  | (_| | |\  | | |    | | | |  __/ |")
+        print("|_| \_|\__,_|_| \_| |_|    |_|_|_|\___|_|")
 
         # Przygotowanie encoderów
         self.enc_features_all = OrdinalEncoder(
@@ -167,13 +174,11 @@ class Dane:
 
         self.df = pd.concat([self.df_all_nan, self.df_no_nan])
 
-        print(self.df.info())
-
     def zapisz_plik(self):
         new_file = "filled_" + self.file
         self.df.to_csv(new_file, index=False)
         exit()
-
+  
 
 def naucz_i_wypełnij(dane):
 
