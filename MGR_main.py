@@ -6,7 +6,6 @@ from sklearn import metrics
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.preprocessing import OrdinalEncoder
 from math import sqrt
-import re
 
 
 class Dane:
