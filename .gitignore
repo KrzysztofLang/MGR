@@ -2,3 +2,4 @@ venv*/
 .vs/
 *test*
 filled*
+__pycache__
