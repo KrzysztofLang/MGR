@@ -10,13 +10,6 @@ from math import sqrt
 
 class Dane:
     def __init__(self) -> None:
-        
-        print(" _   _       _   _   ______ _ _ _ ")
-        print("| \ | |     | \ | | |  ____(_) | |")
-        print("|  \| | __ _|  \| | | |__   _| | | ___ _ __ ")
-        print("| . ` |/ _` | . ` | |  __| | | | |/ _ \ '__|")
-        print("| |\  | (_| | |\  | | |    | | | |  __/ |")
-        print("|_| \_|\__,_|_| \_| |_|    |_|_|_|\___|_|")
 
         # Przygotowanie encoderów
         self.enc_features_all = OrdinalEncoder(
@@ -32,7 +25,6 @@ class Dane:
         )
 
         # Wybranie pliku do wypełniania
-        print('Aby wyjść z programu, wpisz "koniec".\n')
         self.wybor_pliku()
 
         # Lista wszystkichh kolumn
@@ -178,7 +170,7 @@ class Dane:
         new_file = "filled_" + self.file
         self.df.to_csv(new_file, index=False)
         exit()
-  
+
 
 def naucz_i_wypełnij(dane):
 
@@ -215,6 +207,19 @@ def naucz_i_wypełnij(dane):
         else:
             dane.zapisz_plik()
 
+
+def napis():
+
+    print(" _   _       _   _   ______ _ _ _ ")
+    print("| \ | |     | \ | | |  ____(_) | |")
+    print("|  \| | __ _|  \| | | |__   _| | | ___ _ __ ")
+    print("| . ` |/ _` | . ` | |  __| | | | |/ _ \ '__|")
+    print("| |\  | (_| | |\  | | |    | | | |  __/ |")
+    print("|_| \_|\__,_|_| \_| |_|    |_|_|_|\___|_|")
+    print('Aby wyjść z programu, wpisz "koniec".\n')
+
+
+napis()
 
 dane = Dane()
 
