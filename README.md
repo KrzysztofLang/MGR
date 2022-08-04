@@ -14,5 +14,5 @@ Wg aktualnych założeń, program ma wypełniać puste wartości w zbiorze danyc
 
 Wykorzystywany jest Python 3.10.5.
 
-Główny plik realizujący założenia projektu to *MGR_main.py*. Dodatkowo *NaN_gen.py* służy do przygotowywania plików z danymi usuwając losowo wartości.
+Główny plik realizujący założenia projektu to *MGR_main.py*, wraz z modułem *MGR_learn_fill*. Dodatkowo *NaN_gen.py* służy do przygotowywania plików z danymi usuwając losowo wartości.
 

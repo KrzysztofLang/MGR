@@ -1,11 +1,7 @@
 import numpy as np
 import pandas as pd
 from sympy import true
-from sklearn.model_selection import train_test_split
-from sklearn import metrics
-from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.preprocessing import OrdinalEncoder
-from sklearn.linear_model import LinearRegression
 import MGR_learn_fill as lf
 
 
@@ -77,35 +73,19 @@ class Dane:
 
         self.df = pd.read_csv(self.file)
 
-    # Sprawdzenie jakiego typu dane zostaną wypełnione
-    def przygotuj_dane(self):
-
-        # Wybranie kolumny do wypełnienia
-        self.col = self.cols_to_fill[0]
-
-        # Sprawdzenie typu danych i wywołanie odpowiedniej funkcji
-        if (
-            self.df[self.col].dtypes == "object"
-            or self.df[self.col].dtypes == "category"
-        ):
-            self.przygotowanie_danych_kategoryczne()
-        else:
-            self.przygotowanie_danych_liczbowe()
-
     # Przygotowanie danych do dalszej pracy w wypadku gdy
     # wybrana kolumna zawiera dane kategoryczne
-    def przygotowanie_danych_kategoryczne(self):
-
+    def przygotowanie_danych_kategoryczne(self, col):
         # Podzielenie Dataframe na zawierające NaN w wybranej kolumnie i
         # wypełnione
-        df_all_nan = self.df[self.df[self.col].isnull()]
-        df_no_nan = self.df[~self.df[self.col].isnull()]
+        df_all_nan = self.df[self.df[col].isnull()]
+        df_no_nan = self.df[~self.df[col].isnull()]
 
         # Podzielenie DF na dane uczące i cele
-        self.features_all_nan = df_all_nan.drop(self.col, axis=1)
-        self.target_all_nan = df_all_nan[self.col]
-        self.features_no_nan = df_no_nan.drop(self.col, axis=1)
-        self.target_no_nan = df_no_nan[self.col]
+        self.features_all_nan = df_all_nan.drop(col, axis=1)
+        self.target_all_nan = df_all_nan[col]
+        self.features_no_nan = df_no_nan.drop(col, axis=1)
+        self.target_no_nan = df_no_nan[col]
 
         # Utworzenie list z nazwami kolumn
         self.features_all_nan_columns = list(self.features_all_nan)
