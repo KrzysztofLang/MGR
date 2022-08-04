@@ -1,5 +1,3 @@
-from cmath import nan
-from typing import Type
 import numpy as np
 import pandas as pd
 from sympy import true
@@ -8,7 +6,6 @@ from random import sample
 
 # Funkcje wyboru
 def wybory():
-    print("Aby wyjść z programu, wpisz \"koniec\".\n")
 
     df = wybor_pliku()
     col = wybor_kolumny(df)
@@ -87,6 +84,20 @@ def usuwanie_wartosci(df, col, nan_rate):
         df.loc[i, col] = np.nan
     df.to_csv("test.csv", index=False)
     print(df.info())
+
+
+def napis():
+
+    print(" _   _       _   _   __  __       _")
+    print("| \ | |     | \ | | |  \/  |     | |")
+    print("|  \| | __ _|  \| | | \  / | __ _| | _____ _ __")
+    print("| . ` |/ _` | . ` | | |\/| |/ _` | |/ / _ \ '__|")
+    print("| |\  | (_| | |\  | | |  | | (_| |   <  __/ |")
+    print("|_| \_|\__,_|_| \_| |_|  |_|\__,_|_|\_\___|_|")
+    print('Aby wyjść z programu, wpisz "koniec".\n')
+
+
+napis()
 
 df, col, nan_rate = wybory()
 
