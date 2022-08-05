@@ -6,8 +6,8 @@ from sklearn.preprocessing import OrdinalEncoder
 from sklearn.preprocessing import OneHotEncoder
 import MGR_learn_fill as lf
 
-#default = "NYA_nan.csv"
-default = "adult_holes.csv"
+default = "NYA_nan.csv"
+#default = "adult_holes.csv"
 
 class Dane:
     def __init__(self) -> None:
@@ -121,53 +121,44 @@ class Dane:
             self.features_all_nan
         )
 
+        # Usunięcie nazwy wypełnianej kolumny z listy
         del self.cols_to_fill[0]
 
     # Przygotowanie danych do dalszej pracy w wypadku gdy
     # wybrana kolumna zawiera dane liczbowe
     def przygotowanie_danych_liczbowe(self, col):
 
+        # Lista nazw kolumn z danymi uczącymi
         self.columns_temp = list(self.df)
         self.columns_temp.remove(col)
 
+        # Lista ID rekordów z pustymi miejscami w wybranej kolumnie
+        # oraz wypełnionych
         selected_rows = self.df[self.df[col].isna()]
         nan_id = list(selected_rows.index.values)
+        selected_rows = self.df[~self.df[col].isna()]
+        full_id = list(selected_rows.index.values)
         del selected_rows
 
+        # Podział na dane uczące i cel
         features = self.df.drop(col, axis=1)
         target = self.df[col]
 
-        features.to_numpy()
-        target.to_numpy()
+        # Konwersja DF na numpy array
+        features = features.to_numpy()
+        target = target.to_numpy()
 
+        # Kodowanie One Hot Encoding
         features = self.enc_ohe_features.fit_transform(features)
 
-        # Podzielenie Dataframe na zawierające NaN w wybranej kolumnie i
+        # Podzielenie tablic na zawierające NaN w wybranej kolumnie i
         # wypełnione
-        df_all_nan = self.df[self.df[col].isnull()]
-        df_no_nan = self.df[~self.df[col].isnull()]
-
-        # Podzielenie DF na dane uczące i cele
-        self.features_all_nan = df_all_nan.drop(col, axis=1)
-        self.target_all_nan = df_all_nan[col]
-        self.features_no_nan = df_no_nan.drop(col, axis=1)
-        self.target_no_nan = df_no_nan[col]
-
-        # Konwersja DF na numpy array
         self.features_all_nan = self.features_all_nan.to_numpy()
         self.target_all_nan = self.target_all_nan.to_numpy()
         self.features_no_nan = self.features_no_nan.to_numpy()
         self.target_no_nan = self.target_no_nan.to_numpy()
 
-        # Kodowanie One Hot Encoding
-        self.features_no_nan = self.enc_ohe_features_no.fit_transform(
-            self.features_no_nan
-        )
-
-        self.features_all_nan = self.enc_ohe_features_all.fit_transform(
-            self.features_all_nan
-        )
-
+        # Usunięcie nazwy wypełnianej kolumny z listy
         del self.cols_to_fill[0]
 
     # Przywrócenie danym ich pierwotnej formy
