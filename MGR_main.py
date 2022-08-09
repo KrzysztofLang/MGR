@@ -1,10 +1,11 @@
 from re import S
 import numpy as np
 import pandas as pd
-from sympy import true
+from sympy import true, false
 from sklearn.preprocessing import OrdinalEncoder
 from sklearn.preprocessing import OneHotEncoder
 import MGR_learn_fill as lf
+import datetime
 
 default = "NYA_nan.csv"
 #default = "adult_holes.csv"
@@ -25,7 +26,7 @@ class Dane:
             handle_unknown="use_encoded_value", unknown_value=np.nan
         )
 
-        self.enc_ohe_features = OneHotEncoder(handle_unknown="ignore")
+        self.enc_ohe_features = OneHotEncoder(sparse = false, handle_unknown="ignore")
 
         # Wybranie pliku do wypełniania
         self.wybor_pliku()
@@ -153,11 +154,15 @@ class Dane:
 
         # Podzielenie tablic na zawierające NaN w wybranej kolumnie i
         # wypełnione
-        self.features_all_nan = self.features_all_nan.to_numpy()
-        self.target_all_nan = self.target_all_nan.to_numpy()
-        self.features_no_nan = self.features_no_nan.to_numpy()
-        self.target_no_nan = self.target_no_nan.to_numpy()
-
+        print("Przed usuwaniem: ", datetime.datetime.now())
+        self.features_no_nan = np.delete(features, nan_id, 0)
+        print("Po pierwszym: ", datetime.datetime.now())
+        self.features_all_nan = np.delete(features, full_id, 0)
+        print("Po drugim: ", datetime.datetime.now())
+        self.target_no_nan = np.delete(target, nan_id, 0)
+        print("Po trzecim: ", datetime.datetime.now())
+        self.target_all_nan = np.delete(target, full_id, 0)
+        print("Po usuwaniu: ", datetime.datetime.now())
         # Usunięcie nazwy wypełnianej kolumny z listy
         del self.cols_to_fill[0]
 
@@ -196,6 +201,7 @@ class Dane:
         self.df_no_nan = self.features_no_nan.join(self.target_no_nan)
 
         self.df = pd.concat([self.df_all_nan, self.df_no_nan])
+        self.df = self.df.convert_dtypes(convert_string=False)
 
     def przywroc_df_liczbowe(self, col):
 
@@ -226,6 +232,7 @@ class Dane:
         self.df_no_nan = self.features_no_nan.join(self.target_no_nan)
 
         self.df = pd.concat([self.df_all_nan, self.df_no_nan])
+        self.df = self.df.convert_dtypes(convert_string=False)
 
 
     def zapisz_plik(self):
