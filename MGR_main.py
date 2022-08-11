@@ -7,8 +7,8 @@ from sklearn.preprocessing import OneHotEncoder
 import MGR_learn_fill as lf
 import datetime
 
-default = "NYA_nan.csv"
-#default = "adult_holes.csv"
+#default = "NYA_nan.csv"
+default = "adult_holes.csv"
 
 class Dane:
     def __init__(self) -> None:

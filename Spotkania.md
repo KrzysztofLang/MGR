@@ -13,3 +13,8 @@
 - sklearn - SVM
 - raczej kategoryczne/int
 - Wypełnienie
+
+## 11.08.2022
+
+- journal log / db-journal
+- Int64 przy konwersji - apply, słownik
