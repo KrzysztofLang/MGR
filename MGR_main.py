@@ -1,7 +1,8 @@
-import MGR_class as cl
-import MGR_learn_fill as lf
+from MGR_class import Dane
+from MGR_learn_fill import fill_nan
 
-def napis():
+
+def header():
 
     print(" _   _       _   _   ______ _ _ _ ")
     print("| \\ | |     | \\ | | |  ____(_) | |")
@@ -11,8 +12,8 @@ def napis():
     print("|_| \\_|\\__,_|_| \\_| |_|    |_|_|_|\\___|_|")
     print('Aby wyjść z programu, wpisz "koniec".\n')
 
-napis()
+header()
 
-dane = cl.Dane()
+dane = Dane()
 
-lf.naucz_i_wypełnij(dane)
+fill_nan(dane)

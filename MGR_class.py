@@ -1,9 +1,9 @@
+import datetime
+
 import numpy as np
 import pandas as pd
-from sympy import true, false
-from sklearn.preprocessing import OrdinalEncoder
-from sklearn.preprocessing import OneHotEncoder
-import datetime
+from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
+from sympy import false, true
 
 default = "NYA_nan.csv"
 default = "adult_holes.csv"
@@ -29,7 +29,7 @@ class Dane:
         )
 
         # Wybranie pliku do wypełniania
-        self.wybor_pliku()
+        self.choose_file()
 
         # Lista wszystkichh kolumn
         self.columns = list(self.df)
@@ -52,7 +52,7 @@ class Dane:
         )
 
     # Wybranie i wczytanie pliku do pracy
-    def wybor_pliku(self):
+    def choose_file(self):
         while true:
             self.file = input(
                 "Wpisz nazwę pliku lub wciśnij Enter aby wybrać domyślny: "
@@ -78,7 +78,7 @@ class Dane:
 
     # Przygotowanie danych do dalszej pracy w wypadku gdy
     # wybrana kolumna zawiera dane kategoryczne
-    def przygotowanie_danych_kategoryczne(self, col):
+    def prepare_categorical(self, col):
 
         self.columns_temp = list(self.df)
         self.columns_temp.remove(col)
@@ -127,7 +127,7 @@ class Dane:
 
     # Przygotowanie danych do dalszej pracy w wypadku gdy
     # wybrana kolumna zawiera dane liczbowe
-    def przygotowanie_danych_liczbowe(self, col):
+    def prepare_numerical(self, col):
 
         # Lista nazw kolumn z danymi uczącymi
         self.columns_temp = list(self.df)
@@ -167,7 +167,7 @@ class Dane:
         del self.cols_to_fill[0]
 
     # Przywrócenie danym ich pierwotnej formy
-    def przywroc_df_kategoryczne(self, col):
+    def revert_categorical(self, col):
 
         # Przywrócenie danym kategorycznym odpowiednich wartości
         self.features_no_nan = self.enc_label_features_no.inverse_transform(
@@ -200,7 +200,7 @@ class Dane:
 
         self.df = self.df.convert_dtypes(convert_string=False)
 
-    def przywroc_df_liczbowe(self, col):
+    def revert_numerical(self, col):
 
         # Przywrócenie danym kategorycznym odpowiednich wartości
         self.features_no_nan = self.enc_ohe_features_no.inverse_transform(
@@ -227,7 +227,7 @@ class Dane:
         self.df = pd.concat([self.df_all_nan, self.df_no_nan])
         self.df = self.df.convert_dtypes(convert_string=False)
 
-    def zapisz_plik(self):
+    def save_file(self):
         self.df = self.df[self.columns]
         self.df.to_csv("filled_" + self.file, index=False)
         exit()

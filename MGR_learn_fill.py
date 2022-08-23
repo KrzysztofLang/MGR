@@ -1,14 +1,14 @@
-from sympy import true
-from sklearn.model_selection import train_test_split
+import datetime
+
+import statsmodels.api as sm
 from sklearn import metrics
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.linear_model import LinearRegression
-from math import sqrt
-import statsmodels.api as sm
-import datetime
+from sklearn.model_selection import train_test_split
+from sympy import true
 
 
-def typ_danych(dane):
+def check_datatype(dane):
     # Wybranie kolumny do wypełnienia
     print(dane.cols_to_fill)
     col = dane.cols_to_fill[0]
@@ -23,7 +23,7 @@ def typ_danych(dane):
     return type, col
 
 
-def kategoryczne(dane, col):
+def fill_categorical(dane, col):
     # Wydzielenie zbiorów uczących i testowych
     x_train, x_test, y_train, y_test = train_test_split(
         dane.features_no_nan,
@@ -48,10 +48,10 @@ def kategoryczne(dane, col):
 
     dane.target_all_nan = clf.predict(dane.features_all_nan)
 
-    dane.przywroc_df_kategoryczne(col)
+    dane.revert_categorical(col)
 
 
-def liczbowe(dane, col):
+def fill_numerical(dane, col):
     # Wydzielenie zbiorów uczących i testowych
     print("Wydzielanie danych: ", datetime.datetime.now())
     x_train, x_test, y_train, y_test = train_test_split(
@@ -73,21 +73,21 @@ def liczbowe(dane, col):
 
     dane.target_all_nan = model.predict(dane.features_all_nan)
 
-    dane.przywroc_df_liczbowe(col)
+    dane.revert_numerical(col)
 
 # Główna funkcja, wywoływana z głównego pliku
-def naucz_i_wypełnij(dane):
+def fill_nan(dane):
     while true:
         print(dane.df.info())
         if dane.cols_to_fill:
-            type, col = typ_danych(dane)
+            type, col = check_datatype(dane)
             match type:
                 case "cat":
-                    dane.przygotowanie_danych_kategoryczne(col)
-                    kategoryczne(dane, col)
+                    dane.prepare_categorical(col)
+                    fill_categorical(dane, col)
                 case "num":
-                    dane.przygotowanie_danych_liczbowe(col)
-                    liczbowe(dane, col)
+                    dane.prepare_numerical(col)
+                    fill_numerical(dane, col)
 
         else:
-            dane.zapisz_plik()
+            dane.save_file()
