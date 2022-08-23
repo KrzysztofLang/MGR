@@ -8,7 +8,7 @@ from sympy import false, true
 default = "NYA_nan.csv"
 default = "adult_holes.csv"
 
-class Dane:
+class Data:
     def __init__(self) -> None:
 
         # Przygotowanie encoderów
