@@ -10,9 +10,10 @@ import datetime
 
 def typ_danych(dane):
     # Wybranie kolumny do wypełnienia
+    print(dane.cols_to_fill)
     col = dane.cols_to_fill[0]
     print(col)
-    # Sprawdzenie typu danych i wywołanie odpowiedniej funkcji
+    # Sprawdzenie typu danych
     if dane.df[col].dtypes == "object" or dane.df[col].dtypes == "category":
         type = "cat"
     else:

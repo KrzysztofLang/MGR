@@ -203,10 +203,6 @@ class Dane:
 
         self.df = self.df.convert_dtypes(convert_string=False)
 
-        for cols in self.columns:
-            if self.df[cols].dtypes == "Int64":
-                self.df[cols] = self.df[cols].astype("int64")
-
     def przywroc_df_liczbowe(self, col):
 
         # Przywrócenie danym kategorycznym odpowiednich wartości
@@ -233,10 +229,6 @@ class Dane:
 
         self.df = pd.concat([self.df_all_nan, self.df_no_nan])
         self.df = self.df.convert_dtypes(convert_string=False)
-
-        for cols in self.columns:
-            if self.df[cols].dtypes == "Int64":
-                self.df[cols] = self.df[cols].astype("int64")
 
     def zapisz_plik(self):
         self.df = self.df[self.columns]
