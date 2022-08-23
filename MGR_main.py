@@ -1,4 +1,4 @@
-from MGR_class import Dane
+from MGR_Data_class import Data
 from MGR_learn_fill import fill_nan
 
 
@@ -14,6 +14,6 @@ def header():
 
 header()
 
-dane = Dane()
+data = Data()
 
-fill_nan(dane)
+fill_nan(data)

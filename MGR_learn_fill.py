@@ -8,13 +8,13 @@ from sklearn.model_selection import train_test_split
 from sympy import true
 
 
-def check_datatype(dane):
+def check_datatype(data):
     # Wybranie kolumny do wypełnienia
-    print(dane.cols_to_fill)
-    col = dane.cols_to_fill[0]
+    print(data.cols_to_fill)
+    col = data.cols_to_fill[0]
     print(col)
     # Sprawdzenie typu danych
-    if dane.df[col].dtypes == "object" or dane.df[col].dtypes == "category":
+    if data.df[col].dtypes == "object" or data.df[col].dtypes == "category":
         type = "cat"
     else:
         type = "num"
@@ -23,18 +23,18 @@ def check_datatype(dane):
     return type, col
 
 
-def fill_categorical(dane, col):
+def fill_categorical(data, col):
     # Wydzielenie zbiorów uczących i testowych
     x_train, x_test, y_train, y_test = train_test_split(
-        dane.features_no_nan,
-        dane.target_no_nan,
+        data.features_no_nan,
+        data.target_no_nan,
         test_size=0.3,
         random_state=109,
     )
 
     # Nauka modelu
     clf = HistGradientBoostingClassifier(
-        max_iter=100, categorical_features=dane.cat_arr
+        max_iter=100, categorical_features=data.cat_arr
     ).fit(x_train, y_train)
 
     # Test skuteczności modelu
@@ -46,17 +46,17 @@ def fill_categorical(dane, col):
         metrics.accuracy_score(y_test, y_pred),
     )
 
-    dane.target_all_nan = clf.predict(dane.features_all_nan)
+    data.target_all_nan = clf.predict(data.features_all_nan)
 
-    dane.revert_categorical(col)
+    data.revert_categorical(col)
 
 
-def fill_numerical(dane, col):
+def fill_numerical(data, col):
     # Wydzielenie zbiorów uczących i testowych
     print("Wydzielanie danych: ", datetime.datetime.now())
     x_train, x_test, y_train, y_test = train_test_split(
-        dane.features_no_nan,
-        dane.target_no_nan,
+        data.features_no_nan,
+        data.target_no_nan,
         test_size=0.3,
         random_state=109,
     )
@@ -71,23 +71,23 @@ def fill_numerical(dane, col):
     print("Accuracy train {:.3f}".format(model.score(x_train, y_train)))
     print("Accuracy test {:.3f}".format(model.score(x_test, y_test)))
 
-    dane.target_all_nan = model.predict(dane.features_all_nan)
+    data.target_all_nan = model.predict(data.features_all_nan)
 
-    dane.revert_numerical(col)
+    data.revert_numerical(col)
 
 # Główna funkcja, wywoływana z głównego pliku
-def fill_nan(dane):
+def fill_nan(data):
     while true:
-        print(dane.df.info())
-        if dane.cols_to_fill:
-            type, col = check_datatype(dane)
+        print(data.df.info())
+        if data.cols_to_fill:
+            type, col = check_datatype(data)
             match type:
                 case "cat":
-                    dane.prepare_categorical(col)
-                    fill_categorical(dane, col)
+                    data.prepare_categorical(col)
+                    fill_categorical(data, col)
                 case "num":
-                    dane.prepare_numerical(col)
-                    fill_numerical(dane, col)
+                    data.prepare_numerical(col)
+                    fill_numerical(data, col)
 
         else:
-            dane.save_file()
+            data.save_file()
