@@ -7,8 +7,9 @@ from sklearn.preprocessing import OneHotEncoder
 import MGR_learn_fill as lf
 import datetime
 
-#default = "NYA_nan.csv"
+default = "NYA_nan.csv"
 default = "adult_holes.csv"
+
 
 class Dane:
     def __init__(self) -> None:
@@ -26,7 +27,9 @@ class Dane:
             handle_unknown="use_encoded_value", unknown_value=np.nan
         )
 
-        self.enc_ohe_features = OneHotEncoder(sparse = false, handle_unknown="ignore")
+        self.enc_ohe_features = OneHotEncoder(
+            sparse=false, handle_unknown="ignore"
+        )
 
         # Wybranie pliku do wypełniania
         self.wybor_pliku()
@@ -187,21 +190,22 @@ class Dane:
         self.features_all_nan = pd.DataFrame(
             self.features_all_nan, columns=self.columns_temp
         )
-        self.target_all_nan = pd.Series(
-            self.target_all_nan, name=col
-        )
+        self.target_all_nan = pd.Series(self.target_all_nan, name=col)
         self.features_no_nan = pd.DataFrame(
             self.features_no_nan, columns=self.columns_temp
         )
-        self.target_no_nan = pd.Series(
-            self.target_no_nan, name=col
-        )
+        self.target_no_nan = pd.Series(self.target_no_nan, name=col)
 
         self.df_all_nan = self.features_all_nan.join(self.target_all_nan)
         self.df_no_nan = self.features_no_nan.join(self.target_no_nan)
 
         self.df = pd.concat([self.df_all_nan, self.df_no_nan])
+
         self.df = self.df.convert_dtypes(convert_string=False)
+
+        for cols in self.columns:
+            if self.df[cols].dtypes == "Int64":
+                self.df[cols] = self.df[cols].astype("int64")
 
     def przywroc_df_liczbowe(self, col):
 
@@ -218,15 +222,11 @@ class Dane:
         self.features_all_nan = pd.DataFrame(
             self.features_all_nan, columns=self.columns_temp
         )
-        self.target_all_nan = pd.Series(
-            self.target_all_nan, name=col
-        )
+        self.target_all_nan = pd.Series(self.target_all_nan, name=col)
         self.features_no_nan = pd.DataFrame(
             self.features_no_nan, columns=self.columns_temp
         )
-        self.target_no_nan = pd.Series(
-            self.target_no_nan, name=col
-        )
+        self.target_no_nan = pd.Series(self.target_no_nan, name=col)
 
         self.df_all_nan = self.features_all_nan.join(self.target_all_nan)
         self.df_no_nan = self.features_no_nan.join(self.target_no_nan)
@@ -234,6 +234,9 @@ class Dane:
         self.df = pd.concat([self.df_all_nan, self.df_no_nan])
         self.df = self.df.convert_dtypes(convert_string=False)
 
+        for cols in self.columns:
+            if self.df[cols].dtypes == "Int64":
+                self.df[cols] = self.df[cols].astype("int64")
 
     def zapisz_plik(self):
         self.df = self.df[self.columns]
@@ -244,11 +247,11 @@ class Dane:
 def napis():
 
     print(" _   _       _   _   ______ _ _ _ ")
-    print("| \ | |     | \ | | |  ____(_) | |")
-    print("|  \| | __ _|  \| | | |__   _| | | ___ _ __ ")
-    print("| . ` |/ _` | . ` | |  __| | | | |/ _ \ '__|")
-    print("| |\  | (_| | |\  | | |    | | | |  __/ |")
-    print("|_| \_|\__,_|_| \_| |_|    |_|_|_|\___|_|")
+    print("| \\ | |     | \\ | | |  ____(_) | |")
+    print("|  \\| | __ _|  \\| | | |__   _| | | ___ _ __ ")
+    print("| . ` |/ _` | . ` | |  __| | | | |/ _ \\ '__|")
+    print("| |\\  | (_| | |\\  | | |    | | | |  __/ |")
+    print("|_| \\_|\\__,_|_| \\_| |_|    |_|_|_|\\___|_|")
     print('Aby wyjść z programu, wpisz "koniec".\n')
 
 
