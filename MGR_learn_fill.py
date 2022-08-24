@@ -18,7 +18,7 @@ def check_datatype(data):
         type = "cat"
     else:
         type = "num"
-    
+
     print(type)
     return type, col
 
@@ -74,6 +74,7 @@ def fill_numerical(data, col):
     data.target_all_nan = model.predict(data.features_all_nan)
 
     data.revert_numerical(col)
+
 
 # Główna funkcja, wywoływana z głównego pliku
 def fill_nan(data):

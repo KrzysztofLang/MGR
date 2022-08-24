@@ -12,6 +12,7 @@ def header():
     print("|_| \\_|\\__,_|_| \\_| |_|    |_|_|_|\\___|_|")
     print('Aby wyjść z programu, wpisz "koniec".\n')
 
+
 header()
 
 data = Data()
