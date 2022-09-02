@@ -9,18 +9,19 @@ class TempFiller:
 
 
     def temp_fill(self, data):
-        na_flag = false
+        print("Rozwaza kolumne: " + data[0])
         for items in data[1].iteritems():
             if pd.isna(items[1]):
-                na_flag = true
                 self.journal.loc[len(self.journal)] = [data[0], items[0]]
-        if na_flag:
-            if data[1].dtype == "object" or data[1].dtype == "category":
-                data[1].fillna(data[1].mode())
-            else:
-                data[1].fillna(data[1].mean())
 
-        return data
+        if data[1].dtype == "object" or data[1].dtype == "category":
+            print("Wypelnia kategorie, kolumna: " + data[0])
+            data[1].fillna(data[1].mode(), inplace = True)
+        else:
+            print("Wypelnia liczby, kolumna: " + data[0])
+            data[1].fillna(data[1].mean(), inplace = True)
+
+        return data[1]
 
     def revert_nan(self, data):
         pass
