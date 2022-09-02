@@ -5,20 +5,25 @@ from sympy import false, true
 
 class TempFiller:
     def __init__(self) -> None:
-        pass
+        self.journal = pd.DataFrame(columns=['column','row'])
 
-    @classmethod
-    def temp_fill(cls, data):
-        if data.dtype == "object" or data.dtype == "category":
-            cls.temp_fill_categorical(data)
-        else:
-            cls.temp_fill_numerical(data)
 
-    def temp_fill_categorical(self, data):
-        pass
+    def temp_fill(self, data):
+        na_flag = false
+        for items in data[1].iteritems():
+            if pd.isna(items[1]):
+                na_flag = true
+                self.journal.loc[len(self.journal)] = [data[0], items[0]]
+        if na_flag:
+            if data[1].dtype == "object" or data[1].dtype == "category":
+                data[1].fillna(data[1].mode())
+            else:
+                data[1].fillna(data[1].mean())
 
-    def temp_fill_numerical(self, data):
-        pass
+        return data
 
     def revert_nan(self, data):
         pass
+
+test = TempFiller()
+print(test.journal)
