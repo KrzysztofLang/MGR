@@ -9,22 +9,22 @@ class TempFiller:
 
 
     def temp_fill(self, data):
-        print("Rozwaza kolumne: " + data[0])
         for items in data[1].iteritems():
             if pd.isna(items[1]):
-                self.journal.loc[len(self.journal)] = [data[0], items[0]]
+                self.journal.loc[len(self.journal)] = [items[0], data[0]]
 
         if data[1].dtype == "object" or data[1].dtype == "category":
-            print("Wypelnia kategorie, kolumna: " + data[0])
-            data[1].fillna(data[1].mode(), inplace = True)
+            filler = data[1].mode()
+            filler = filler[0]
+            data[1].fillna(filler, inplace = True)
         else:
-            print("Wypelnia liczby, kolumna: " + data[0])
-            data[1].fillna(data[1].mean(), inplace = True)
+            filler = data[1].mean()
+            data[1].fillna(filler, inplace = True)
 
         return data[1]
 
     def revert_nan(self, data):
-        pass
+        for items in self.journal.itertuples(index=False):
+            data.loc[items[0], items[1]] = None
 
-test = TempFiller()
-print(test.journal)
+        return data
