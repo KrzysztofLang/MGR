@@ -1,12 +1,10 @@
 import numpy as np
 import pandas as pd
-from sympy import false, true
 
 
 class TempFiller:
     def __init__(self) -> None:
-        self.journal = pd.DataFrame(columns=['column','row'])
-
+        self.journal = pd.DataFrame(columns=["column", "row"])
 
     def temp_fill(self, data):
         for items in data[1].iteritems():
@@ -16,10 +14,10 @@ class TempFiller:
         if data[1].dtype == "object" or data[1].dtype == "category":
             filler = data[1].mode()
             filler = filler[0]
-            data[1].fillna(filler, inplace = True)
+            data[1].fillna(filler, inplace=True)
         else:
             filler = data[1].mean()
-            data[1].fillna(filler, inplace = True)
+            data[1].fillna(filler, inplace=True)
 
         return data[1]
 
