@@ -4,9 +4,10 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
 from sympy import false, true
+from MGR_TempFill_class import TempFiller
 
 default = "NYA_nan.csv"
-default = "adult_holes.csv"
+#default = "adult_holes.csv"
 
 
 class Data:
@@ -146,6 +147,12 @@ class Data:
         features = self.df.drop(col, axis=1)
         target = self.df[col]
 
+        self.temp_filler = TempFiller()
+
+        for column in features.iteritems():
+            filled = self.temp_filler.temp_fill(column)
+            features[column[0]] = filled
+
         # Konwersja DF na numpy array
         features = features.to_numpy()
         target = target.to_numpy()
@@ -204,11 +211,11 @@ class Data:
     def revert_numerical(self, col):
 
         # Przywrócenie danym kategorycznym odpowiednich wartości
-        self.features_no_nan = self.enc_ohe_features_no.inverse_transform(
+        self.features_no_nan = self.enc_ohe_features.inverse_transform(
             self.features_no_nan
         )
 
-        self.features_all_nan = self.enc_ohe_features_all.inverse_transform(
+        self.features_all_nan = self.enc_ohe_features.inverse_transform(
             self.features_all_nan
         )
 
@@ -216,10 +223,13 @@ class Data:
         self.features_all_nan = pd.DataFrame(
             self.features_all_nan, columns=self.columns_temp
         )
+
         self.target_all_nan = pd.Series(self.target_all_nan, name=col)
+
         self.features_no_nan = pd.DataFrame(
             self.features_no_nan, columns=self.columns_temp
         )
+
         self.target_no_nan = pd.Series(self.target_no_nan, name=col)
 
         self.df_all_nan = self.features_all_nan.join(self.target_all_nan)
