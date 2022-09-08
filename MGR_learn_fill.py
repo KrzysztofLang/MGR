@@ -1,6 +1,5 @@
 import datetime
 
-import statsmodels.api as sm
 from sklearn import metrics
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.linear_model import LinearRegression
@@ -58,21 +57,20 @@ def fill_numerical(data, col):
         data.features_no_nan,
         data.target_no_nan,
         test_size=0.3,
-        random_state=109,
+        random_state=0,
     )
 
     # Nauka modelu
-    print("Nauka modelu: ", datetime.datetime.now())
-    model = sm.OLS(y_train, x_train, missing="drop")
+    model = LinearRegression()
     print("Fit: ", datetime.datetime.now())
-    result = model.fit()
+    model.fit(x_train, y_train)
 
     # Test skuteczności modelu
     print("Accuracy train {:.3f}".format(model.score(x_train, y_train)))
     print("Accuracy test {:.3f}".format(model.score(x_test, y_test)))
-
+    print("Predict: ", datetime.datetime.now())
     data.target_all_nan = model.predict(data.features_all_nan)
-
+    print("Koniec predict: ", datetime.datetime.now())
     data.revert_numerical(col)
 
 

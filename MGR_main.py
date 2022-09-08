@@ -18,3 +18,4 @@ header()
 data = Data()
 
 fill_nan(data)
+
