@@ -101,4 +101,5 @@ napis()
 
 df, col, nan_rate = wybory()
 
+
 usuwanie_wartosci(df, col, nan_rate)

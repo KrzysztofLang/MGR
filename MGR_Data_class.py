@@ -1,3 +1,4 @@
+from cmath import nan
 import datetime
 
 import numpy as np
@@ -137,21 +138,25 @@ class Data:
 
         # Lista ID rekordów z pustymi miejscami w wybranej kolumnie
         # oraz wypełnionych
-        selected_rows = self.df[self.df[col].isna()]
-        nan_id = list(selected_rows.index.values)
-        selected_rows = self.df[~self.df[col].isna()]
-        full_id = list(selected_rows.index.values)
-        del selected_rows
+        no_nan_rows = self.df[self.df[col].isna()]
+        no_nan_rows.reset_index(inplace=True)
+        nan_rows = self.df[~self.df[col].isna()]
+        nan_rows.reset_index(inplace=True)
+
+        self.df = pd.concat([no_nan_rows, nan_rows])
+
+        del no_nan_rows
+        del nan_rows
 
         # Podział na dane uczące i cel
         features = self.df.drop(col, axis=1)
         target = self.df[col]
 
-        self.temp_filler = TempFiller()
+        """self.temp_filler = TempFiller()
 
         for column in features.iteritems():
             filled = self.temp_filler.temp_fill(column)
-            features[column[0]] = filled
+            features[column[0]] = filled """
 
         # Konwersja DF na numpy array
         features = features.to_numpy()
