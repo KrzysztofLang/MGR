@@ -138,14 +138,18 @@ class Data:
 
         # Lista ID rekordów z pustymi miejscami w wybranej kolumnie
         # oraz wypełnionych
-        no_nan_rows = self.df[self.df[col].isna()]
-        no_nan_rows.reset_index(inplace=True)
-        nan_rows = self.df[~self.df[col].isna()]
-        nan_rows.reset_index(inplace=True)
+        full_rows = self.df[~self.df[col].isna()]
+        full_rows.reset_index(drop=True, inplace=True)
+        last_full_id = full_rows.tail(1).index.tolist()
+        last_full_id = last_full_id[0]
+        nan_rows = self.df[self.df[col].isna()]
+        nan_rows.reset_index(drop=True, inplace=True)
 
-        self.df = pd.concat([no_nan_rows, nan_rows])
+        self.df = pd.concat([full_rows, nan_rows])
+        print(self.df)
+        #print(self.df.info())
 
-        del no_nan_rows
+        del full_rows
         del nan_rows
 
         # Podział na dane uczące i cel
@@ -156,7 +160,7 @@ class Data:
 
         for column in features.iteritems():
             filled = self.temp_filler.temp_fill(column)
-            features[column[0]] = filled """
+            features[column[0]] = filled"""
 
         # Konwersja DF na numpy array
         features = features.to_numpy()

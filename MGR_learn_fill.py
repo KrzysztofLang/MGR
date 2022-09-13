@@ -9,16 +9,16 @@ from sympy import true
 
 def check_datatype(data):
     # Wybranie kolumny do wypełnienia
-    print(data.cols_to_fill)
+    #print(data.cols_to_fill)
     col = data.cols_to_fill[0]
-    print(col)
+    #print(col)
     # Sprawdzenie typu danych
     if data.df[col].dtypes == "object" or data.df[col].dtypes == "category":
         type = "cat"
     else:
         type = "num"
 
-    print(type)
+    #print(type)
     return type, col
 
 
@@ -77,7 +77,7 @@ def fill_numerical(data, col):
 # Główna funkcja, wywoływana z głównego pliku
 def fill_nan(data):
     while true:
-        print(data.df.info())
+        #print(data.df.info())
         if data.cols_to_fill:
             type, col = check_datatype(data)
             match type:
