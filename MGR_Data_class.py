@@ -146,8 +146,6 @@ class Data:
         nan_rows.reset_index(drop=True, inplace=True)
 
         self.df = pd.concat([full_rows, nan_rows])
-        print(self.df)
-        #print(self.df.info())
 
         del full_rows
         del nan_rows
@@ -171,14 +169,10 @@ class Data:
 
         # Podzielenie tablic na zawierające NaN w wybranej kolumnie i
         # wypełnione
-        print("Przed usuwaniem: ", datetime.datetime.now())
-        self.features_no_nan = np.delete(features, nan_id, 0)
-        print("Po pierwszym: ", datetime.datetime.now())
-        self.features_all_nan = np.delete(features, full_id, 0)
-        print("Po drugim: ", datetime.datetime.now())
-        self.target_no_nan = np.delete(target, nan_id, 0)
-        print("Po trzecim: ", datetime.datetime.now())
-        self.target_all_nan = np.delete(target, full_id, 0)
+        self.features_no_nan = features[:last_full_id+1, :]
+        self.features_all_nan = features[last_full_id+1:, :]
+        self.target_no_nan = target[:last_full_id+1]
+        self.target_all_nan = target[last_full_id+1:]
         print("Po usuwaniu: ", datetime.datetime.now())
         # Usunięcie nazwy wypełnianej kolumny z listy
         del self.cols_to_fill[0]
