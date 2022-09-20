@@ -9,16 +9,14 @@ from sympy import true
 
 def check_datatype(data):
     # Wybranie kolumny do wypełnienia
-    #print(data.cols_to_fill)
     col = data.cols_to_fill[0]
-    #print(col)
+
     # Sprawdzenie typu danych
     if data.df[col].dtypes == "object" or data.df[col].dtypes == "category":
         type = "cat"
     else:
         type = "num"
 
-    #print(type)
     return type, col
 
 
@@ -53,8 +51,9 @@ def fill_categorical(data, col):
 def fill_numerical(data, col):
     # Wydzielenie zbiorów uczących i testowych
     print("Wydzielanie danych: ", datetime.datetime.now())
+
     x_train, x_test, y_train, y_test = train_test_split(
-        data.features_no_nan,
+        data.features_no_nan[:, 1:],
         data.target_no_nan,
         test_size=0.3,
         random_state=0,
@@ -69,7 +68,7 @@ def fill_numerical(data, col):
     print("Accuracy train {:.3f}".format(model.score(x_train, y_train)))
     print("Accuracy test {:.3f}".format(model.score(x_test, y_test)))
     print("Predict: ", datetime.datetime.now())
-    data.target_all_nan = model.predict(data.features_all_nan)
+    data.target_all_nan = model.predict(data.features_all_nan[:, 1:])
     print("Koniec predict: ", datetime.datetime.now())
     data.revert_numerical(col)
 
@@ -77,7 +76,7 @@ def fill_numerical(data, col):
 # Główna funkcja, wywoływana z głównego pliku
 def fill_nan(data):
     while true:
-        #print(data.df.info())
+        # print(data.df.info())
         if data.cols_to_fill:
             type, col = check_datatype(data)
             match type:

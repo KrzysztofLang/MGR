@@ -7,8 +7,7 @@ from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
 from sympy import false, true
 from MGR_TempFill_class import TempFiller
 
-default = "NYA_nan.csv"
-#default = "adult_holes.csv"
+default = "test_num.csv"
 
 
 class Data:
@@ -53,6 +52,11 @@ class Data:
                 sorted(self.cols_to_fill.items(), key=lambda item: item[1])
             ).keys()
         )
+
+        # Dodanie kolumny przechowującej oryginalne ID rekordów
+        self.df.insert(0, "keep_id", self.df.index.tolist())
+        print(self.df)
+        print(self.df.info())
 
     # Wybranie i wczytanie pliku do pracy
     def choose_file(self):
@@ -167,12 +171,15 @@ class Data:
         # Kodowanie One Hot Encoding
         features = self.enc_ohe_features.fit_transform(features)
 
+        exit()
+
         # Podzielenie tablic na zawierające NaN w wybranej kolumnie i
         # wypełnione
-        self.features_no_nan = features[:last_full_id+1, :]
-        self.features_all_nan = features[last_full_id+1:, :]
-        self.target_no_nan = target[:last_full_id+1]
-        self.target_all_nan = target[last_full_id+1:]
+        self.features_no_nan = features[: last_full_id + 1, :]
+        self.features_all_nan = features[last_full_id + 1 :, :]
+
+        self.target_no_nan = target[: last_full_id + 1]
+        self.target_all_nan = target[last_full_id + 1 :]
         print("Po usuwaniu: ", datetime.datetime.now())
         # Usunięcie nazwy wypełnianej kolumny z listy
         del self.cols_to_fill[0]
