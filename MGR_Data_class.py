@@ -171,8 +171,6 @@ class Data:
         # Kodowanie One Hot Encoding
         features = self.enc_ohe_features.fit_transform(features)
 
-        exit()
-
         # Podzielenie tablic na zawierające NaN w wybranej kolumnie i
         # wypełnione
         self.features_no_nan = features[: last_full_id + 1, :]
