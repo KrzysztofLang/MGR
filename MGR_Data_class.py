@@ -157,12 +157,12 @@ class Data:
         # Podział na dane uczące i cel
         features = self.df.drop(col, axis=1)
         target = self.df[col]
-
-        """self.temp_filler = TempFiller()
+                                 
+        self.temp_filler = TempFiller()
 
         for column in features.iteritems():
             filled = self.temp_filler.temp_fill(column)
-            features[column[0]] = filled"""
+            features[column[0]] = filled
 
         # Konwersja DF na numpy array
         features = features.to_numpy()
@@ -170,6 +170,9 @@ class Data:
 
         # Kodowanie One Hot Encoding
         features = self.enc_ohe_features.fit_transform(features)
+
+        print(np.shape(features)[1])
+
 
         # Podzielenie tablic na zawierające NaN w wybranej kolumnie i
         # wypełnione
@@ -226,7 +229,6 @@ class Data:
         self.features_all_nan = self.enc_ohe_features.inverse_transform(
             self.features_all_nan
         )
-
         # Zamiana Numpy Array na DataFrame
         self.features_all_nan = pd.DataFrame(
             self.features_all_nan, columns=self.columns_temp
