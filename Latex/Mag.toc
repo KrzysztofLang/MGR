@@ -1,0 +1,14 @@
+\babel@toc {polish}{}\relax 
+\contentsline {section}{\numberline {1}Wstęp}{\footnotesize 5}{}%
+\contentsline {section}{\numberline {2}Omówienie narzędzi}{\footnotesize 6}{}%
+\contentsline {subsection}{\numberline {2.1}Pandas/NumPy}{\footnotesize 6}{}%
+\contentsline {subsection}{\numberline {2.2}scikit-learn}{\footnotesize 6}{}%
+\contentsline {section}{\numberline {3}Algorytmy wypełniania pustych miejsc}{\footnotesize 7}{}%
+\contentsline {subsection}{\numberline {3.1}Proste algorytmy wypełniania}{\footnotesize 7}{}%
+\contentsline {subsection}{\numberline {3.2}Zaawansowane algorytmy wypełniania}{\footnotesize 7}{}%
+\contentsline {section}{\numberline {4}Implementacja i testy algorytmu}{\footnotesize 8}{}%
+\contentsline {subsection}{\numberline {4.1}Implementacja w kodzie}{\footnotesize 8}{}%
+\contentsline {subsection}{\numberline {4.2}Testy działania}{\footnotesize 8}{}%
+\contentsline {section}{\numberline {5}Podsumowanie i wnioski końcowe}{\footnotesize 9}{}%
+\contentsline {section}{Załączniki}{\footnotesize 10}{}%
+\contentsline {section}{Literatura}{\footnotesize 11}{}%

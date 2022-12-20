@@ -1,0 +1,99 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% %
+%%% % weiiszablon.tex
+%%% % The Faculty of Electrical and Computer Engineering
+%%% % Rzeszow University Of Technology diploma thesis Template
+%%% % Szablon pracy dyplomowej Wydziału Elektrotechniki 
+%%% % i Informatyki PRz
+%%% % June, 2015
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,twoside]{article}
+
+\usepackage{weiiszablon}
+
+\author{Krzysztof Lang}
+
+% np. EF-123456, EN-654321, ...
+\studentID{EF-148853}
+
+\title{Implementacja wybranych algorytmów wypełniania brakujących wartości, dla strumieni dużych zbiorów danych}
+\titleEN{Implemetation of selected missing value filling algorithms for large data sets}
+
+
+%%% wybierz rodzaj pracy wpisując jeden z poniższych numerów: ...
+% 1 = inżynierska	% BSc
+% 2 = magisterska	% MSc
+% 3 = doktorska		% PhD
+%%% na miejsce zera w linijce poniżej
+\newcommand{\rodzajPracyNo}{2}
+
+
+%%% promotor
+\supervisor{dr Michał Piętal}
+%% przykład: dr hab. inż. Józef Nowak, prof. PRz
+
+%%% promotor ze stopniami naukowymi po angielsku
+\supervisorEN{Michał Piętal, PhD}
+
+\abstract{Treść streszczenia po polsku}
+\abstractEN{Treść streszczenia po angielsku}
+
+\begin{document}
+
+% strona tytułowa
+\maketitle
+
+\blankpage
+
+% spis treści
+\tableofcontents
+
+\clearpage
+\blankpage
+
+
+\section{Wstęp}
+Wstęp
+
+\clearpage
+
+\section{Omówienie narzędzi}
+
+\subsection{Pandas/NumPy}
+Narzędzia do analizy i operacji na zbiorach danych
+
+\subsection{scikit-learn}
+Narzędzie do Machine Learning
+\clearpage
+
+\section{Algorytmy wypełniania pustych miejsc}
+\subsection{Proste algorytmy wypełniania}
+Średnia, najczęściej występująca wartość itp.
+\subsection{Zaawansowane algorytmy wypełniania}
+Opis bardziej skomplikowanych algorytmów, w tym zaimplementowanego
+\clearpage
+
+\section{Implementacja i testy algorytmu}
+\subsection{Implementacja w kodzie}
+\subsection{Testy działania}
+\clearpage
+
+\section{Podsumowanie i wnioski końcowe}
+\clearpage
+
+\section*{Załączniki}
+\addcontentsline{toc}{section}{Załączniki}
+
+\clearpage
+
+\addcontentsline{toc}{section}{Literatura}
+
+\begin{thebibliography}{4}
+\end{thebibliography}
+
+\clearpage
+
+\makesummary
+
+\end{document} 
