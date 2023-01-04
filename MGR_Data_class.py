@@ -7,7 +7,7 @@ from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
 from sympy import false, true
 from MGR_TempFill_class import TempFiller
 
-default = "test_num.csv"
+default = "adult_holes.csv"
 
 
 class Data:
