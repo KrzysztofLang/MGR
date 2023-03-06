@@ -33,6 +33,9 @@ class Data:
         # Wybranie pliku do wypełniania
         self.choose_file()
 
+        # Dodanie kolumny przechowującej oryginalne ID rekordów
+        self.df.insert(0, "keep_id", self.df.index.tolist())
+
         # Lista wszystkichh kolumn
         self.columns = list(self.df)
 
@@ -53,10 +56,7 @@ class Data:
             ).keys()
         )
 
-        # Dodanie kolumny przechowującej oryginalne ID rekordów
-        self.df.insert(0, "keep_id", self.df.index.tolist())
-        print(self.df)
-        print(self.df.info())
+
 
     # Wybranie i wczytanie pliku do pracy
     def choose_file(self):
@@ -87,8 +87,8 @@ class Data:
     # wybrana kolumna zawiera dane kategoryczne
     def prepare_categorical(self, col):
 
-        self.columns_temp = list(self.df)
-        self.columns_temp.remove(col)
+        self.columns_fatures = list(self.df)
+        self.columns_fatures.remove(col)
 
         # Podzielenie Dataframe na zawierające NaN w wybranej kolumnie i
         # wypełnione
@@ -137,27 +137,31 @@ class Data:
     def prepare_numerical(self, col):
 
         # Lista nazw kolumn z danymi uczącymi
-        self.columns_temp = list(self.df)
-        self.columns_temp.remove(col)
+        self.columns_fatures = list(self.df)
+        self.columns_fatures.remove(col)
 
-        # Lista ID rekordów z pustymi miejscami w wybranej kolumnie
-        # oraz wypełnionych
+        # Rozdzielenie danych na tabele bez i z NAN w kolumnie do wypełnienia
         full_rows = self.df[~self.df[col].isna()]
         full_rows.reset_index(drop=True, inplace=True)
-        last_full_id = full_rows.tail(1).index.tolist()
-        last_full_id = last_full_id[0]
         nan_rows = self.df[self.df[col].isna()]
         nan_rows.reset_index(drop=True, inplace=True)
 
+        # Zapisanie ostatniego ID rekordów bez NAN
+        last_full_id = full_rows.tail(1).index.tolist()
+        last_full_id = last_full_id[0]
+
+        # Połączenie tabel w jedną
         self.df = pd.concat([full_rows, nan_rows])
 
+        # Usunięcie niepotrzebnych tabel
         del full_rows
         del nan_rows
 
         # Podział na dane uczące i cel
         features = self.df.drop(col, axis=1)
         target = self.df[col]
-                                 
+        
+        # Tymczasowe wypełnienie NAN w danych uczących
         self.temp_filler = TempFiller()
 
         for column in features.iteritems():
@@ -171,17 +175,16 @@ class Data:
         # Kodowanie One Hot Encoding
         features = self.enc_ohe_features.fit_transform(features)
 
-        print(np.shape(features)[1])
-
-
         # Podzielenie tablic na zawierające NaN w wybranej kolumnie i
         # wypełnione
-        self.features_no_nan = features[: last_full_id + 1, :]
         self.features_all_nan = features[last_full_id + 1 :, :]
-
-        self.target_no_nan = target[: last_full_id + 1]
+        self.features_no_nan = features[: last_full_id + 1, :]
+        
         self.target_all_nan = target[last_full_id + 1 :]
+        self.target_no_nan = target[: last_full_id + 1]
+        
         print("Po usuwaniu: ", datetime.datetime.now())
+
         # Usunięcie nazwy wypełnianej kolumny z listy
         del self.cols_to_fill[0]
 
@@ -204,11 +207,11 @@ class Data:
 
         # Zamiana Numpy Array na DataFrame
         self.features_all_nan = pd.DataFrame(
-            self.features_all_nan, columns=self.columns_temp
+            self.features_all_nan, columns=self.columns_fatures
         )
         self.target_all_nan = pd.Series(self.target_all_nan, name=col)
         self.features_no_nan = pd.DataFrame(
-            self.features_no_nan, columns=self.columns_temp
+            self.features_no_nan, columns=self.columns_fatures
         )
         self.target_no_nan = pd.Series(self.target_no_nan, name=col)
 
@@ -217,7 +220,9 @@ class Data:
 
         self.df = pd.concat([self.df_all_nan, self.df_no_nan])
 
+        # Przywrócenie kolumnom właściwych typów
         self.df = self.df.convert_dtypes(convert_string=False)
+        exit()
 
     def revert_numerical(self, col):
 
@@ -231,22 +236,26 @@ class Data:
         )
         # Zamiana Numpy Array na DataFrame
         self.features_all_nan = pd.DataFrame(
-            self.features_all_nan, columns=self.columns_temp
+            self.features_all_nan, columns=self.columns_fatures
         )
 
         self.target_all_nan = pd.Series(self.target_all_nan, name=col)
 
         self.features_no_nan = pd.DataFrame(
-            self.features_no_nan, columns=self.columns_temp
+            self.features_no_nan, columns=self.columns_fatures
         )
 
         self.target_no_nan = pd.Series(self.target_no_nan, name=col)
 
+        # Łączenie tabel, przywracając oryginalną tabelę
         self.df_all_nan = self.features_all_nan.join(self.target_all_nan)
         self.df_no_nan = self.features_no_nan.join(self.target_no_nan)
 
         self.df = pd.concat([self.df_all_nan, self.df_no_nan])
+
+        # Przywrócenie kolumnom właściwych typów
         self.df = self.df.convert_dtypes(convert_string=False)
+
 
     def save_file(self):
         self.df = self.df[self.columns]

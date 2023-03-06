@@ -15,6 +15,4 @@ def header():
 
 header()
 
-data = Data()
-
-fill_nan(data)
+fill_nan(Data())

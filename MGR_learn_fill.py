@@ -76,16 +76,16 @@ def fill_numerical(data, col):
 # Główna funkcja, wywoływana z głównego pliku
 def fill_nan(data):
     while true:
-        # print(data.df.info())
         if data.cols_to_fill:
             type, col = check_datatype(data)
             match type:
+                case "num":
+                    data.prepare_numerical(col) 
+                    fill_numerical(data, col)
                 case "cat":
                     data.prepare_categorical(col)
                     fill_categorical(data, col)
-                case "num":
-                    data.prepare_numerical(col)
-                    fill_numerical(data, col)
+
 
         else:
             data.save_file()
