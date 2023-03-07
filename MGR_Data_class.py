@@ -7,7 +7,7 @@ from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
 from sympy import false, true
 from MGR_TempFill_class import TempFiller
 
-default = "adult_holes.csv"
+default = "NYA_nan_float_only.csv"
 
 
 class Data:
@@ -87,8 +87,8 @@ class Data:
     # wybrana kolumna zawiera dane kategoryczne
     def prepare_categorical(self, col):
 
-        self.columns_fatures = list(self.df)
-        self.columns_fatures.remove(col)
+        self.columns_features = list(self.df)
+        self.columns_features.remove(col)
 
         # Podzielenie Dataframe na zawierające NaN w wybranej kolumnie i
         # wypełnione
@@ -136,9 +136,10 @@ class Data:
     # wybrana kolumna zawiera dane liczbowe
     def prepare_numerical(self, col):
 
+        print(self.df)
         # Lista nazw kolumn z danymi uczącymi
-        self.columns_fatures = list(self.df)
-        self.columns_fatures.remove(col)
+        self.columns_features = list(self.df)
+        self.columns_features.remove(col)
 
         # Rozdzielenie danych na tabele bez i z NAN w kolumnie do wypełnienia
         full_rows = self.df[~self.df[col].isna()]
@@ -168,25 +169,51 @@ class Data:
             filled = self.temp_filler.temp_fill(column)
             features[column[0]] = filled
 
+        # Przygotowanie do kodowania wyłącznie kolumn z danymi kategorycznymi
+        self.features_objects_names = features.columns[
+            features.dtypes == "object"
+        ].tolist()
+
+        self.features_numbers_names = features.columns[
+            features.dtypes != "object"
+        ].tolist()
+
+        print(self.features_objects_names)
+        print(self.features_numbers_names)
+
+        features_objects = features[self.features_objects_names]
+        features_numbers = features[self.features_numbers_names]
+
         # Konwersja DF na numpy array
-        features = features.to_numpy()
+        features_objects = features_objects.to_numpy()
+        features_numbers = features_numbers.to_numpy()
         target = target.to_numpy()
 
-        # Kodowanie One Hot Encoding
-        features = self.enc_ohe_features.fit_transform(features)
+
+        # Kodowanie One Hot Encoding jeśli wymagane
+        if features_objects.any():
+            features_objects = self.enc_ohe_features.fit_transform(features_objects)
+            self.decode = 1
+        else:
+            self.decode = 0
+
+        features = np.concatenate((features_numbers, features_objects), axis=1)
+
 
         # Podzielenie tablic na zawierające NaN w wybranej kolumnie i
         # wypełnione
         self.features_all_nan = features[last_full_id + 1 :, :]
         self.features_no_nan = features[: last_full_id + 1, :]
-        
+
         self.target_all_nan = target[last_full_id + 1 :]
         self.target_no_nan = target[: last_full_id + 1]
-        
-        print("Po usuwaniu: ", datetime.datetime.now())
+    
+    
+        # print("Po usuwaniu: ", datetime.datetime.now())
 
         # Usunięcie nazwy wypełnianej kolumny z listy
         del self.cols_to_fill[0]
+
 
     # Przywrócenie danym ich pierwotnej formy
     def revert_categorical(self, col):
@@ -207,11 +234,11 @@ class Data:
 
         # Zamiana Numpy Array na DataFrame
         self.features_all_nan = pd.DataFrame(
-            self.features_all_nan, columns=self.columns_fatures
+            self.features_all_nan, columns=self.columns_features
         )
         self.target_all_nan = pd.Series(self.target_all_nan, name=col)
         self.features_no_nan = pd.DataFrame(
-            self.features_no_nan, columns=self.columns_fatures
+            self.features_no_nan, columns=self.columns_features
         )
         self.target_no_nan = pd.Series(self.target_no_nan, name=col)
 
@@ -222,27 +249,32 @@ class Data:
 
         # Przywrócenie kolumnom właściwych typów
         self.df = self.df.convert_dtypes(convert_string=False)
-        exit()
 
     def revert_numerical(self, col):
 
         # Przywrócenie danym kategorycznym odpowiednich wartości
-        self.features_no_nan = self.enc_ohe_features.inverse_transform(
-            self.features_no_nan
-        )
+        self.features_all_nan_objects = self.features_all_nan[:,len(self.features_numbers_names):]
+        self.features_all_nan_numbers = self.features_all_nan[:,:len(self.features_numbers_names)]
+        self.features_no_nan_objects = self.features_no_nan[:,len(self.features_numbers_names):]
+        self.features_no_nan_numbers = self.features_no_nan[:,:len(self.features_numbers_names)]
 
-        self.features_all_nan = self.enc_ohe_features.inverse_transform(
-            self.features_all_nan
-        )
-        # Zamiana Numpy Array na DataFrame
+        if self.decode:
+            self.features_all_nan_objects = self.enc_ohe_features.inverse_transform(
+                self.features_all_nan_objects
+            )
+            self.features_no_nan_objects = self.enc_ohe_features.inverse_transform(
+                self.features_no_nan_objects
+            )
+
+        self.features_all_nan = np.concatenate((self.features_all_nan_numbers,self.features_all_nan_objects), axis=1)
+        self.features_no_nan = np.concatenate((self.features_no_nan_numbers,self.features_no_nan_objects), axis=1)
+
         self.features_all_nan = pd.DataFrame(
-            self.features_all_nan, columns=self.columns_fatures
+            self.features_all_nan, columns=self.columns_features
         )
-
         self.target_all_nan = pd.Series(self.target_all_nan, name=col)
-
         self.features_no_nan = pd.DataFrame(
-            self.features_no_nan, columns=self.columns_fatures
+            self.features_no_nan, columns=self.columns_features
         )
 
         self.target_no_nan = pd.Series(self.target_no_nan, name=col)
