@@ -2,16 +2,18 @@
 
 ## Kod
 
-- Naprawa działania przygotowywania danych dla wypełniania liczbowych
-  - Kodowanie OHE wyłącznie kolumn z danymi kategorycznymi
-- Fork na drugi algorytm
-  - Zrozumieć działanie
-  - Wdrożyć do programu
-- Porównać działanie oryginalnego i drugiego algorytmu
-  - Zaprojektować testy
-  - Przeprowadzić testy
-  - Porównać wyniki
+- [x] Naprawa działania przygotowywania danych dla wypełniania liczbowych
+  - [x] Kodowanie OHE wyłącznie kolumn z danymi kategorycznymi
+- [ ] Fork na drugi algorytm
+  - [x] Zrozumieć działanie
+  - [ ] Wdrożyć do programu
+    - [x] Funkcja wyboru algorytmu
+    - [ ] Implementacja
+- [ ] Porównać działanie oryginalnego i drugiego algorytmu
+  - [ ] Zaprojektować testy
+  - [ ] Przeprowadzić testy
+  - [ ] Porównać wyniki
 
 ## Pisane pracy
 
-- Profit
+- [ ] Profit

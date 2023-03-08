@@ -5,6 +5,7 @@ from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sympy import true
+from MGR_Data_class import PrepareOld
 
 
 def check_datatype(data):
@@ -45,8 +46,6 @@ def fill_categorical(data, col):
 
     data.target_all_nan = clf.predict(data.features_all_nan)
 
-    data.revert_categorical(col)
-
 
 def fill_numerical(data, col):
     # Wydzielenie zbiorów uczących i testowych
@@ -70,22 +69,31 @@ def fill_numerical(data, col):
     print("Predict: ", datetime.datetime.now())
     data.target_all_nan = model.predict(data.features_all_nan[:, 1:])
     print("Koniec predict: ", datetime.datetime.now())
-    data.revert_numerical(col)
+
 
 
 # Główna funkcja, wywoływana z głównego pliku
 def fill_nan(data):
-    while true:
-        if data.cols_to_fill:
-            type, col = check_datatype(data)
-            match type:
-                case "num":
-                    data.prepare_numerical(col) 
-                    fill_numerical(data, col)
-                case "cat":
-                    data.prepare_categorical(col)
-                    fill_categorical(data, col)
-
-
-        else:
-            data.save_file()
+    print("fill_nan start")
+    match data.algorithm:
+        case "1":
+            while true:
+                if data.cols_to_fill:
+                    type, col = check_datatype(data)
+                    match type:
+                        case "num":
+                            PrepareOld.prepare_numerical(data, col)
+                            fill_numerical(data, col)
+                            PrepareOld.revert_numerical(data, col)
+                        case "cat":
+                            PrepareOld.prepare_categorical(data, col)
+                            fill_categorical(data, col)
+                            PrepareOld.revert_categorical(data, col)
+                else:
+                    data.save_file()
+        case "2":
+            print("Algorytm nie zaimplementowany")
+            exit()
+        case _:
+            print("Niepoprawny wybór.")
+            exit()
