@@ -26,9 +26,7 @@ class Data:
             handle_unknown="use_encoded_value", unknown_value=np.nan
         )
 
-        self.enc_ohe_features = OneHotEncoder(
-            sparse=false, handle_unknown="ignore"
-        )
+        self.enc_ohe_features = OneHotEncoder(sparse=false, handle_unknown="ignore")
 
         # Wybranie pliku do wypełniania
         self.choose_file()
@@ -40,9 +38,7 @@ class Data:
         self.columns = list(self.df)
 
         # Lista kolumn z damnymi kategorycznymi
-        self.cols_with_objects = self.df.columns[
-            self.df.dtypes == "object"
-        ].tolist()
+        self.cols_with_objects = self.df.columns[self.df.dtypes == "object"].tolist()
 
         # Utworzenie listy kolumn do wypełnienia,
         # posortowana od najmniejszej do największej ilości NaN
@@ -51,12 +47,8 @@ class Data:
             self.cols_to_fill[cols] = self.df[cols].isna().sum()
 
         self.cols_to_fill = list(
-            dict(
-                sorted(self.cols_to_fill.items(), key=lambda item: item[1])
-            ).keys()
+            dict(sorted(self.cols_to_fill.items(), key=lambda item: item[1])).keys()
         )
-
-
 
     # Wybranie i wczytanie pliku do pracy
     def choose_file(self):
@@ -76,9 +68,7 @@ class Data:
                     print("Wybrano plik " + self.file + "\n")
                     break
                 except Exception:
-                    print(
-                        "Wpisano niepoprawną nazwę pliku, proszę upewnić się"
-                    )
+                    print("Wpisano niepoprawną nazwę pliku, proszę upewnić się")
                     print("czy plik znajduje się w folderze programu.\n")
 
         self.df = pd.read_csv(self.file)
@@ -106,9 +96,7 @@ class Data:
 
         for cols in self.features_all_nan:
             if cols in self.cols_with_objects:
-                self.cat_arr.append(
-                    self.features_all_nan.columns.get_loc(cols)
-                )
+                self.cat_arr.append(self.features_all_nan.columns.get_loc(cols))
 
         # Konwersja DF na numpy array
         self.features_all_nan = self.features_all_nan.to_numpy()
@@ -161,7 +149,7 @@ class Data:
         # Podział na dane uczące i cel
         features = self.df.drop(col, axis=1)
         target = self.df[col]
-        
+
         # Tymczasowe wypełnienie NAN w danych uczących
         self.temp_filler = TempFiller()
 
@@ -189,7 +177,6 @@ class Data:
         features_numbers = features_numbers.to_numpy()
         target = target.to_numpy()
 
-
         # Kodowanie One Hot Encoding jeśli wymagane
         if features_objects.any():
             features_objects = self.enc_ohe_features.fit_transform(features_objects)
@@ -199,7 +186,6 @@ class Data:
 
         features = np.concatenate((features_numbers, features_objects), axis=1)
 
-
         # Podzielenie tablic na zawierające NaN w wybranej kolumnie i
         # wypełnione
         self.features_all_nan = features[last_full_id + 1 :, :]
@@ -207,13 +193,11 @@ class Data:
 
         self.target_all_nan = target[last_full_id + 1 :]
         self.target_no_nan = target[: last_full_id + 1]
-    
-    
+
         # print("Po usuwaniu: ", datetime.datetime.now())
 
         # Usunięcie nazwy wypełnianej kolumny z listy
         del self.cols_to_fill[0]
-
 
     # Przywrócenie danym ich pierwotnej formy
     def revert_categorical(self, col):
@@ -253,10 +237,18 @@ class Data:
     def revert_numerical(self, col):
 
         # Przywrócenie danym kategorycznym odpowiednich wartości
-        self.features_all_nan_objects = self.features_all_nan[:,len(self.features_numbers_names):]
-        self.features_all_nan_numbers = self.features_all_nan[:,:len(self.features_numbers_names)]
-        self.features_no_nan_objects = self.features_no_nan[:,len(self.features_numbers_names):]
-        self.features_no_nan_numbers = self.features_no_nan[:,:len(self.features_numbers_names)]
+        self.features_all_nan_objects = self.features_all_nan[
+            :, len(self.features_numbers_names) :
+        ]
+        self.features_all_nan_numbers = self.features_all_nan[
+            :, : len(self.features_numbers_names)
+        ]
+        self.features_no_nan_objects = self.features_no_nan[
+            :, len(self.features_numbers_names) :
+        ]
+        self.features_no_nan_numbers = self.features_no_nan[
+            :, : len(self.features_numbers_names)
+        ]
 
         if self.decode:
             self.features_all_nan_objects = self.enc_ohe_features.inverse_transform(
@@ -266,8 +258,12 @@ class Data:
                 self.features_no_nan_objects
             )
 
-        self.features_all_nan = np.concatenate((self.features_all_nan_numbers,self.features_all_nan_objects), axis=1)
-        self.features_no_nan = np.concatenate((self.features_no_nan_numbers,self.features_no_nan_objects), axis=1)
+        self.features_all_nan = np.concatenate(
+            (self.features_all_nan_numbers, self.features_all_nan_objects), axis=1
+        )
+        self.features_no_nan = np.concatenate(
+            (self.features_no_nan_numbers, self.features_no_nan_objects), axis=1
+        )
 
         self.features_all_nan = pd.DataFrame(
             self.features_all_nan, columns=self.columns_features
@@ -287,7 +283,6 @@ class Data:
 
         # Przywrócenie kolumnom właściwych typów
         self.df = self.df.convert_dtypes(convert_string=False)
-
 
     def save_file(self):
         self.df = self.df[self.columns]
