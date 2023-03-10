@@ -1,15 +1,18 @@
 from cmath import nan
-import datetime
+from easygui import *
 import numpy as np
 import pandas as pd
+import glob
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
 from sympy import false, true
 from MGR_TempFill_class import TempFiller
 
-default = "NYA_nan_float_only.csv"
+default = "test_num.csv"
 
 
 class Data:
+    """Załadowanie danych do wypełniania"""
+
     def __init__(self) -> None:
 
         # Przygotowanie encoderów
@@ -26,7 +29,7 @@ class Data:
         )
 
         self.enc_ohe_features = OneHotEncoder(
-            sparse=false, handle_unknown="ignore"
+            sparse_output=False, handle_unknown="ignore"
         )
 
         # Wybranie pliku do wypełniania
@@ -43,6 +46,12 @@ class Data:
             self.df.dtypes == "object"
         ].tolist()
 
+        # Lista kolumn z damnymi typu int
+        self.cols_with_int = self.df.columns[
+            self.df.dtypes == "int64"
+        ].tolist()
+        print(self.cols_with_int)
+
         # Utworzenie listy kolumn do wypełnienia,
         # posortowana od najmniejszej do największej ilości NaN
         self.cols_to_fill = {}
@@ -55,53 +64,39 @@ class Data:
             ).keys()
         )
 
+        print(self.df.info())
+
     # Wybranie i wczytanie pliku do pracy
     def choose_file(self):
 
-        print("Wybierz algorytm:")
-        print("1 - stary")
-        print("2 - nowy")
-        self.algorithm = input("Wpisz wybrany numer: ")
-        print(self.algorithm)
+        choices = ["Stary", "Nowy"]
+        self.algorithm = choicebox("Wybierz algorytm do zastosowania:", "NaN Filler", choices)
 
-        while true:
-            self.file = input(
-                "Wpisz nazwę pliku lub wciśnij Enter aby wybrać domyślny: "
-            )
+        files = glob.glob('./*.csv')
 
-            if not self.file:
-                print("Wybrano domyślny plik " + default + "\n")
-                self.file = default
-                break
-            elif self.file == "koniec":
-                exit()
-            else:
-                try:
-                    print("Wybrano plik " + self.file + "\n")
-                    break
-                except Exception:
-                    print(
-                        "Wpisano niepoprawną nazwę pliku, proszę upewnić się"
-                    )
-                    print("czy plik znajduje się w folderze programu.\n")
+        self.file = choicebox("Wybierz plik do wypełnienia:", "NaN Filler", files)
 
         self.df = pd.read_csv(self.file)
-    
-    def save_file(self):
-        self.df = self.df[self.columns]
-        self.df.to_csv("filled_" + self.file, index=False)
+
+
+class PrepareNew:
+    def SumThing():
         exit()
 
 
-
 class PrepareOld:
-    # Przygotowanie danych do dalszej pracy w wypadku gdy
-    # wybrana kolumna zawiera dane kategoryczne
+    """Przygotowanie danych do dalszej pracy w wypadku gdy
+    wybrana kolumna zawiera dane kategoryczne
+    """
+
     @staticmethod
     def prepare_categorical(data, col):
 
-        data.columns_features = list(data.df)
-        data.columns_features.remove(col)
+        print(data.df)
+        # Lista nazw kolumn z danymi uczącymi
+        data.column_names = list(data.df)
+        data.column_names.remove(col)
+        data.column_names.insert(len(data.column_names), col)
 
         # Podzielenie Dataframe na zawierające NaN w wybranej kolumnie i
         # wypełnione
@@ -151,10 +146,7 @@ class PrepareOld:
     def prepare_numerical(data, col):
 
         print(data.df)
-        # Lista nazw kolumn z danymi uczącymi
-        data.columns_features = list(data.df)
-        data.columns_features.remove(col)
-
+        
         # Rozdzielenie danych na tabele bez i z NAN w kolumnie do wypełnienia
         full_rows = data.df[~data.df[col].isna()]
         full_rows.reset_index(drop=True, inplace=True)
@@ -179,7 +171,7 @@ class PrepareOld:
         # Tymczasowe wypełnienie NAN w danych uczących
         data.temp_filler = TempFiller()
 
-        for column in features.iteritems():
+        for column in features.items():
             filled = data.temp_filler.temp_fill(column)
             features[column[0]] = filled
 
@@ -192,8 +184,9 @@ class PrepareOld:
             features.dtypes != "object"
         ].tolist()
 
-        print(data.features_objects_names)
-        print(data.features_numbers_names)
+        # Lista nazw kolumn z danymi uczącymi
+        data.column_names = data.features_numbers_names + data.features_objects_names
+        data.column_names.insert(len(data.column_names), col)
 
         features_objects = features[data.features_objects_names]
         features_numbers = features[data.features_numbers_names]
@@ -216,13 +209,11 @@ class PrepareOld:
 
         # Podzielenie tablic na zawierające NaN w wybranej kolumnie i
         # wypełnione
-        data.features_all_nan = features[last_full_id + 1:, :]
+        data.features_all_nan = features[last_full_id + 1 :, :]
         data.features_no_nan = features[: last_full_id + 1, :]
 
-        data.target_all_nan = target[last_full_id + 1:]
+        data.target_all_nan = target[last_full_id + 1 :]
         data.target_no_nan = target[: last_full_id + 1]
-
-        # print("Po usuwaniu: ", datetime.datetime.now())
 
         # Usunięcie nazwy wypełnianej kolumny z listy
         del data.cols_to_fill[0]
@@ -246,19 +237,17 @@ class PrepareOld:
         ).ravel()
 
         # Zamiana Numpy Array na DataFrame
-        data.features_all_nan = pd.DataFrame(
-            data.features_all_nan, columns=data.columns_features
-        )
-        data.target_all_nan = pd.Series(data.target_all_nan, name=col)
-        data.features_no_nan = pd.DataFrame(
-            data.features_no_nan, columns=data.columns_features
-        )
-        data.target_no_nan = pd.Series(data.target_no_nan, name=col)
+        data.features_all_nan = pd.DataFrame(data.features_all_nan)
+        data.target_all_nan = pd.Series(data.target_all_nan, name="target")
+        data.features_no_nan = pd.DataFrame(data.features_no_nan)
+        data.target_no_nan = pd.Series(data.target_no_nan, name="target")
 
         data.df_all_nan = data.features_all_nan.join(data.target_all_nan)
         data.df_no_nan = data.features_no_nan.join(data.target_no_nan)
 
         data.df = pd.concat([data.df_all_nan, data.df_no_nan])
+
+        data.df.columns = data.column_names
 
         # Przywrócenie kolumnom właściwych typów
         data.df = data.df.convert_dtypes(convert_string=False)
@@ -267,13 +256,13 @@ class PrepareOld:
     def revert_numerical(data, col):
         # Przywrócenie danym kategorycznym odpowiednich wartości
         data.features_all_nan_objects = data.features_all_nan[
-            :, len(data.features_numbers_names):
+            :, len(data.features_numbers_names) :
         ]
         data.features_all_nan_numbers = data.features_all_nan[
             :, : len(data.features_numbers_names)
         ]
         data.features_no_nan_objects = data.features_no_nan[
-            :, len(data.features_numbers_names):
+            :, len(data.features_numbers_names) :
         ]
         data.features_no_nan_numbers = data.features_no_nan[
             :, : len(data.features_numbers_names)
@@ -300,15 +289,15 @@ class PrepareOld:
             axis=1,
         )
 
-        data.features_all_nan = pd.DataFrame(
-            data.features_all_nan, columns=data.columns_features
-        )
-        data.target_all_nan = pd.Series(data.target_all_nan, name=col)
-        data.features_no_nan = pd.DataFrame(
-            data.features_no_nan, columns=data.columns_features
-        )
+        data.features_no_nan = pd.DataFrame(data.features_no_nan)
+        data.target_no_nan = pd.Series(data.target_no_nan, name="target")
 
-        data.target_no_nan = pd.Series(data.target_no_nan, name=col)
+        data.features_all_nan = pd.DataFrame(data.features_all_nan)
+        data.target_all_nan = pd.Series(data.target_all_nan, name="target")
+        
+        if col in data.cols_with_int:
+            for i in data.target_all_nan:
+                data.target_all_nan[i] = round(data.target_all_nan[i])
 
         # Łączenie tabel, przywracając oryginalną tabelę
         data.df_all_nan = data.features_all_nan.join(data.target_all_nan)
@@ -316,5 +305,9 @@ class PrepareOld:
 
         data.df = pd.concat([data.df_all_nan, data.df_no_nan])
 
+        data.df.columns = data.column_names
+
         # Przywrócenie kolumnom właściwych typów
         data.df = data.df.convert_dtypes(convert_string=False)
+
+        data.df = data.temp_filler.revert_nan(data.df)

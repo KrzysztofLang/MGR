@@ -5,7 +5,7 @@
 - [x] Naprawa działania przygotowywania danych dla wypełniania liczbowych
   - [x] Kodowanie OHE wyłącznie kolumn z danymi kategorycznymi
 - [ ] Fork na drugi algorytm
-  - [x] Zrozumieć działanie
+  - [ ] Zrozumieć działanie
   - [ ] Wdrożyć do programu
     - [x] Funkcja wyboru algorytmu
     - [ ] Implementacja

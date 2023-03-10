@@ -1,11 +1,10 @@
-import datetime
-
 from sklearn import metrics
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sympy import true
 from MGR_Data_class import PrepareOld
+import numpy as np
 
 
 def check_datatype(data):
@@ -22,6 +21,7 @@ def check_datatype(data):
 
 
 def fill_categorical(data, col):
+    print("Wypełniana kolumna: ", col)
     # Wydzielenie zbiorów uczących i testowych
     x_train, x_test, y_train, y_test = train_test_split(
         data.features_no_nan,
@@ -29,7 +29,7 @@ def fill_categorical(data, col):
         test_size=0.3,
         random_state=109,
     )
-
+    np.savetxt("x_train.csv", x_train, delimiter=",")
     # Nauka modelu
     clf = HistGradientBoostingClassifier(
         max_iter=100, categorical_features=data.cat_arr
@@ -38,9 +38,7 @@ def fill_categorical(data, col):
     # Test skuteczności modelu
     y_pred = clf.predict(x_test)
     print(
-        "Skuteczność nauczania wypełniania kolumny",
-        col,
-        ":",
+        "Skuteczność nauczania wypełniania: ",
         metrics.accuracy_score(y_test, y_pred),
     )
 
@@ -49,8 +47,7 @@ def fill_categorical(data, col):
 
 def fill_numerical(data, col):
     # Wydzielenie zbiorów uczących i testowych
-    print("Wydzielanie danych: ", datetime.datetime.now())
-
+    print("Wypełniana kolumna: ", col)
     x_train, x_test, y_train, y_test = train_test_split(
         data.features_no_nan[:, 1:],
         data.target_no_nan,
@@ -60,23 +57,19 @@ def fill_numerical(data, col):
 
     # Nauka modelu
     model = LinearRegression()
-    print("Fit: ", datetime.datetime.now())
     model.fit(x_train, y_train)
 
     # Test skuteczności modelu
     print("Accuracy train {:.3f}".format(model.score(x_train, y_train)))
     print("Accuracy test {:.3f}".format(model.score(x_test, y_test)))
-    print("Predict: ", datetime.datetime.now())
     data.target_all_nan = model.predict(data.features_all_nan[:, 1:])
-    print("Koniec predict: ", datetime.datetime.now())
-
 
 
 # Główna funkcja, wywoływana z głównego pliku
 def fill_nan(data):
     print("fill_nan start")
     match data.algorithm:
-        case "1":
+        case "Stary":
             while true:
                 if data.cols_to_fill:
                     type, col = check_datatype(data)
@@ -90,10 +83,12 @@ def fill_nan(data):
                             fill_categorical(data, col)
                             PrepareOld.revert_categorical(data, col)
                 else:
-                    data.save_file()
-        case "2":
+                    data.df = data.df[data.columns]
+                    print(data.df.info())
+                    data.df.sort_values("keep_id", inplace=True)
+                    data.df.drop("keep_id", axis=1, inplace=True)
+                    data.df.to_csv("filled_" + data.file[2:], index=False)
+                    exit()
+        case "Nowy":
             print("Algorytm nie zaimplementowany")
-            exit()
-        case _:
-            print("Niepoprawny wybór.")
             exit()

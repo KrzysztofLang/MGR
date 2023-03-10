@@ -4,10 +4,10 @@ import pandas as pd
 
 class TempFiller:
     def __init__(self) -> None:
-        self.journal = pd.DataFrame(columns=["column", "row"])
+        self.journal = pd.DataFrame(columns=["row", "column"])
 
     def temp_fill(self, data):
-        for items in data[1].iteritems():
+        for items in data[1].items():
             if pd.isna(items[1]):
                 self.journal.loc[len(self.journal)] = [items[0], data[0]]
 
