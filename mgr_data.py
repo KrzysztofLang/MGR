@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd
 import glob
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
-from MGR_TempFill_class import TempFiller
-from MGR_learn_fill import fill_nan
+from mgr_temp_fill import TempFiller
+
 
 default = "test_num.csv"
 
@@ -313,6 +313,3 @@ class PrepareOld:
         data.df = data.df.convert_dtypes(convert_string=False)
 
         data.df = data.temp_filler.revert_nan(data.df)
-
-
-fill_nan(Data())

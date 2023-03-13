@@ -3,7 +3,7 @@ from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sympy import true
-from MGR_Data_class import PrepareOld
+from mgr_data import PrepareOld
 import numpy as np
 from easygui import *
 
