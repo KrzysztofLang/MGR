@@ -7,9 +7,11 @@ from easygui import *
 import pandas as pd
 
 import mgr_data
-class Fill:
+import mgr_di
 
-    def __init__(self):
+
+class Fill:
+    def __init__(self) -> None:
         self.fill_nan(mgr_data.Data())
 
     def check_datatype(self, data):
@@ -17,13 +19,15 @@ class Fill:
         col = data.cols_to_fill[0]
 
         # Sprawdzenie typu danych
-        if data.df[col].dtypes == "object" or data.df[col].dtypes == "category":
+        if (
+            data.df[col].dtypes == "object"
+            or data.df[col].dtypes == "category"
+        ):
             type = "cat"
         else:
             type = "num"
 
         return type, col
-
 
     def fill_categorical(self, data, col):
         print("Wypełniana kolumna: ", col)
@@ -49,7 +53,6 @@ class Fill:
 
         data.target_all_nan = clf.predict(data.features_all_nan)
 
-
     def fill_numerical(self, data, col):
         # Wydzielenie zbiorów uczących i testowych
         print("Wypełniana kolumna: ", col)
@@ -69,7 +72,6 @@ class Fill:
         print("Accuracy test {:.3f}".format(model.score(x_test, y_test)))
         data.target_all_nan = model.predict(data.features_all_nan[:, 1:])
 
-
     # Główna funkcja, wywoływana z głównego pliku
     def fill_nan(self, data):
         match data.algorithm:
@@ -79,13 +81,21 @@ class Fill:
                         type, col = self.check_datatype(data)
                         match type:
                             case "num":
-                                mgr_data.PrepareData.prepare_numerical(data, col)
+                                mgr_data.PrepareData.prepare_numerical(
+                                    data, col
+                                )
                                 self.fill_numerical(data, col)
-                                mgr_data.PrepareData.revert_numerical(data, col)
+                                mgr_data.PrepareData.revert_numerical(
+                                    data, col
+                                )
                             case "cat":
-                                mgr_data.PrepareData.prepare_categorical(data, col)
+                                mgr_data.PrepareData.prepare_categorical(
+                                    data, col
+                                )
                                 self.fill_categorical(data, col)
-                                mgr_data.PrepareData.revert_categorical(data, col)
+                                mgr_data.PrepareData.revert_categorical(
+                                    data, col
+                                )
                     else:
                         data.df = data.df[data.columns]
                         data.df.sort_values("keep_id", inplace=True)
@@ -93,8 +103,8 @@ class Fill:
                         data.df.to_csv("filled_" + data.file[2:], index=False)
                         exit()
             case "Downward Imputation":
-                msgbox("Algorytm niezaimplementowany", "NaN Filler")
-                exit()
+                di = mgr_di.DownImpu()
+                di.Prepare(data)
 
 
 fill = Fill()
