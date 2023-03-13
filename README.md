@@ -1,4 +1,5 @@
 # Praca magisterska - Implementacja wybranych algorytmów wypełniania brakujących wartości, dla strumieni dużych zbiorów danych
+
 ## Autor
 
 Krzysztof Lang
@@ -12,7 +13,6 @@ W przypadku brakujących wartości w danych (potocznie: NULL), niektóre analizy
 
 Wg aktualnych założeń, program ma wypełniać puste wartości w zbiorze danych, niezależnie od typu danych i ilości kolumn w których występują. Stosowany algorytm opiera się na rozwiązywaniu problemów decyzyjnych.
 
-Wykorzystywany jest Python 3.10.5.
+Wykorzystywany jest Python 3.10.10.
 
 Główny plik realizujący założenia projektu to *MGR_main.py*, wraz z modułem *MGR_learn_fill*. Dodatkowo *NaN_gen.py* służy do przygotowywania plików z danymi usuwając losowo wartości.
-

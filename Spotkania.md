@@ -18,3 +18,4 @@
 
 - journal log / db-journal
 - Int64 przy konwersji - apply, słownik
+  

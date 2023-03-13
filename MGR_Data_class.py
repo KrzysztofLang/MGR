@@ -1,11 +1,10 @@
-from cmath import nan
 from easygui import *
 import numpy as np
 import pandas as pd
 import glob
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
-from sympy import false, true
 from MGR_TempFill_class import TempFiller
+from MGR_learn_fill import fill_nan
 
 default = "test_num.csv"
 
@@ -14,7 +13,6 @@ class Data:
     """Załadowanie danych do wypełniania"""
 
     def __init__(self) -> None:
-
         # Przygotowanie encoderów
         self.enc_label_features_all = OrdinalEncoder(
             handle_unknown="use_encoded_value", unknown_value=np.nan
@@ -50,7 +48,6 @@ class Data:
         self.cols_with_int = self.df.columns[
             self.df.dtypes == "int64"
         ].tolist()
-        print(self.cols_with_int)
 
         # Utworzenie listy kolumn do wypełnienia,
         # posortowana od najmniejszej do największej ilości NaN
@@ -64,17 +61,26 @@ class Data:
             ).keys()
         )
 
-        print(self.df.info())
-
     # Wybranie i wczytanie pliku do pracy
     def choose_file(self):
-
         choices = ["Stary", "Nowy"]
-        self.algorithm = choicebox("Wybierz algorytm do zastosowania:", "NaN Filler", choices)
+        self.algorithm = choicebox(
+            " _   _       _   _   ______ _ _ _\n"
+            + "| \\ | |     | \\ | | |  ____(_) | |\n"
+            + "|  \\| | __ _|  \\| | | |__   _| | | ___ _ __\n"
+            + "| . ` |/ _` | . ` | |  __| | | | |/ _ \\ '__|\n"
+            + "| |\\  | (_| | |\\  | | |    | | | |  __/ |\n"
+            + "|_| \\_|\\__,_|_| \\_| |_|    |_|_|_|\\___|_|\n"
+            + "Wybierz algorytm do zastosowania:",
+            "NaN Filler",
+            choices,
+        )
 
-        files = glob.glob('./*.csv')
+        files = glob.glob("./*.csv")
 
-        self.file = choicebox("Wybierz plik do wypełnienia:", "NaN Filler", files)
+        self.file = choicebox(
+            "Wybierz plik do wypełnienia:", "NaN Filler", files
+        )
 
         self.df = pd.read_csv(self.file)
 
@@ -91,8 +97,6 @@ class PrepareOld:
 
     @staticmethod
     def prepare_categorical(data, col):
-
-        print(data.df)
         # Lista nazw kolumn z danymi uczącymi
         data.column_names = list(data.df)
         data.column_names.remove(col)
@@ -144,9 +148,6 @@ class PrepareOld:
     # wybrana kolumna zawiera dane liczbowe
     @staticmethod
     def prepare_numerical(data, col):
-
-        print(data.df)
-        
         # Rozdzielenie danych na tabele bez i z NAN w kolumnie do wypełnienia
         full_rows = data.df[~data.df[col].isna()]
         full_rows.reset_index(drop=True, inplace=True)
@@ -185,7 +186,9 @@ class PrepareOld:
         ].tolist()
 
         # Lista nazw kolumn z danymi uczącymi
-        data.column_names = data.features_numbers_names + data.features_objects_names
+        data.column_names = (
+            data.features_numbers_names + data.features_objects_names
+        )
         data.column_names.insert(len(data.column_names), col)
 
         features_objects = features[data.features_objects_names]
@@ -221,7 +224,6 @@ class PrepareOld:
     # Przywrócenie danym ich pierwotnej formy
     @staticmethod
     def revert_categorical(data, col):
-
         # Przywrócenie danym kategorycznym odpowiednich wartości
         data.features_no_nan = data.enc_label_features_no.inverse_transform(
             data.features_no_nan
@@ -294,7 +296,7 @@ class PrepareOld:
 
         data.features_all_nan = pd.DataFrame(data.features_all_nan)
         data.target_all_nan = pd.Series(data.target_all_nan, name="target")
-        
+
         if col in data.cols_with_int:
             for i in data.target_all_nan:
                 data.target_all_nan[i] = round(data.target_all_nan[i])
@@ -311,3 +313,6 @@ class PrepareOld:
         data.df = data.df.convert_dtypes(convert_string=False)
 
         data.df = data.temp_filler.revert_nan(data.df)
+
+
+fill_nan(Data())

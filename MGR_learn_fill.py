@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sympy import true
 from MGR_Data_class import PrepareOld
 import numpy as np
+from easygui import *
 
 
 def check_datatype(data):
@@ -67,7 +68,6 @@ def fill_numerical(data, col):
 
 # Główna funkcja, wywoływana z głównego pliku
 def fill_nan(data):
-    print("fill_nan start")
     match data.algorithm:
         case "Stary":
             while true:
@@ -84,11 +84,10 @@ def fill_nan(data):
                             PrepareOld.revert_categorical(data, col)
                 else:
                     data.df = data.df[data.columns]
-                    print(data.df.info())
                     data.df.sort_values("keep_id", inplace=True)
                     data.df.drop("keep_id", axis=1, inplace=True)
                     data.df.to_csv("filled_" + data.file[2:], index=False)
                     exit()
         case "Nowy":
-            print("Algorytm nie zaimplementowany")
+            msgbox("Algorytm niezaimplementowany", "NaN Filler")
             exit()
