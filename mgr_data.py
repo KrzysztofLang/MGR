@@ -1,9 +1,11 @@
-from easygui import *
+import glob
+
 import numpy as np
 import pandas as pd
-import glob
+from easygui import *
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
-from mgr_temp_fill import TempFiller
+
+from mgr_temp_fill import TempFill
 
 
 default = "test_num.csv"
@@ -165,7 +167,7 @@ class PrepareData:
         target = data.df[col]
 
         # Tymczasowe wypełnienie NAN w danych uczących
-        data.temp_filler = TempFiller()
+        data.temp_filler = TempFill()
 
         for column in features.items():
             filled = data.temp_filler.temp_fill(column)

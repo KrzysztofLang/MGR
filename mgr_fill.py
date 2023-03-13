@@ -3,91 +3,98 @@ from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sympy import true
-from mgr_data import PrepareData
-import numpy as np
 from easygui import *
+import pandas as pd
+
+import mgr_data
+class Fill:
+
+    def __init__(self):
+        self.fill_nan(mgr_data.Data())
+
+    def check_datatype(self, data):
+        # Wybranie kolumny do wypełnienia
+        col = data.cols_to_fill[0]
+
+        # Sprawdzenie typu danych
+        if data.df[col].dtypes == "object" or data.df[col].dtypes == "category":
+            type = "cat"
+        else:
+            type = "num"
+
+        return type, col
 
 
-def check_datatype(data):
-    # Wybranie kolumny do wypełnienia
-    col = data.cols_to_fill[0]
+    def fill_categorical(self, data, col):
+        print("Wypełniana kolumna: ", col)
+        # Wydzielenie zbiorów uczących i testowych
+        x_train, x_test, y_train, y_test = train_test_split(
+            data.features_no_nan,
+            data.target_no_nan,
+            test_size=0.3,
+            random_state=109,
+        )
 
-    # Sprawdzenie typu danych
-    if data.df[col].dtypes == "object" or data.df[col].dtypes == "category":
-        type = "cat"
-    else:
-        type = "num"
+        # Nauka modelu
+        clf = HistGradientBoostingClassifier(
+            max_iter=100, categorical_features=data.cat_arr
+        ).fit(x_train, y_train)
 
-    return type, col
+        # Test skuteczności modelu
+        y_pred = clf.predict(x_test)
+        print(
+            "Skuteczność nauczania wypełniania: ",
+            metrics.accuracy_score(y_test, y_pred),
+        )
 
-
-def fill_categorical(data, col):
-    print("Wypełniana kolumna: ", col)
-    # Wydzielenie zbiorów uczących i testowych
-    x_train, x_test, y_train, y_test = train_test_split(
-        data.features_no_nan,
-        data.target_no_nan,
-        test_size=0.3,
-        random_state=109,
-    )
-
-    # Nauka modelu
-    clf = HistGradientBoostingClassifier(
-        max_iter=100, categorical_features=data.cat_arr
-    ).fit(x_train, y_train)
-
-    # Test skuteczności modelu
-    y_pred = clf.predict(x_test)
-    print(
-        "Skuteczność nauczania wypełniania: ",
-        metrics.accuracy_score(y_test, y_pred),
-    )
-
-    data.target_all_nan = clf.predict(data.features_all_nan)
+        data.target_all_nan = clf.predict(data.features_all_nan)
 
 
-def fill_numerical(data, col):
-    # Wydzielenie zbiorów uczących i testowych
-    print("Wypełniana kolumna: ", col)
-    x_train, x_test, y_train, y_test = train_test_split(
-        data.features_no_nan[:, 1:],
-        data.target_no_nan,
-        test_size=0.3,
-        random_state=0,
-    )
+    def fill_numerical(self, data, col):
+        # Wydzielenie zbiorów uczących i testowych
+        print("Wypełniana kolumna: ", col)
+        x_train, x_test, y_train, y_test = train_test_split(
+            data.features_no_nan[:, 1:],
+            data.target_no_nan,
+            test_size=0.3,
+            random_state=0,
+        )
 
-    # Nauka modelu
-    model = LinearRegression()
-    model.fit(x_train, y_train)
+        # Nauka modelu
+        model = LinearRegression()
+        model.fit(x_train, y_train)
 
-    # Test skuteczności modelu
-    print("Accuracy train {:.3f}".format(model.score(x_train, y_train)))
-    print("Accuracy test {:.3f}".format(model.score(x_test, y_test)))
-    data.target_all_nan = model.predict(data.features_all_nan[:, 1:])
+        # Test skuteczności modelu
+        print("Accuracy train {:.3f}".format(model.score(x_train, y_train)))
+        print("Accuracy test {:.3f}".format(model.score(x_test, y_test)))
+        data.target_all_nan = model.predict(data.features_all_nan[:, 1:])
 
 
-# Główna funkcja, wywoływana z głównego pliku
-def fill_nan(data):
-    match data.algorithm:
-        case "Simple":
-            while true:
-                if data.cols_to_fill:
-                    type, col = check_datatype(data)
-                    match type:
-                        case "num":
-                            PrepareData.prepare_numerical(data, col)
-                            fill_numerical(data, col)
-                            PrepareData.revert_numerical(data, col)
-                        case "cat":
-                            PrepareData.prepare_categorical(data, col)
-                            fill_categorical(data, col)
-                            PrepareData.revert_categorical(data, col)
-                else:
-                    data.df = data.df[data.columns]
-                    data.df.sort_values("keep_id", inplace=True)
-                    data.df.drop("keep_id", axis=1, inplace=True)
-                    data.df.to_csv("filled_" + data.file[2:], index=False)
-                    exit()
-        case "Downward Imputation":
-            msgbox("Algorytm niezaimplementowany", "NaN Filler")
-            exit()
+    # Główna funkcja, wywoływana z głównego pliku
+    def fill_nan(self, data):
+        match data.algorithm:
+            case "Simple":
+                while true:
+                    if data.cols_to_fill:
+                        type, col = self.check_datatype(data)
+                        match type:
+                            case "num":
+                                mgr_data.PrepareData.prepare_numerical(data, col)
+                                self.fill_numerical(data, col)
+                                mgr_data.PrepareData.revert_numerical(data, col)
+                            case "cat":
+                                mgr_data.PrepareData.prepare_categorical(data, col)
+                                self.fill_categorical(data, col)
+                                mgr_data.PrepareData.revert_categorical(data, col)
+                    else:
+                        data.df = data.df[data.columns]
+                        data.df.sort_values("keep_id", inplace=True)
+                        data.df.drop("keep_id", axis=1, inplace=True)
+                        data.df.to_csv("filled_" + data.file[2:], index=False)
+                        exit()
+            case "Downward Imputation":
+                msgbox("Algorytm niezaimplementowany", "NaN Filler")
+                exit()
+
+
+fill = Fill()

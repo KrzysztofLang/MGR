@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-class TempFiller:
+class TempFill:
     def __init__(self) -> None:
         self.journal = pd.DataFrame(columns=["row", "column"])
 
