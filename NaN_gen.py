@@ -6,7 +6,6 @@ from random import sample
 
 # Funkcje wyboru
 def wybory():
-
     df = wybor_pliku()
     col = wybor_kolumny(df)
     nan_rate = wybor_procentow()
@@ -87,7 +86,6 @@ def usuwanie_wartosci(df, col, nan_rate):
 
 
 def napis():
-
     print(" _   _       _   _   __  __       _")
     print("| \ | |     | \ | | |  \/  |     | |")
     print("|  \| | __ _|  \| | | \  / | __ _| | _____ _ __")

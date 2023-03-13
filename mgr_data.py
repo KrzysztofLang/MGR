@@ -63,14 +63,14 @@ class Data:
 
     # Wybranie i wczytanie pliku do pracy
     def choose_file(self):
-        choices = ["Stary", "Nowy"]
+        choices = ["Simple", "Downward Imputation"]
         self.algorithm = choicebox(
             " _   _       _   _   ______ _ _ _\n"
             + "| \\ | |     | \\ | | |  ____(_) | |\n"
             + "|  \\| | __ _|  \\| | | |__   _| | | ___ _ __\n"
             + "| . ` |/ _` | . ` | |  __| | | | |/ _ \\ '__|\n"
             + "| |\\  | (_| | |\\  | | |    | | | |  __/ |\n"
-            + "|_| \\_|\\__,_|_| \\_| |_|    |_|_|_|\\___|_|\n"
+            + "|_| \\_|\\__,_|_| \\_| |_|    |_|_|_|\\___|_|\n\n"
             + "Wybierz algorytm do zastosowania:",
             "NaN Filler",
             choices,
@@ -85,12 +85,7 @@ class Data:
         self.df = pd.read_csv(self.file)
 
 
-class PrepareNew:
-    def SumThing():
-        exit()
-
-
-class PrepareOld:
+class PrepareData:
     """Przygotowanie danych do dalszej pracy w wypadku gdy
     wybrana kolumna zawiera dane kategoryczne
     """

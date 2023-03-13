@@ -3,7 +3,7 @@ from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sympy import true
-from mgr_data import PrepareOld
+from mgr_data import PrepareData
 import numpy as np
 from easygui import *
 
@@ -30,7 +30,7 @@ def fill_categorical(data, col):
         test_size=0.3,
         random_state=109,
     )
-    np.savetxt("x_train.csv", x_train, delimiter=",")
+
     # Nauka modelu
     clf = HistGradientBoostingClassifier(
         max_iter=100, categorical_features=data.cat_arr
@@ -69,25 +69,25 @@ def fill_numerical(data, col):
 # Główna funkcja, wywoływana z głównego pliku
 def fill_nan(data):
     match data.algorithm:
-        case "Stary":
+        case "Simple":
             while true:
                 if data.cols_to_fill:
                     type, col = check_datatype(data)
                     match type:
                         case "num":
-                            PrepareOld.prepare_numerical(data, col)
+                            PrepareData.prepare_numerical(data, col)
                             fill_numerical(data, col)
-                            PrepareOld.revert_numerical(data, col)
+                            PrepareData.revert_numerical(data, col)
                         case "cat":
-                            PrepareOld.prepare_categorical(data, col)
+                            PrepareData.prepare_categorical(data, col)
                             fill_categorical(data, col)
-                            PrepareOld.revert_categorical(data, col)
+                            PrepareData.revert_categorical(data, col)
                 else:
                     data.df = data.df[data.columns]
                     data.df.sort_values("keep_id", inplace=True)
                     data.df.drop("keep_id", axis=1, inplace=True)
                     data.df.to_csv("filled_" + data.file[2:], index=False)
                     exit()
-        case "Nowy":
+        case "Downward Imputation":
             msgbox("Algorytm niezaimplementowany", "NaN Filler")
             exit()

@@ -4,3 +4,4 @@ venv*/
 filled*
 __pycache__
 chatGPT.*
+black.py
