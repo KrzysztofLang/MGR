@@ -2,9 +2,7 @@ from sklearn import metrics
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
-from sympy import true
 from easygui import *
-import pandas as pd
 
 import mgr_data
 import mgr_di
@@ -76,7 +74,7 @@ class Fill:
     def fill_nan(self, data):
         match data.algorithm:
             case "Simple":
-                while true:
+                while True:
                     if data.cols_to_fill:
                         type, col = self.check_datatype(data)
                         match type:
