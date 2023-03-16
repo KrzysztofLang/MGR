@@ -35,9 +35,6 @@ class Data:
         # Wybranie pliku do wypełniania
         self.choose_file()
 
-        # Dodanie kolumny przechowującej oryginalne ID rekordów
-        self.df.insert(0, "keep_id", self.df.index.tolist())
-
         # Lista wszystkichh kolumn
         self.columns = list(self.df)
 
@@ -65,7 +62,7 @@ class Data:
 
     # Wybranie i wczytanie pliku do pracy
     def choose_file(self):
-        choices = ["Simple", "Downward Imputation"]
+        choices = ["Simple", "Downward Imputation", "Simplified DI"]
         self.algorithm = choicebox(
             " _   _       _   _   ______ _ _ _\n"
             + "| \\ | |     | \\ | | |  ____(_) | |\n"
@@ -81,7 +78,11 @@ class Data:
         files = glob.glob("./*.csv")
 
         self.file = choicebox(
-            "Wybierz plik do wypełnienia:", "NaN Filler", files
+            "Wybrano algorytm "
+            + self.algorithm
+            + ". Wybierz plik do wypełnienia:",
+            "NaN Filler",
+            files,
         )
 
         self.df = pd.read_csv(self.file)
@@ -94,6 +95,9 @@ class PrepareData:
 
     @staticmethod
     def prepare_categorical(data, col):
+        # Dodanie kolumny przechowującej oryginalne ID rekordów
+        data.df.insert(0, "keep_id", data.df.index.tolist())
+
         # Lista nazw kolumn z danymi uczącymi
         data.column_names = list(data.df)
         data.column_names.remove(col)
@@ -145,6 +149,9 @@ class PrepareData:
     # wybrana kolumna zawiera dane liczbowe
     @staticmethod
     def prepare_numerical(data, col):
+        # Dodanie kolumny przechowującej oryginalne ID rekordów
+        data.df.insert(0, "keep_id", data.df.index.tolist())
+
         # Rozdzielenie danych na tabele bez i z NAN w kolumnie do wypełnienia
         full_rows = data.df[~data.df[col].isna()]
         full_rows.reset_index(drop=True, inplace=True)
@@ -251,6 +258,11 @@ class PrepareData:
         # Przywrócenie kolumnom właściwych typów
         data.df = data.df.convert_dtypes(convert_string=False)
 
+        # Przywrócenie oryginalnej kolejności rekordów
+        data.df.sort_values("keep_id", inplace=True)
+        data.df.reset_index(drop=True, inplace=True)
+        data.df.drop("keep_id", axis=1, inplace=True)
+
     @staticmethod
     def revert_numerical(data, col):
         # Przywrócenie danym kategorycznym odpowiednich wartości
@@ -310,3 +322,8 @@ class PrepareData:
         data.df = data.df.convert_dtypes(convert_string=False)
 
         data.df = data.temp_filler.revert_nan(data.df)
+
+        # Przywrócenie oryginalnej kolejności rekordów
+        data.df.sort_values("keep_id", inplace=True)
+        data.df.reset_index(drop=True, inplace=True)
+        data.df.drop("keep_id", axis=1, inplace=True)

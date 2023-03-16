@@ -73,8 +73,6 @@ class Fill:
     @staticmethod
     def save(data):
         data.df = data.df[data.columns]
-        data.df.sort_values("keep_id", inplace=True)
-        data.df.drop("keep_id", axis=1, inplace=True)
         data.df.to_csv("filled_" + data.file[2:], index=False)
         exit()
 
@@ -107,6 +105,34 @@ class Fill:
             case "Downward Imputation":
                 di = mgr_di.DownImpu()
                 di.prime(data)
+                while True:
+                    if data.cols_to_fill:
+                        type, col = self.check_datatype(data)
+                        match type:
+                            case "num":
+                                di.prepare(col, data)
+                                mgr_data.PrepareData.prepare_numerical(
+                                    data, col
+                                )
+                                self.fill_numerical(data, col)
+                                mgr_data.PrepareData.revert_numerical(
+                                    data, col
+                                )
+                                data.df = di.temp_df.join(data.df)
+                            case "cat":
+                                di.prepare(col, data)
+                                mgr_data.PrepareData.prepare_categorical(
+                                    data, col
+                                )
+                                self.fill_categorical(data, col)
+                                mgr_data.PrepareData.revert_categorical(
+                                    data, col
+                                )
+                                data.df = di.temp_df.join(data.df)
+                    else:
+                        self.save(data)
+            case "Simplified DI":
+                di = mgr_di.DownImpu()
                 while True:
                     if data.cols_to_fill:
                         type, col = self.check_datatype(data)

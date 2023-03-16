@@ -53,8 +53,6 @@ class DownImpu:
             self.cols_list[most_common] = most_com_nans
             last = self.cols_count_nan.pop(most_common)
 
-        print("Lista kolumn:\n", self.cols_list)
-
         # Standardowe wypełnienie kolumn z najmniejszą ilością NaN
         while True:
             col = list(self.cols_list.keys())[-1]
@@ -81,6 +79,4 @@ class DownImpu:
         # Utworzenie DF z kolumnami nie biorącymi udziału w nauce
         self.temp_df = data.df[data.cols_to_fill]
         self.temp_df = self.temp_df.drop(col, axis=1)
-        print(self.temp_df)
         data.df = data.df.drop(self.temp_df.columns, axis=1)
-        print(data.df)
