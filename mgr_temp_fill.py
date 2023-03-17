@@ -14,8 +14,11 @@ class TempFill:
             filler = data[1].mode()
             filler = filler[0]
             data[1].fillna(filler, inplace=True)
-        else:
+        elif data[1].dtype == "float64":
             filler = data[1].mean()
+            data[1].fillna(filler, inplace=True)
+        else:
+            filler = round(data[1].mean())
             data[1].fillna(filler, inplace=True)
 
         return data[1]

@@ -1,103 +1,55 @@
+import glob
+import random
+
 import numpy as np
 import pandas as pd
-from sympy import true
 from random import sample
+from easygui import *
 
 
-# Funkcje wyboru
-def wybory():
-    df = wybor_pliku()
-    col = wybor_kolumny(df)
-    nan_rate = wybor_procentow()
+def choices():
+    # Wybranie i wczytanie pliku do pracy
+    files = glob.glob("./*.csv")
 
-    return df, col, nan_rate
+    file = choicebox(
+        " _   _       _   _    _____\n"
+        + "| \ | |     | \ | |  / ____|\n"
+        + "|  \| | __ _|  \| | | |  __  ___ _ __\n"
+        + "| . ` |/ _` | . ` | | | |_ |/ _ \ '_ \\\n"
+        + "| |\  | (_| | |\  | | |__| |  __/ | | |\n"
+        + "|_| \_|\__,_|_| \_|  \_____|\___|_| |_|\n\n"
+        + "Wybierz plik do dziurawienia:",
+        "NaN Generator",
+        files,
+    )
 
+    df = pd.read_csv(file)
 
-# Wybranie i wczytanie pliku do pracy
-def wybor_pliku():
-    while true:
-        file = input(
-            "Wpisz nazwę pliku lub wciśnij Enter aby wybrać domyślny: "
-        )
-        if not file:
-            print("Wybrano domyślny plik adult.csv\n")
-            df = pd.read_csv("adult.csv")
-            break
-        elif file == "koniec":
-            exit()
-        else:
-            try:
-                df = pd.read_csv(file)
-                print("Wybrano plik " + file + "\n")
-                break
-            except:
-                print("Wpisano niepoprawną nazwę pliku, proszę upewnić się")
-                print("czy plik znajduje się w folderze programu.\n")
+    # Wybranie kolumny do dziurawienia
+    all_cols = df.columns.to_list()
 
-    return df
+    cols = multchoicebox(
+        "Wybierz kolumny do dziurawienia:", "NaN Generator", all_cols
+    )
+
+    return df, cols, file
 
 
-# Wybranie kolumny do dziurawienia
-def wybor_kolumny(df):
-    cols = df.columns.to_list()
-    print("Dostępne kolumny:")
-    print(cols)
-    while true:
-        col = input("Wpisz etykietę kolumny do usunięcia wartości: ")
-        if col in cols:
-            print("Wybrano kolumnę " + col + "\n")
-            break
-        elif col == "koniec":
-            exit()
-        else:
-            print("Nie ma takiej kolumny!\n")
-
-    return col
-
-
-# Wybranie ile % pustych wartości ma zostać stworzone
-def wybor_procentow():
-    while true:
-        nan_rate = input("Ile % wartości ma być usuniętych?: ")
-        if nan_rate == "koniec":
-            exit()
-        else:
-            try:
-                nan_rate = float(nan_rate)
-                break
-            except ValueError:
-                print("Błąd wartości: proszę podać liczbę rzeczywistą,")
-                print("z kropką jako separator.\n")
-
-    return nan_rate
-
-
-# Usuwanie wybranej ilości wartości z wskazanej kolumny i zapisanie
+# Usuwanie wybranej ilości wartości z wskazanych kolumn i zapisanie
 # jako nowy plik
-def usuwanie_wartosci(df, col, nan_rate):
-    ind = len(df.index)
-    num_to_rem = int(nan_rate * 0.01 * ind)
-    ind_to_rem = sample(range(ind), num_to_rem)
-    ind_to_rem.sort()
-    for i in ind_to_rem:
-        df.loc[i, col] = np.nan
-    df.to_csv("test.csv", index=False)
+def generate_nan(df, cols, file):
+    for col in cols:
+        ind = len(df.index)
+        num_to_rem = int(random.randrange(5, 15) * 0.01 * ind)
+        ind_to_rem = sample(range(ind), num_to_rem)
+        ind_to_rem.sort()
+        for i in ind_to_rem:
+            df.loc[i, col] = np.nan
+        df.to_csv("holes_" + file[2:], index=False)
+
     print(df.info())
 
 
-def napis():
-    print(" _   _       _   _   __  __       _")
-    print("| \ | |     | \ | | |  \/  |     | |")
-    print("|  \| | __ _|  \| | | \  / | __ _| | _____ _ __")
-    print("| . ` |/ _` | . ` | | |\/| |/ _` | |/ / _ \ '__|")
-    print("| |\  | (_| | |\  | | |  | | (_| |   <  __/ |")
-    print("|_| \_|\__,_|_| \_| |_|  |_|\__,_|_|\_\___|_|")
-    print('Aby wyjść z programu, wpisz "koniec".\n')
+df, cols, file = choices()
 
-
-napis()
-
-df, col, nan_rate = wybory()
-
-
-usuwanie_wartosci(df, col, nan_rate)
+generate_nan(df, cols, file)

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.16)  19 DEC 2022 20:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.16)  17 MAR 2023 19:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -481,22 +481,22 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 
 ]
 
-LaTeX Warning: Empty `thebibliography' environment on input line 93.
+LaTeX Warning: Empty `thebibliography' environment on input line 92.
 
 [11
 
 ]
-Overfull \hbox (14.2264pt too wide) in paragraph at lines 97--97
+Overfull \hbox (14.2264pt too wide) in paragraph at lines 96--96
 [][]| 
  []
 
 
-Overfull \hbox (14.2264pt too wide) in paragraph at lines 97--97
+Overfull \hbox (14.2264pt too wide) in paragraph at lines 96--96
 [][]| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 97--97
+Underfull \hbox (badness 10000) in paragraph at lines 96--96
 [][]
  []
 
@@ -505,15 +505,15 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [12] (./Mag.aux) ) 
 Here is how much of TeX's memory you used:
- 7340 strings out of 474968
- 115025 string characters out of 5780080
- 488888 words of memory out of 5000000
- 28729 multiletter control sequences out of 15000+600000
+ 7343 strings out of 474968
+ 115087 string characters out of 5780080
+ 489888 words of memory out of 5000000
+ 28732 multiletter control sequences out of 15000+600000
  511551 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  70i,13n,76p,357b,355s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr17.pfb>
-Output written on Mag.pdf (12 pages, 775555 bytes).
+Output written on Mag.pdf (12 pages, 776791 bytes).
 PDF statistics:
  70 PDF objects out of 1000 (max. 8388607)
  44 compressed objects within 1 object stream
