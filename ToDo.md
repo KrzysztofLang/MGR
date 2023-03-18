@@ -1,4 +1,8 @@
-# Plan działania
+# To Do
+
+## Różne
+
+- [ ] Uzupełnić "README"
 
 ## Testy
 

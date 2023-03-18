@@ -1,8 +1,10 @@
 import glob
 import random
+import io
 
 import numpy as np
 import pandas as pd
+import os.path
 from random import sample
 from easygui import *
 
@@ -23,7 +25,10 @@ def choices():
         files,
     )
 
-    df = pd.read_csv(file)
+    if file:
+        df = pd.read_csv(file)
+    else:
+        exit()
 
     # Wybranie kolumny do dziurawienia
     all_cols = df.columns.to_list()
@@ -32,12 +37,19 @@ def choices():
         "Wybierz kolumny do dziurawienia:", "NaN Generator", all_cols
     )
 
+    if cols:
+        pass
+    else:
+        exit()
+
     return df, cols, file
 
 
-# Usuwanie wybranej ilości wartości z wskazanych kolumn i zapisanie
+# Usuwanie wartości z wskazanych kolumn i zapisanie
 # jako nowy plik
 def generate_nan(df, cols, file):
+    journal = pd.DataFrame(columns=["row", "column"])
+
     for col in cols:
         ind = len(df.index)
         num_to_rem = int(random.randrange(5, 15) * 0.01 * ind)
@@ -45,9 +57,33 @@ def generate_nan(df, cols, file):
         ind_to_rem.sort()
         for i in ind_to_rem:
             df.loc[i, col] = np.nan
-        df.to_csv("holes_" + file[2:], index=False)
+            journal.loc[len(journal)] = [i, col]
 
-    print(df.info())
+    # Zapisanie do pliku z nową nazwą
+    i = 1
+    while True:
+        name = file[2 : len(file) - 4] + "_holes_" + str(i) + ".csv"
+        if i > 9:
+            msgbox("Za dużo plików!", "NaN Generator")
+            exit()
+        elif os.path.isfile(name):
+            i += 1
+        else:
+            break
+    df.to_csv(name, index=False)
+    journal.to_csv(name[: len(name) - 4] + "_journal.csv", index=False)
+
+    # Wyświetlenie okna z informacjami o utworzonym pliku
+    buffer = io.StringIO()
+    df.info(buf=buffer)
+    info = buffer.getvalue()
+    codebox(
+        "Zapisano do pliku "
+        + name
+        + ".\nInformacje o danych po dziurawieniu:",
+        "NaN Generator",
+        info,
+    )
 
 
 df, cols, file = choices()

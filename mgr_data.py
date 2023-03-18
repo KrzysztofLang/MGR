@@ -75,15 +75,34 @@ class Data:
             choices,
         )
 
-        files = glob.glob("./*.csv")
+        if self.algorithm:
+            pass
+        else:
+            exit()
 
-        self.file = choicebox(
-            "Wybrano algorytm "
-            + self.algorithm
-            + ". Wybierz plik do wypełnienia:",
-            "NaN Filler",
-            files,
-        )
+        files = glob.glob("./*_holes_*.csv")
+
+        if len(files) == 0:
+            msgbox("Nie znaleziono plików do wypełnienia.", "NaN Filler")
+            exit()
+        elif len(files) == 1:
+            if ccbox("Znaleziono tylko 1 plik: " + files[0], "NaN Filler"):
+                self.file = files[0]
+            else:
+                exit()
+        else:
+            self.file = choicebox(
+                "Wybrano algorytm "
+                + self.algorithm
+                + ". Wybierz plik do wypełnienia:",
+                "NaN Filler",
+                files,
+            )
+
+        if self.file:
+            pass
+        else:
+            exit()
 
         self.df = pd.read_csv(self.file)
 
