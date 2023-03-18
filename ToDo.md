@@ -2,7 +2,7 @@
 
 ## Różne
 
-- [ ] Uzupełnić "README"
+- [x] Uzupełnić "README"
 
 ## Testy
 
@@ -11,7 +11,7 @@
   - [x] GUI
   - [x] Dziurowanie wielu kolumn jednocześnie
   - [x] Losowy poziom dziurowania dla każdej kolumny
-  - [ ] Przygotować dane pod porównania z wypełnionym
+  - [x] Przygotować dane pod porównania z wypełnionym
 - [ ] Przeprowadzić testy
   - [ ] Skuteczność wypełniania 0/1
   - [ ] Skuteczność wypełniania ABS(old-new)

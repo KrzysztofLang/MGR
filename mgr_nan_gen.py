@@ -17,8 +17,8 @@ class NanGen:
     @staticmethod
     def choices():
         # Wybranie i wczytanie pliku do pracy
-        files_temp = glob.glob("./*.csv")
-        files = [x for x in files_temp if "holes" not in x]
+        files = glob.glob("./*.csv")
+        files = [x for x in files if "holes" not in x]
 
         file = choicebox(
             " _   _       _   _    _____\n"
@@ -86,7 +86,7 @@ class NanGen:
         df.info(buf=buffer)
         info = buffer.getvalue()
         if codebox(
-            "Zapisano do pliku "
+            "Wynik zostanie zapisany do pliku "
             + name
             + ".\nInformacje o danych po dziurawieniu:",
             "NaN Generator",

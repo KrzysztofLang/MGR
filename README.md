@@ -13,3 +13,4 @@ W przypadku brakujących wartości w danych (potocznie: NULL), niektóre analizy
 
 Wg aktualnych założeń, program ma wypełniać puste wartości w zbiorze danych, niezależnie od typu danych i ilości kolumn w których występują.
 Do wypełnienia pustych miejsc można wykorzystać jeden z 3 algorytmów.
+Program zawiera też moduły pozwalające na sztuczne przygotowanie zbioru danych z brakujacymi wartościami oraz oceniający dokładność wypełniania
