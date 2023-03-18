@@ -70,20 +70,25 @@ def generate_nan(df, cols, file):
             i += 1
         else:
             break
-    df.to_csv(name, index=False)
-    journal.to_csv(name[: len(name) - 4] + "_journal.csv", index=False)
+
+    # Przywrócenie kolumnom właściwych typów
+    df = df.convert_dtypes(convert_string=False)
 
     # Wyświetlenie okna z informacjami o utworzonym pliku
     buffer = io.StringIO()
     df.info(buf=buffer)
     info = buffer.getvalue()
-    codebox(
+    if codebox(
         "Zapisano do pliku "
         + name
         + ".\nInformacje o danych po dziurawieniu:",
         "NaN Generator",
         info,
-    )
+    ):
+        df.to_csv(name, index=False)
+        journal.to_csv(name[: len(name) - 4] + "_journal.csv", index=False)
+    else:
+        exit()
 
 
 df, cols, file = choices()

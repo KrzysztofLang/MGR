@@ -38,6 +38,8 @@ class Data:
         # Lista wszystkichh kolumn
         self.columns = list(self.df)
 
+        self.df = self.df.convert_dtypes(convert_string=False)
+
         # Lista kolumn z damnymi kategorycznymi
         self.cols_with_objects = self.df.columns[
             self.df.dtypes == "object"
@@ -45,7 +47,7 @@ class Data:
 
         # Lista kolumn z damnymi typu int
         self.cols_with_int = self.df.columns[
-            self.df.dtypes == "int64"
+            self.df.dtypes == "Int64"
         ].tolist()
 
         # Utworzenie listy kolumn do wypełnienia,
@@ -133,6 +135,8 @@ class PrepareData:
         data.features_no_nan = df_no_nan.drop(col, axis=1)
         data.target_no_nan = df_no_nan[col]
 
+        data.features_column_names = list(data.features_all_nan)
+
         # Utworzenie listy z ID kolumn zawierających dane kategoryczne
         data.cat_arr = []
 
@@ -141,6 +145,18 @@ class PrepareData:
                 data.cat_arr.append(
                     data.features_all_nan.columns.get_loc(cols)
                 )
+
+        # Tymczasowe wypełnienie NAN w danych uczących
+        data.temp_filler_cat_all = TempFill()
+        data.temp_filler_cat_no = TempFill()
+
+        for column in data.features_all_nan.items():
+            filled = data.temp_filler_cat_all.temp_fill(column)
+            data.features_all_nan[column[0]] = filled
+
+        for column in data.features_no_nan.items():
+            filled = data.temp_filler_cat_no.temp_fill(column)
+            data.features_no_nan[column[0]] = filled
 
         # Konwersja DF na numpy array
         data.features_all_nan = data.features_all_nan.to_numpy()
@@ -171,6 +187,8 @@ class PrepareData:
         # Dodanie kolumny przechowującej oryginalne ID rekordów
         data.df.insert(0, "keep_id", data.df.index.tolist())
 
+        data.type = data.df[col].dtypes
+
         # Rozdzielenie danych na tabele bez i z NAN w kolumnie do wypełnienia
         full_rows = data.df[~data.df[col].isna()]
         full_rows.reset_index(drop=True, inplace=True)
@@ -193,10 +211,10 @@ class PrepareData:
         target = data.df[col]
 
         # Tymczasowe wypełnienie NAN w danych uczących
-        data.temp_filler = TempFill()
+        data.temp_filler_num = TempFill()
 
         for column in features.items():
-            filled = data.temp_filler.temp_fill(column)
+            filled = data.temp_filler_num.temp_fill(column)
             features[column[0]] = filled
 
         # Przygotowanie do kodowania wyłącznie kolumn z danymi kategorycznymi
@@ -238,6 +256,8 @@ class PrepareData:
         data.features_all_nan = features[last_full_id + 1 :, :]
         data.features_no_nan = features[: last_full_id + 1, :]
 
+        data.temp_features_no_nan = pd.DataFrame(data.features_no_nan)
+
         data.target_all_nan = target[last_full_id + 1 :]
         data.target_no_nan = target[: last_full_id + 1]
 
@@ -266,6 +286,17 @@ class PrepareData:
         data.target_all_nan = pd.Series(data.target_all_nan, name="target")
         data.features_no_nan = pd.DataFrame(data.features_no_nan)
         data.target_no_nan = pd.Series(data.target_no_nan, name="target")
+
+        data.features_all_nan.columns = data.features_column_names
+        data.features_no_nan.columns = data.features_column_names
+
+        # Przywrócenie pustych miejsc
+        data.features_all_nan = data.temp_filler_cat_all.revert_nan(
+            data.features_all_nan
+        )
+        data.features_no_nan = data.temp_filler_cat_no.revert_nan(
+            data.features_no_nan
+        )
 
         data.df_all_nan = data.features_all_nan.join(data.target_all_nan)
         data.df_no_nan = data.features_no_nan.join(data.target_no_nan)
@@ -314,6 +345,7 @@ class PrepareData:
             (data.features_all_nan_numbers, data.features_all_nan_objects),
             axis=1,
         )
+
         data.features_no_nan = np.concatenate(
             (data.features_no_nan_numbers, data.features_no_nan_objects),
             axis=1,
@@ -326,7 +358,7 @@ class PrepareData:
         data.target_all_nan = pd.Series(data.target_all_nan, name="target")
 
         if col in data.cols_with_int:
-            for i in data.target_all_nan:
+            for i in range(len(data.target_all_nan)):
                 data.target_all_nan[i] = round(data.target_all_nan[i])
 
         # Łączenie tabel, przywracając oryginalną tabelę
@@ -340,7 +372,8 @@ class PrepareData:
         # Przywrócenie kolumnom właściwych typów
         data.df = data.df.convert_dtypes(convert_string=False)
 
-        data.df = data.temp_filler.revert_nan(data.df)
+        # Przywrócenie pustych miejsc
+        data.df = data.temp_filler_num.revert_nan(data.df)
 
         # Przywrócenie oryginalnej kolejności rekordów
         data.df.sort_values("keep_id", inplace=True)

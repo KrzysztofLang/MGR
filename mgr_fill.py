@@ -28,7 +28,6 @@ class Fill:
         return type, col
 
     def fill_categorical(self, data, col):
-        print("Wypełniana kolumna: ", col)
         # Wydzielenie zbiorów uczących i testowych
         x_train, x_test, y_train, y_test = train_test_split(
             data.features_no_nan,
@@ -44,16 +43,11 @@ class Fill:
 
         # Test skuteczności modelu
         y_pred = clf.predict(x_test)
-        print(
-            "Skuteczność nauczania wypełniania: ",
-            metrics.accuracy_score(y_test, y_pred),
-        )
 
         data.target_all_nan = clf.predict(data.features_all_nan)
 
     def fill_numerical(self, data, col):
         # Wydzielenie zbiorów uczących i testowych
-        print("Wypełniana kolumna: ", col)
         x_train, x_test, y_train, y_test = train_test_split(
             data.features_no_nan[:, 1:],
             data.target_no_nan,
@@ -65,15 +59,22 @@ class Fill:
         model = LinearRegression()
         model.fit(x_train, y_train)
 
-        # Test skuteczności modelu
-        print("Accuracy train {:.3f}".format(model.score(x_train, y_train)))
-        print("Accuracy test {:.3f}".format(model.score(x_test, y_test)))
         data.target_all_nan = model.predict(data.features_all_nan[:, 1:])
 
     @staticmethod
     def save(data):
         data.df = data.df[data.columns]
-        data.df.to_csv("filled_" + data.file[2:], index=False)
+        name = (
+            data.file[2 : len(data.file) - 4]
+            + "_"
+            + data.algorithm
+            + "_filled.csv"
+        )
+        data.df.to_csv(
+            name,
+            index=False,
+        )
+        msgbox("Zakończono wypełnianie.\nWynik zapisano do pliku " + name)
         exit()
 
     # Główna funkcja
