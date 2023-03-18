@@ -160,6 +160,3 @@ class Fill:
                                 data.df = di.temp_df.join(data.df)
                     else:
                         self.save(data)
-
-
-fill = Fill()

@@ -84,6 +84,13 @@ class Data:
 
         files = glob.glob("./*_holes_*.csv")
 
+        for file in files:
+            if "holes" in file:
+                if "journal" in file or "filled" in file:
+                    files.remove(file)
+            else:
+                files.remove(file)
+
         if len(files) == 0:
             msgbox("Nie znaleziono plików do wypełnienia.", "NaN Filler")
             exit()
