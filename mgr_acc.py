@@ -29,7 +29,7 @@ class AccuracyTester:
             self.journal = pd.read_csv(file.split("filled")[0] + "journal.csv")
         else:
             exit()
-        
+
         self.filled.info()
         self.original.info()
         self.journal.info()
