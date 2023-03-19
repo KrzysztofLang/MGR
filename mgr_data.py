@@ -64,47 +64,56 @@ class Data:
 
     # Wybranie i wczytanie pliku do pracy
     def choose_file(self):
-        choices = ["Simple", "Downward Imputation", "Simplified DI"]
-        self.algorithm = choicebox(
-            " _   _       _   _   ______ _ _ _\n"
-            + "| \\ | |     | \\ | | |  ____(_) | |\n"
-            + "|  \\| | __ _|  \\| | | |__   _| | | ___ _ __\n"
-            + "| . ` |/ _` | . ` | |  __| | | | |/ _ \\ '__|\n"
-            + "| |\\  | (_| | |\\  | | |    | | | |  __/ |\n"
-            + "|_| \\_|\\__,_|_| \\_| |_|    |_|_|_|\\___|_|\n\n"
-            + "Wybierz algorytm do zastosowania:",
-            "NaN Filler",
-            choices,
+        logo = (
+            "    _   __      _   __   _______ ____\n"
+            + "   / | / /___ _/ | / /  / ____(_) / /__  _____\n"
+            + "  /  |/ / __ `/  |/ /  / /_  / / / / _ \/ ___/\n"
+            + " / /|  / /_/ / /|  /  / __/ / / / /  __/ /\n"
+            + "/_/ |_/\__,_/_/ |_/  /_/   /_/_/_/\___/_/\n\n"
         )
-
-        if self.algorithm:
-            pass
-        else:
-            exit()
-
         files = glob.glob("./*.csv")
         files = [x for x in files if "holes" in x]
         files = [x for x in files if "journal" not in x]
         files = [x for x in files if "filled" not in x]
 
         if len(files) == 0:
-            msgbox("Nie znaleziono plików do wypełnienia.", "NaN Filler")
+            msgbox(
+                logo
+                + "Nie znaleziono odpowiednich plików.\n"
+                + "Upewnij się, że w folderze w którym uruchamiasz program"
+                + " znajdują się dostosowane pliki.",
+                "NaN Filler",
+            )
             exit()
         elif len(files) == 1:
-            if ccbox("Znaleziono tylko 1 plik: " + files[0], "NaN Filler"):
+            if ccbox(
+                logo + "Znaleziono tylko 1 plik: " + files[0], "NaN Filler"
+            ):
                 self.file = files[0]
             else:
                 exit()
         else:
             self.file = choicebox(
-                "Wybrano algorytm "
-                + self.algorithm
-                + ". Wybierz plik do wypełnienia:",
+                logo + "Wybierz plik do wypełnienia:",
                 "NaN Filler",
                 files,
             )
 
         if self.file:
+            pass
+        else:
+            exit()
+
+        choices = ["Simple", "Downward Imputation", "Simplified DI"]
+        self.algorithm = choicebox(
+            "Wybrano plik "
+            + self.file
+            + "\nWybierz algorytm do zastosowania:",
+            "NaN Filler",
+            choices,
+        )
+
+        if self.algorithm:
             pass
         else:
             exit()

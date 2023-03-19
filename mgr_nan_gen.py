@@ -16,21 +16,40 @@ class NanGen:
 
     @staticmethod
     def choices():
+        logo = (
+            "    _   __      _   __   ______\n"
+            + "   / | / /___ _/ | / /  / ____/__  ____\n"
+            + "  /  |/ / __ `/  |/ /  / / __/ _ \/ __ \\\n"
+            + " / /|  / /_/ / /|  /  / /_/ /  __/ / / /\n"
+            + "/_/ |_/\__,_/_/ |_/   \____/\___/_/ /_/\n\n"
+        )
+
         # Wybranie i wczytanie pliku do pracy
         files = glob.glob("./*.csv")
         files = [x for x in files if "holes" not in x]
 
-        file = choicebox(
-            " _   _       _   _    _____\n"
-            + "| \ | |     | \ | |  / ____|\n"
-            + "|  \| | __ _|  \| | | |  __  ___ _ __\n"
-            + "| . ` |/ _` | . ` | | | |_ |/ _ \ '_ \\\n"
-            + "| |\  | (_| | |\  | | |__| |  __/ | | |\n"
-            + "|_| \_|\__,_|_| \_|  \_____|\___|_| |_|\n\n"
-            + "Wybierz plik do dziurawienia:",
-            "NaN Generator",
-            files,
-        )
+        if len(files) == 0:
+            msgbox(
+                logo
+                + "Nie znaleziono odpowiednich plików.\n"
+                + "Upewnij się, że w folderze w którym uruchamiasz program"
+                + " znajdują się dostosowane pliki.",
+                "NaN Generator",
+            )
+            exit()
+        elif len(files) == 1:
+            if ccbox(
+                logo + "Znaleziono tylko 1 plik: " + files[0], "NaN Generator"
+            ):
+                file = files[0]
+            else:
+                exit()
+        else:
+            file = choicebox(
+                logo + "Wybierz plik do dziurawienia:",
+                "NaN Generator",
+                files,
+            )
 
         if file:
             df = pd.read_csv(file)
@@ -41,7 +60,7 @@ class NanGen:
         all_cols = df.columns.to_list()
 
         cols = multchoicebox(
-            "Wybierz kolumny do dziurawienia:", "NaN Generator", all_cols
+            "Wybrano plik " + file + "\nWybierz kolumny do dziurawienia:", "NaN Generator", all_cols
         )
 
         if cols:
