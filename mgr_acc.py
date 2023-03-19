@@ -6,6 +6,7 @@ from easygui import *
 class AccuracyTester:
     def __init__(self) -> None:
         self.load_data()
+        self.test()
 
     def load_data(self):
         # Wybranie i wczytanie pliku do pracy
@@ -50,9 +51,30 @@ class AccuracyTester:
         else:
             exit()
 
-        self.filled.info()
-        self.original.info()
-        self.journal.info()
-
     def test(self):
-        pass
+
+        accuracy = pd.DataFrame(columns=["column","correct"])
+        
+        chunk = len(self.journal)
+        chunk = 100 / chunk
+        progress = 0
+        last_prog = 0
+        print("Postęp: ", round(progress), "%")
+        for item in self.journal.itertuples(index=False):
+            orig_item = self.original.loc[item[0], item[1]]
+            fill_item = self.filled.loc[item[0], item[1]]
+            if orig_item == fill_item:
+                if item[1] in accuracy["column"].unique():
+                    index = accuracy.index[accuracy["column"] == item[1]].values[0]
+                    accuracy.loc[accuracy.index[accuracy["column"] == item[1]]] = [item[1], accuracy.at[index, "correct"] + 1]
+                else:
+                    accuracy.loc[len(accuracy)] = [item[1], 1]
+            if round(progress) % 10 == 0 and round(progress) != last_prog:
+                    print("Postęp: ", round(progress), "%")
+                    last_prog = round(progress)
+            progress += chunk
+                
+
+        
+        print(accuracy)
+        

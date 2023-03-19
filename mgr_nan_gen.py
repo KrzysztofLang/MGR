@@ -60,7 +60,9 @@ class NanGen:
         all_cols = df.columns.to_list()
 
         cols = multchoicebox(
-            "Wybrano plik " + file + "\nWybierz kolumny do dziurawienia:", "NaN Generator", all_cols
+            "Wybrano plik " + file + "\nWybierz kolumny do dziurawienia:",
+            "NaN Generator",
+            all_cols,
         )
 
         if cols:

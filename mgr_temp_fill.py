@@ -24,7 +24,7 @@ class TempFill:
         return data[1]
 
     def revert_nan(self, data):
-        for items in self.journal.itertuples(index=False):
-            data.loc[items[0], items[1]] = None
+        for item in self.journal.itertuples(index=False):
+            data.loc[item[0], item[1]] = None
 
         return data
