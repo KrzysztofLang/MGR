@@ -72,9 +72,11 @@ class Data:
             + "/_/ |_/\__,_/_/ |_/  /_/   /_/_/_/\___/_/\n\n"
         )
         files = glob.glob("./*.csv")
-        files = [x for x in files if "holes" in x]
-        files = [x for x in files if "journal" not in x]
-        files = [x for x in files if "filled" not in x]
+        files = [
+            x
+            for x in files
+            if "holes" in x and "journal" not in x and "filled" not in x
+        ]
 
         if len(files) == 0:
             msgbox(
