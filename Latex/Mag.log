@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.16)  17 MAR 2023 19:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.16)  26 MAR 2023 18:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -473,50 +473,62 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 
 ] [7
 
-] [8
+] [8] [9] [10]
+<img/01.jpg, id=40, 442.65375pt x 261.22594pt>
+File: img/01.jpg Graphic file (type jpg)
+<use img/01.jpg>
+Package pdftex.def Info: img/01.jpg  used on input line 162.
+(pdftex.def)             Requested size: 341.43306pt x 201.50331pt.
+<img/02.jpg, id=41, 442.65375pt x 261.22594pt>
+File: img/02.jpg Graphic file (type jpg)
+<use img/02.jpg>
+Package pdftex.def Info: img/02.jpg  used on input line 172.
+(pdftex.def)             Requested size: 341.43306pt x 201.50331pt.
+<img/03.jpg, id=42, 442.65375pt x 273.27094pt>
+File: img/03.jpg Graphic file (type jpg)
+<use img/03.jpg>
+Package pdftex.def Info: img/03.jpg  used on input line 181.
+(pdftex.def)             Requested size: 341.43306pt x 210.79453pt.
+ [11
 
-] [9
+ <./img/01.jpg>] [12 <./img/02.jpg>] [13 <./img/03.jpg>] [14
 
-] [10
+] [15
+
+] [16
 
 ]
-
-LaTeX Warning: Empty `thebibliography' environment on input line 92.
-
-[11
-
-]
-Overfull \hbox (14.2264pt too wide) in paragraph at lines 96--96
+Overfull \hbox (14.2264pt too wide) in paragraph at lines 219--219
 [][]| 
  []
 
 
-Overfull \hbox (14.2264pt too wide) in paragraph at lines 96--96
+Overfull \hbox (14.2264pt too wide) in paragraph at lines 219--219
 [][]| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 96--96
+Underfull \hbox (badness 10000) in paragraph at lines 219--219
 [][]
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[12] (./Mag.aux) ) 
+[17] (./Mag.aux) ) 
 Here is how much of TeX's memory you used:
- 7343 strings out of 474968
- 115087 string characters out of 5780080
- 489888 words of memory out of 5000000
- 28732 multiletter control sequences out of 15000+600000
+ 7395 strings out of 474968
+ 115852 string characters out of 5780080
+ 491932 words of memory out of 5000000
+ 28780 multiletter control sequences out of 15000+600000
  511551 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  70i,13n,76p,357b,355s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr17.pfb>
-Output written on Mag.pdf (12 pages, 776791 bytes).
+Output written on Mag.pdf (17 pages, 895576 bytes).
 PDF statistics:
- 70 PDF objects out of 1000 (max. 8388607)
- 44 compressed objects within 1 object stream
+ 89 PDF objects out of 1000 (max. 8388607)
+ 55 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

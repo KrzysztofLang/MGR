@@ -15,7 +15,7 @@ class AccuracyTester:
             + "_acc.csv\n"
             + self.name
             + "_aad.csv",
-            "Accuracy Test",
+            "Test skuteczności wypełnienia",
         ):
             self.acc.to_csv(self.name + "_acc.csv", index=False)
             self.aad.to_csv(self.name + "_aad.csv", index=False)
@@ -37,7 +37,10 @@ class AccuracyTester:
         files = [
             x
             for x in all_files
-            if "filled" in x and "acc" not in x and "aad" not in x
+            if "data" in x
+            and "filled" in x
+            and "acc" not in x
+            and "aad" not in x
         ]
 
         # Okno wyboru pliku
@@ -47,12 +50,13 @@ class AccuracyTester:
                 + "Nie znaleziono odpowiednich plików.\n"
                 + "Upewnij się, że w folderze w którym uruchamiasz program"
                 + " znajdują się dostosowane pliki.",
-                "Accuracy Test",
+                "Test skuteczności wypełnienia",
             )
             exit()
         elif len(files) == 1:
             if ccbox(
-                logo + "Znaleziono tylko 1 plik: " + files[0], "Accuracy Test"
+                logo + "Znaleziono tylko 1 plik: " + files[0],
+                "Test skuteczności wypełnienia",
             ):
                 file = files[0]
             else:
@@ -60,7 +64,7 @@ class AccuracyTester:
         else:
             file = choicebox(
                 logo + "Wybierz plik do weryfikacji:",
-                "Accuracy Test",
+                "Test skuteczności wypełnienia",
                 files,
             )
 

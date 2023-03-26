@@ -75,7 +75,10 @@ class Data:
         files = [
             x
             for x in files
-            if "holes" in x and "journal" not in x and "filled" not in x
+            if "data" in x
+            and "holes" in x
+            and "journal" not in x
+            and "filled" not in x
         ]
 
         if len(files) == 0:
@@ -84,12 +87,13 @@ class Data:
                 + "Nie znaleziono odpowiednich plików.\n"
                 + "Upewnij się, że w folderze w którym uruchamiasz program"
                 + " znajdują się dostosowane pliki.",
-                "NaN Filler",
+                "Wypełnianie pustych miejsc",
             )
             exit()
         elif len(files) == 1:
             if ccbox(
-                logo + "Znaleziono tylko 1 plik: " + files[0], "NaN Filler"
+                logo + "Znaleziono tylko 1 plik: " + files[0],
+                "Wypełnianie pustych miejsc",
             ):
                 self.file = files[0]
             else:
@@ -97,7 +101,7 @@ class Data:
         else:
             self.file = choicebox(
                 logo + "Wybierz plik do wypełnienia:",
-                "NaN Filler",
+                "Wypełnianie pustych miejsc",
                 files,
             )
 
@@ -111,7 +115,7 @@ class Data:
             "Wybrano plik "
             + self.file
             + "\nWybierz algorytm do zastosowania:",
-            "NaN Filler",
+            "Wypełnianie pustych miejsc",
             choices,
         )
 

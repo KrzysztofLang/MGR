@@ -3,3 +3,4 @@ venv*/
 filled*
 __pycache__
 chatGPT.*
+temp/

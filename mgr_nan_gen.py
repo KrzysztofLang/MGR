@@ -26,7 +26,7 @@ class NanGen:
 
         # Wybranie i wczytanie pliku do pracy
         files = glob.glob("./*.csv")
-        files = [x for x in files if "holes" not in x]
+        files = [x for x in files if "data" in x and "holes" not in x]
 
         if len(files) == 0:
             msgbox(
@@ -34,20 +34,21 @@ class NanGen:
                 + "Nie znaleziono odpowiednich plików.\n"
                 + "Upewnij się, że w folderze w którym uruchamiasz program"
                 + " znajdują się dostosowane pliki.",
-                "NaN Generator",
+                "Przygotowanie danych",
             )
             exit()
         elif len(files) == 1:
             if ccbox(
-                logo + "Znaleziono tylko 1 plik: " + files[0], "NaN Generator"
+                logo + "Znaleziono tylko 1 plik: " + files[0],
+                "Przygotowanie danych",
             ):
                 file = files[0]
             else:
                 exit()
         else:
             file = choicebox(
-                logo + "Wybierz plik do dziurawienia:",
-                "NaN Generator",
+                logo + "Wybierz plik do przygotowania:",
+                "Przygotowanie danych",
                 files,
             )
 
@@ -60,8 +61,10 @@ class NanGen:
         all_cols = df.columns.to_list()
 
         cols = multchoicebox(
-            "Wybrano plik " + file + "\nWybierz kolumny do dziurawienia:",
-            "NaN Generator",
+            "Wybrano plik "
+            + file
+            + "\nWybierz kolumny do usunięcia wartości:",
+            "Przygotowanie danych",
             all_cols,
         )
 
@@ -79,6 +82,7 @@ class NanGen:
         journal = pd.DataFrame(columns=["row", "column"])
 
         for col in cols:
+            print("Dziurwienie kolumny ", col, ".")
             ind = len(df.index)
             num_to_rem = int(random.randrange(5, 15) * 0.01 * ind)
             ind_to_rem = sample(range(ind), num_to_rem)
@@ -92,7 +96,7 @@ class NanGen:
         while True:
             name = file[2 : len(file) - 4] + "_holes_" + str(i) + ".csv"
             if i > 9:
-                msgbox("Za dużo plików!", "NaN Generator")
+                msgbox("Za dużo plików!", "Przygotowanie danych")
                 exit()
             elif os.path.isfile(name):
                 i += 1
@@ -109,8 +113,8 @@ class NanGen:
         if codebox(
             "Wynik zostanie zapisany do pliku "
             + name
-            + ".\nInformacje o danych po dziurawieniu:",
-            "NaN Generator",
+            + ".\nInformacje o danych po przygotowaniu:",
+            "Przygotowanie danych",
             info,
         ):
             df.to_csv(name, index=False)
