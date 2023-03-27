@@ -82,7 +82,7 @@ class NanGen:
         journal = pd.DataFrame(columns=["row", "column"])
 
         for col in cols:
-            print("Dziurwienie kolumny ", col, ".")
+            print("Przygotowywanie kolumny ", col, ".")
             ind = len(df.index)
             num_to_rem = int(random.randrange(5, 15) * 0.01 * ind)
             ind_to_rem = sample(range(ind), num_to_rem)

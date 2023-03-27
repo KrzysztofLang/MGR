@@ -74,75 +74,66 @@ class Fill:
             name,
             index=False,
         )
-        msgbox("Zakończono wypełnianie.\nWynik zapisano do pliku " + name)
+        msgbox(
+            "Zakończono wypełnianie.\nWynik zapisano do pliku " + name,
+            "Wypełnianie pustych miejsc",
+        )
         exit()
+
+    def progress_up(self):
+        self.progress += self.chunk
+        print(
+            "Postęp wypełniania: ",
+            round(self.progress),
+            "%",
+        )
 
     # Główna funkcja
     def fill_nan(self, data):
-        chunk = len(data.cols_to_fill) * 3
-        chunk = 100 / chunk
-        progress = 0
-        print("Postęp wypełniania: ", round(progress), "%")
+        self.chunk = len(data.cols_to_fill) * 3
+        self.chunk = 100 / self.chunk
+        self.progress = 0
+        print("Postęp wypełniania: ", round(self.progress), "%")
         match data.algorithm:
-            case "Simple":
+            case "Prosty":
                 while True:
                     if data.cols_to_fill:
                         type, col = self.check_datatype(data)
+                        print("Wypełnianie kolumny " + col)
                         match type:
                             case "num":
                                 mgr_data.PrepareData.prepare_numerical(
                                     data, col
                                 )
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
 
                                 self.fill_numerical(data, col)
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
 
                                 mgr_data.PrepareData.revert_numerical(
                                     data, col
                                 )
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
+
                             case "cat":
                                 mgr_data.PrepareData.prepare_categorical(
                                     data, col
                                 )
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
 
                                 self.fill_categorical(data, col)
+
+                                self.progress_up()
+
                                 mgr_data.PrepareData.revert_categorical(
                                     data, col
                                 )
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
                     else:
                         self.save(data)
             case "Downward Imputation":
@@ -151,6 +142,7 @@ class Fill:
                 while True:
                     if data.cols_to_fill:
                         type, col = self.check_datatype(data)
+                        print("Wypełnianie kolumny " + col)
                         match type:
                             case "num":
                                 di.prepare(col, data)
@@ -158,32 +150,17 @@ class Fill:
                                     data, col
                                 )
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
 
                                 self.fill_numerical(data, col)
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
 
                                 mgr_data.PrepareData.revert_numerical(
                                     data, col
                                 )
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
 
                                 data.df = di.temp_df.join(data.df)
                             case "cat":
@@ -192,42 +169,28 @@ class Fill:
                                     data, col
                                 )
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
 
                                 self.fill_categorical(data, col)
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
 
                                 mgr_data.PrepareData.revert_categorical(
                                     data, col
                                 )
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
 
                                 data.df = di.temp_df.join(data.df)
 
                     else:
                         self.save(data)
-            case "Simplified DI":
+            case "Uproszczony Downward Imputation":
                 di = mgr_di.DownImpu()
                 while True:
                     if data.cols_to_fill:
                         type, col = self.check_datatype(data)
+                        print("Wypełnianie kolumny " + col)
                         match type:
                             case "num":
                                 di.prepare(col, data)
@@ -235,32 +198,17 @@ class Fill:
                                     data, col
                                 )
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
 
                                 self.fill_numerical(data, col)
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
 
                                 mgr_data.PrepareData.revert_numerical(
                                     data, col
                                 )
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
 
                                 data.df = di.temp_df.join(data.df)
                             case "cat":
@@ -269,32 +217,17 @@ class Fill:
                                     data, col
                                 )
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
 
                                 self.fill_categorical(data, col)
                                 mgr_data.PrepareData.revert_categorical(
                                     data, col
                                 )
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
 
                                 data.df = di.temp_df.join(data.df)
 
-                                progress += chunk
-                                print(
-                                    "Postęp wypełniania: ",
-                                    round(progress),
-                                    "%",
-                                )
+                                self.progress_up()
                     else:
                         self.save(data)

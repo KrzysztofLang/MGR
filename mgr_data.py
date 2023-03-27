@@ -110,7 +110,11 @@ class Data:
         else:
             exit()
 
-        choices = ["Simple", "Downward Imputation", "Simplified DI"]
+        choices = [
+            "Prosty",
+            "Downward Imputation",
+            "Uproszczony Downward Imputation",
+        ]
         self.algorithm = choicebox(
             "Wybrano plik "
             + self.file
@@ -163,6 +167,9 @@ class PrepareData:
                 data.cat_arr.append(
                     data.features_all_nan.columns.get_loc(cols)
                 )
+
+        data.features_all_nan.reset_index(drop=True, inplace=True)
+        data.features_no_nan.reset_index(drop=True, inplace=True)
 
         # Tymczasowe wypełnienie NAN w danych uczących
         data.temp_filler_cat_all = TempFill()
@@ -312,6 +319,7 @@ class PrepareData:
         data.features_all_nan = data.temp_filler_cat_all.revert_nan(
             data.features_all_nan
         )
+
         data.features_no_nan = data.temp_filler_cat_no.revert_nan(
             data.features_no_nan
         )
@@ -387,11 +395,11 @@ class PrepareData:
 
         data.df.columns = data.column_names
 
-        # Przywrócenie kolumnom właściwych typów
-        data.df = data.df.convert_dtypes(convert_string=False)
-
         # Przywrócenie pustych miejsc
         data.df = data.temp_filler_num.revert_nan(data.df)
+
+        # Przywrócenie kolumnom właściwych typów
+        data.df = data.df.convert_dtypes(convert_string=False)
 
         # Przywrócenie oryginalnej kolejności rekordów
         data.df.sort_values("keep_id", inplace=True)

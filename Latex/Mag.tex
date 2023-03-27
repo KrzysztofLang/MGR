@@ -155,7 +155,7 @@ Program miał spełniać 3 role:
     \item Ocenić skuteczność wypełniania w celu porównania algorytmów.
 \end{enumerate}
 Poszczególne role zrealizowano jako osobne moduły. W kolejnych podrozdziałach zaprezentowane zostanie działanie programu na przykładowym pliku.
-Po uruchomieniu programu pokazuje się okno służące do wyboru modułu.
+Po uruchomieniu programu pokazuje się okno służące do wyboru modułu, pokazane na rysunku \ref{Fig:main}.
 
 \begin{figure}[ht]
 	\centering
@@ -165,7 +165,8 @@ Po uruchomieniu programu pokazuje się okno służące do wyboru modułu.
 \end{figure}
 
 \subsubsection{Tworzenie brakujących wartości}
-Pierwszy moduł odpowiada z przygotowanie danych do wypełniania. Pierwszym krokiem jest wybranie pliku który ma zostać przygotowany.
+Pierwszy moduł odpowiada z przygotowanie danych do wypełniania.
+Pierwszym krokiem jest wybranie pliku który ma zostać przygotowany z użyciem okna pokazanego na rysunku \ref{Fig:gen_file}.
 
 \begin{figure}[ht]
 	\centering
@@ -175,6 +176,7 @@ Pierwszy moduł odpowiada z przygotowanie danych do wypełniania. Pierwszym krok
 \end{figure}
 
 Następnie wybrane zostają kolumny w których maja zostać usunięte dane. Wybrać można dowolną ilość, lecz zalecane jest poniżej 50\%.
+Wyboru dokonuje się z użyciem okna pokazanego na rysunku \ref{Fig:gen_col}.
 
 \begin{figure}[ht]
 	\centering
@@ -183,7 +185,46 @@ Następnie wybrane zostają kolumny w których maja zostać usunięte dane. Wybr
 \label{Fig:gen_col}
 \end{figure}
 
+W wybranych kolumnach zostaje usunięte od 5\% do 15\% wartości - dla każdej kolumny ilość jest losowana.
+Dodatkowo stworzony zostaje plik przechowujęcy informacje które wartości zostały usunięte.
+Po zakończeniu usuwania wartości wyświetlone zostaje okno z podsumowaniem jak na rysunku \ref{Fig:gen_end}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=12cm]{img/04.jpg}
+	\caption{Okno z podsumowaniem}
+\label{Fig:gen_end}
+\end{figure}
+
 \subsubsection{Wypełnianie brakujacych wartości}
+Drugi moduł służy do wypełniania brakujacych wartości w zbiorze danych z użyciem wybranego algorytmu. 
+Najpierw należy wskazać plik który ma zostać wypełniony, tak jak na rysunku \ref{Fig:fill_file}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=12cm]{img/05.jpg}
+	\caption{Okno wyboru pliku do wypełnienia}
+\label{Fig:fill_file}
+\end{figure}
+
+Następnie z użyciem okna jak na rysunku \ref{Fig:fill_alg} wybrany zostaje algorytm który ma zostać wykorzystany do wypełniania brakujących wartości.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=12cm]{img/06.jpg}
+	\caption{Okno wyboru algorytmu}
+\label{Fig:fill_alg}
+\end{figure}
+
+Puste miejsca zostają wypełnione, po czym wyświetlone zostaje okno z podsumowaniem, jak na rysunku \ref{Fig:fill_end}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=12cm]{img/07.jpg}
+	\caption{Okno z podsumowaniem wypełniania}
+\label{Fig:fill_end}
+\end{figure}
+
 \subsubsection{Sprawdzenie skutecznosci wypełniania}
 \subsection{Opis implementacji}
 \subsubsection{Alg 1}
