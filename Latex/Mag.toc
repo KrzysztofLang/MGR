@@ -14,7 +14,7 @@
 \contentsline {subsubsection}{\numberline {3.3.3}Scikit}{\footnotesize 8}{}%
 \contentsline {subsubsection}{\numberline {3.3.4}EasyGUI}{\footnotesize 8}{}%
 \contentsline {subsection}{\numberline {3.4}Źródła danych}{\footnotesize 8}{}%
-\contentsline {subsubsection}{\numberline {3.4.1}Użyte repozytopria danych}{\footnotesize 8}{}%
+\contentsline {subsubsection}{\numberline {3.4.1}Użyte repozytoria danych}{\footnotesize 8}{}%
 \contentsline {subsubsection}{\numberline {3.4.2}Adult Data Set}{\footnotesize 9}{}%
 \contentsline {subsubsection}{\numberline {3.4.3}Stock Exchange Data}{\footnotesize 10}{}%
 \contentsline {section}{\numberline {4}Opis przygotowanego programu}{\footnotesize 12}{}%
