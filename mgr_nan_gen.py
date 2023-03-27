@@ -82,7 +82,7 @@ class NanGen:
         journal = pd.DataFrame(columns=["row", "column"])
 
         for col in cols:
-            print("Przygotowywanie kolumny ", col, ".")
+            print("Przygotowywanie kolumny", col)
             ind = len(df.index)
             num_to_rem = int(random.randrange(5, 15) * 0.01 * ind)
             ind_to_rem = sample(range(ind), num_to_rem)
@@ -117,6 +117,9 @@ class NanGen:
             "Przygotowanie danych",
             info,
         ):
+            df.info()
+            df = df.convert_dtypes(convert_string=False)
+            df.info()
             df.to_csv(name, index=False)
             journal.to_csv(name[: len(name) - 4] + "_journal.csv", index=False)
         else:

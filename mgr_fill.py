@@ -99,7 +99,7 @@ class Fill:
                 while True:
                     if data.cols_to_fill:
                         type, col = self.check_datatype(data)
-                        print("Wypełnianie kolumny " + col)
+                        print("Wypełnianie kolumny", col)
                         match type:
                             case "num":
                                 mgr_data.PrepareData.prepare_numerical(
@@ -142,7 +142,7 @@ class Fill:
                 while True:
                     if data.cols_to_fill:
                         type, col = self.check_datatype(data)
-                        print("Wypełnianie kolumny " + col)
+                        print("Wypełnianie kolumny", col)
                         match type:
                             case "num":
                                 di.prepare(col, data)
@@ -190,7 +190,7 @@ class Fill:
                 while True:
                     if data.cols_to_fill:
                         type, col = self.check_datatype(data)
-                        print("Wypełnianie kolumny " + col)
+                        print("Wypełnianie kolumny", col)
                         match type:
                             case "num":
                                 di.prepare(col, data)

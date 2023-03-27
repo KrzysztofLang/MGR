@@ -129,6 +129,7 @@ class Data:
             exit()
 
         self.df = pd.read_csv(self.file)
+        self.df = self.df.convert_dtypes(convert_string=False)
 
 
 class PrepareData:
