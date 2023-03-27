@@ -1,32 +1,36 @@
 \babel@toc {polish}{}\relax 
-\contentsline {section}{\numberline {1}Wstęp}{\footnotesize 5}{}%
-\contentsline {section}{\numberline {2}Wprowadzenie do wypełniania brakujących wartości}{\footnotesize 6}{}%
-\contentsline {subsection}{\numberline {2.1}Rys historyczny}{\footnotesize 6}{}%
-\contentsline {subsection}{\numberline {2.2}Na czym polega wypełnianie brakujących wartości}{\footnotesize 6}{}%
-\contentsline {subsection}{\numberline {2.3}Korzyści i zagrożenia}{\footnotesize 6}{}%
-\contentsline {subsection}{\numberline {2.4}Perspektywy na przyszłość}{\footnotesize 6}{}%
-\contentsline {section}{\numberline {3}Omówienie narzędzi i danych}{\footnotesize 7}{}%
-\contentsline {subsection}{\numberline {3.1}Python}{\footnotesize 7}{}%
-\contentsline {subsection}{\numberline {3.2}Visual Studio Code}{\footnotesize 7}{}%
-\contentsline {subsection}{\numberline {3.3}Biblioteki}{\footnotesize 7}{}%
-\contentsline {subsubsection}{\numberline {3.3.1}Pandas}{\footnotesize 7}{}%
-\contentsline {subsubsection}{\numberline {3.3.2}NumPy}{\footnotesize 7}{}%
-\contentsline {subsubsection}{\numberline {3.3.3}Scikit}{\footnotesize 7}{}%
-\contentsline {subsection}{\numberline {3.4}Źródła danych}{\footnotesize 7}{}%
-\contentsline {subsubsection}{\numberline {3.4.1}Użyte repozytopria danych}{\footnotesize 7}{}%
-\contentsline {subsubsection}{\numberline {3.4.2}Adult Data Set}{\footnotesize 8}{}%
-\contentsline {subsubsection}{\numberline {3.4.3}Stock Exchange Data}{\footnotesize 9}{}%
-\contentsline {section}{\numberline {4}Implementacja i testy algorytmu}{\footnotesize 11}{}%
-\contentsline {subsection}{\numberline {4.1}Opis przygotowanego programu}{\footnotesize 11}{}%
-\contentsline {subsubsection}{\numberline {4.1.1}Tworzenie brakujących wartości}{\footnotesize 11}{}%
-\contentsline {subsubsection}{\numberline {4.1.2}Wypełnianie brakujacych wartości}{\footnotesize 13}{}%
-\contentsline {subsubsection}{\numberline {4.1.3}Sprawdzenie skutecznosci wypełniania}{\footnotesize 13}{}%
-\contentsline {subsection}{\numberline {4.2}Opis implementacji}{\footnotesize 13}{}%
-\contentsline {subsubsection}{\numberline {4.2.1}Alg 1}{\footnotesize 13}{}%
-\contentsline {subsubsection}{\numberline {4.2.2}Alg 2}{\footnotesize 13}{}%
-\contentsline {subsubsection}{\numberline {4.2.3}Alg 3}{\footnotesize 13}{}%
-\contentsline {subsection}{\numberline {4.3}Napotkane problemy}{\footnotesize 13}{}%
-\contentsline {subsection}{\numberline {4.4}Testy algorytmów na wybranych źródłach danych}{\footnotesize 13}{}%
-\contentsline {section}{\numberline {5}Podsumowanie i wnioski końcowe}{\footnotesize 15}{}%
-\contentsline {section}{Załączniki}{\footnotesize 16}{}%
-\contentsline {section}{Literatura}{\footnotesize 17}{}%
+\contentsline {section}{\numberline {1}Wstęp}{\footnotesize 6}{}%
+\contentsline {section}{\numberline {2}Wprowadzenie do wypełniania brakujących wartości}{\footnotesize 7}{}%
+\contentsline {subsection}{\numberline {2.1}Rys historyczny}{\footnotesize 7}{}%
+\contentsline {subsection}{\numberline {2.2}Na czym polega wypełnianie brakujących wartości}{\footnotesize 7}{}%
+\contentsline {subsection}{\numberline {2.3}Korzyści i zagrożenia}{\footnotesize 7}{}%
+\contentsline {subsection}{\numberline {2.4}Perspektywy na przyszłość}{\footnotesize 7}{}%
+\contentsline {section}{\numberline {3}Omówienie narzędzi i danych}{\footnotesize 8}{}%
+\contentsline {subsection}{\numberline {3.1}Python}{\footnotesize 8}{}%
+\contentsline {subsection}{\numberline {3.2}Visual Studio Code}{\footnotesize 8}{}%
+\contentsline {subsection}{\numberline {3.3}Biblioteki}{\footnotesize 8}{}%
+\contentsline {subsubsection}{\numberline {3.3.1}Pandas}{\footnotesize 8}{}%
+\contentsline {subsubsection}{\numberline {3.3.2}NumPy}{\footnotesize 8}{}%
+\contentsline {subsubsection}{\numberline {3.3.3}Scikit}{\footnotesize 8}{}%
+\contentsline {subsubsection}{\numberline {3.3.4}EasyGUI}{\footnotesize 8}{}%
+\contentsline {subsection}{\numberline {3.4}Źródła danych}{\footnotesize 8}{}%
+\contentsline {subsubsection}{\numberline {3.4.1}Użyte repozytopria danych}{\footnotesize 8}{}%
+\contentsline {subsubsection}{\numberline {3.4.2}Adult Data Set}{\footnotesize 9}{}%
+\contentsline {subsubsection}{\numberline {3.4.3}Stock Exchange Data}{\footnotesize 10}{}%
+\contentsline {section}{\numberline {4}Opis przygotowanego programu}{\footnotesize 12}{}%
+\contentsline {subsection}{\numberline {4.1}Założenia i realizacja}{\footnotesize 12}{}%
+\contentsline {subsection}{\numberline {4.2}Działanie programu}{\footnotesize 13}{}%
+\contentsline {subsubsection}{\numberline {4.2.1}Uruchomienie}{\footnotesize 13}{}%
+\contentsline {subsubsection}{\numberline {4.2.2}Przygotowanie danych}{\footnotesize 13}{}%
+\contentsline {subsubsection}{\numberline {4.2.3}Wypełnianie brakujących wartości}{\footnotesize 15}{}%
+\contentsline {subsubsection}{\numberline {4.2.4}Sprawdzenie skuteczności wypełniania}{\footnotesize 16}{}%
+\contentsline {section}{\numberline {5}Implementacja i testy algorytmu}{\footnotesize 20}{}%
+\contentsline {subsection}{\numberline {5.1}Opis implementacji}{\footnotesize 20}{}%
+\contentsline {subsubsection}{\numberline {5.1.1}Alg 1}{\footnotesize 20}{}%
+\contentsline {subsubsection}{\numberline {5.1.2}Alg 2}{\footnotesize 20}{}%
+\contentsline {subsubsection}{\numberline {5.1.3}Alg 3}{\footnotesize 20}{}%
+\contentsline {subsection}{\numberline {5.2}Napotkane problemy}{\footnotesize 20}{}%
+\contentsline {subsection}{\numberline {5.3}Testy algorytmów na wybranych źródłach danych}{\footnotesize 20}{}%
+\contentsline {section}{\numberline {6}Podsumowanie i wnioski końcowe}{\footnotesize 21}{}%
+\contentsline {section}{Załączniki}{\footnotesize 22}{}%
+\contentsline {section}{Literatura}{\footnotesize 23}{}%
