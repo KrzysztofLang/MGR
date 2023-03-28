@@ -1,10 +1,10 @@
 # Fdb version 4
-["pdflatex"] 1679955158 "c:/Users/kaktu/OneDrive/Polibuda/Magister/Praca Mag/MGR/Latex/Mag.tex" "Mag.pdf" "Mag" 1679955160 0
-  "Mag.aux" 1679955160 6593 4bde30ac3f7fb4b37c09efc6da536106 "pdflatex"
-  "Mag.tex" 1679955155 20600 a8b894b921342423da008080a0a40c65 ""
-  "Mag.toc" 1679955160 3051 cb48ee8a54c3875a4c27ee70ede340af "pdflatex"
+["pdflatex"] 1680043214 "c:/Users/kaktu/OneDrive/Polibuda/Magister/Praca Mag/MGR/Latex/Mag.tex" "Mag.pdf" "Mag" 1680043215 0
+  "Mag.aux" 1680043215 7495 c5fa7df62e6230a98095f586e8d25f7a "pdflatex"
+  "Mag.tex" 1680043211 33411 817c7f0b04f7fbadd7aeda145496bf9c ""
+  "Mag.toc" 1680043215 2724 8dcf862582c6b1c2f388e5789bf90a8e "pdflatex"
   "auxiliary/logoweii.jpg" 1671563457 629754 fc53d0837ea5b2ed4c7ef8557a9c1d89 ""
-  "c:/Users/kaktu/OneDrive/Polibuda/Magister/Praca Mag/MGR/Latex/Mag.tex" 1679955155 20600 a8b894b921342423da008080a0a40c65 ""
+  "c:/Users/kaktu/OneDrive/Polibuda/Magister/Praca Mag/MGR/Latex/Mag.tex" 1680043211 33411 817c7f0b04f7fbadd7aeda145496bf9c ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1671194651 2375 baa924870cfb487815765f9094cf3728 ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc" 1671194651 3486 c7eadf5dcc57b3b2d11736679f6636ba ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc" 1671194651 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
@@ -105,7 +105,7 @@
   "img/07.jpg" 1679859382 20226 e19329e5d3678f2ecbd903ca7a24825a ""
   "img/08.jpg" 1679949756 52990 25761aa3953c434e050ff9e9c211e5fe ""
   "img/09.jpg" 1679949802 22142 b366a36cf21143a6bfde0cd5a6a2bd2d ""
-  "weiiszablon.sty" 1679948986 12647 e6ee97a3765bba7c2e7bf1023f5dd3b6 ""
+  "weiiszablon.sty" 1680028030 12660 213d7828195d305cc56a4c875a9005ed ""
   (generated)
   "Mag.aux"
   "Mag.log"

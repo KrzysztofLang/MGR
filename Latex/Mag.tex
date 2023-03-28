@@ -1,11 +1,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% %
-%%% % weiiszablon.tex
-%%% % The Faculty of Electrical and Computer Engineering
-%%% % Rzeszow University Of Technology diploma thesis Template
-%%% % Szablon pracy dyplomowej Wydziału Elektrotechniki 
-%%% % i Informatyki PRz
-%%% % June, 2015
+%%% % Mag.tex
+%%% % Praca dyplomowa magisterska
+%%% % Krzysztof Lang, 148853
+%%% %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[12pt,twoside]{article}
@@ -65,6 +63,19 @@ minimizing the negative impact on the effectiveness of subsequent data analysis.
 
 
 \section{Wstęp}
+
+W pierwszym rozdziale przedstawiono zarys treści dalszej pracy.
+W drugim rozdziale przybliżono ideę wypełniania brakujących wartości w duzych zbiorach danych,
+na co składa się rys historyczny zagadnienia, przedstawienie istniejących rozwiązań i ich znaczenie,
+oraz zastanowiono się nad przyszłością zagadnmienia.
+Trzeci rozdział przybliża narzędzia użyte do przygotowania części praktycznej niniejszej pracy,
+to jest programu realizującego testy algorytmów wypełniajacych puste miejsca oraz
+dane wykorzystane do testów.
+Na rodział czwarty składa się opis praktycznej części badań. 
+Znajduje się w nim opis przygotowanego programu wraz z przykłądem działana, opisy zaimplementowanych algorytmów,
+oraz przedstawione zostały wyniki przeprowadzonych testów.
+Rozdział piąty składa się z podsumowania przeprowadzonych działań i przedstawienia wyciągniętych wniosków.
+
 \clearpage
 
 
@@ -81,25 +92,87 @@ minimizing the negative impact on the effectiveness of subsequent data analysis.
 
 \subsection{Python}
 
-Do przygotowania programu wykorzystanego do przeprowadzenia badań wybrano język Python.
-Jest to język wysokiego poziomu, charakteryzujący się prostą składną i wysoką przejrzystoścą kodu.
-Programy nie muszą być kompilowane przed uruchomieniem, co znacznie przyśpiesza proces prototypowania i debugowania.
-Oznacza to też że Python jest wolniejszy od wielu innych języków, jednak w przypadku niniejszej pracy nie ma to znaczenia.
-Dostępna ogromna ilość gotowych bibliotek służących do obróbki i analizy danych znacząco uprościła przygotowanie programu.
-Podczas pisania kodu trzymano się dobrych praktyk, stosowano wytyczne zawarte w PEP8.
+Python to interpretowany język wysokiego poziomu o ogólnym zastosowaniu.
+Stworzony został w roku 1991 przez Guido van Rossum i jest wciąż wciąż rozwijany.
+Najnowsza stabilna wersja to 3.11.2.
+
+Python znany jest ze swojej prostej do zrozumienia składni,
+czytelnego kodu, wsparcia różnych paradygmatów programowania (obiektowego, imperatywnego, funkcyjnego),
+dużej biblioteki standardowej i bardzo szerokiego wyboru dodatkowych bibliotek. \cite{python}
+
+Do słabszych stron języka zaliczyć można słabą wydajność pod względem prędkości działania i wykorzystania pamięci
+bądź problemy z kompatybilnością kodu napisanego w różnych wersjach lub implementacjach Pythona.
+
 \subsection{Visual Studio Code}
 
 Jako środowisko programowania wybrano "Microsoft Visual Studio Code".
-Jest to darmowy edytor kodu obsługujący wiele języków.
+Jest to darmowy edytor kodu o otawrtym kodzie. Stworzony został przez firmę Microsoft w roku 2015.
+Zaprojektowany został z myślą tworzenia nowoczesnych aplikacji webowych i chmurowych z wykorzystaniem wielu języków. \cite{VSC}
 Ze wzglądu na otwartość kodu, dostępne jest wiele rozszerzeń do programu,
 które znacznie ułatwiają tworzenie nawet skomplikowanych projektów.
+
 W celu umożliwienia pracy nad programem z wielu urządzeń
 oraz dla zachowania pełnej historii tworzenia programu wykorzystano integrację "Visual Studio Code" z repozytorium GitHub.
 \subsection{Biblioteki}
 \subsubsection{Pandas}
+
+Pandas to popularna biblioteka służąca manipulacji i analizy danych w Pythonie.
+Stworzona została w roku 2008 przez Wesa McKinney i jest stale rozwijana przez dużą grupę deweloperów.
+Nazwa Pandas pochodzi od "Python data analysis".
+Najważniejsze zalety Pandas to:
+
+\begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
+    \item wsparcie dla wielu formatów danych, w tym CSV, Excel, SQL i inne,
+    \item duża szybkość przeprowadzania operacji na danych,
+    \item obsługa brakujących wartości w danych,
+    \item łatwa integracja z innymi popularnymi bibliotekami,
+    \item bardzo rozbudowana dokumentacja.
+\end{itemize}
+
+Pandas wykorzystuje dwie główne struktury danych: "Series" i "DataFrame".
+Ta pierwsza to jednowymiarowa tablica wartości posiadająca indeksy każdego elementu,
+z kolei druga to dwuwymiarowa tablica wartości z indeksami zarówno rzędów jak i kolumn.
+Obydwie struktury mogą przechowywać dowolne typy danych. \cite{pandas}
+
 \subsubsection{NumPy}
-\subsubsection{Scikit}
+
+NumPy to biblioteka dla Pythona wykorzystywana do pracy na obiektach będących wielowymiarowymi tablicami
+oraz udostęniajaca szereg narzędzi do obliczeń naukowych. Została stworzona w roku 2005 przez Travisa Oliphant
+jako następca bibliotek Numeric \cite{numeric} i Numarray \cite{numarray}. Biblioteka jest wciąż rozwijana przez zaangażowaną grupę programistów.
+NumPy jest szeroko wykorzystywana do przeprowadzania obliczeń naukowych ze względu na szereg zalet:
+
+\begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
+    \item wspiera wielowymiarowe tabele, zarówno o homogenicznych jak i heterogenicznych typach danych,
+    \item oferuje dużą ilość funkcji matematycznych, generatorów liczb pseudolosowych, transformat i innych narzędzi
+    przydatnych w zastosowaniach naukowych,
+    \item łatwo integruje się z innymi bibliotekami,
+    \item posiada bardzo rozbudowaną dokumentację.
+\end{itemize}
+
+Do wad zaliczają się stosunkowo niska wydajność i problemy z obsługą niektórych typów danych i brakujących wartości. \cite{numpy}
+
+\subsubsection{SciEKit-learn}
+
+SciKit-learn to biblioteka zawierająca narzędzia związane z uczeniem maszynowym dla Pythona.
+Jest częścią większego zestawu narzędzi SciKit,
+zawierającego biblioteki oferujące szeroki wachlarz narzędzi do analizy danych.
+Początkowo stworzony przez Davida Cournapeau jako projekt w ramach "Google Summer of Code" w roku 2007,
+został później przepisany i rozwinięty głównie przez Francuski Instytut Badań w Dziedzinie Informatyki i Automatyki (INRIA)
+i udostępniony publicznie w roku 2010.
+SciKit-learn przestrzega zasad projektowania API dla oprogramowania uczenia maszynowego,
+które obejmują między innymi spójność, rozsądne domyślne ustawienia i dokumentację. \cite{scikit}
+
 \subsubsection{EasyGUI}
+
+EasyGUI to biblioteka Pythona służaca do implementacji prostego interfejsu graficznego.
+Został stworzony przez Stephena Ferg i udostęniony w roku 2004. Oparty jest na bibliotece Tkinter \cite{tkinter}.
+Główną zaletą EasyGUI jest jego prosta składnia, pozwalajaca na tworzenie nieskomplikowanych aplikacji bez
+konieczności uczenia się stosowania bardziej zaawansowanych bibliotek.
+Osiągnięte to zostało przez zastosowanie predefiniowanych okien spełniających najczęściej wykorzystywane role,
+taklie jak okna wyboru, wyświetlanie wiadomości, wpisywanie tekstu i inne.
+Niestety zaprzestano dalszego rozwoju biblioteki, przez co nie można spodziewać się dodania nowych funkcji
+czy popraw działania istniejących. \cite{easygui}
+
 \subsection{Źródła danych}
 
 \subsubsection{Użyte repozytoria danych}
@@ -175,8 +248,9 @@ co wciąż jest ilością spełniajacą założenia dla zbiorów danych.
 
 
 \clearpage
-\section{Opis przygotowanego programu}
-\subsection{Założenia i realizacja}
+\section{Implementacja i testy}
+\subsection{Opis przygotowanego programu}
+\subsubsection{Założenia i realizacja}
 Założono, że program ma rtealizować 3 zadania:
 
 \begin{enumerate}[label=\arabic*), leftmargin=1.25cm]
@@ -219,14 +293,15 @@ Program składa się z następujacych plików:
 \end{itemize}
 
 Wykorzystując narzędzie "auto-py-to-exe", utworzono plik "mgr\_suite.exe",
-pozwalajacy uruchomić program bez konieczności instalowania interpretera Python i potrzebnych bibliotek.
+pozwalajacy uruchomić program bez konieczności instalowania interpretera Python i potrzebnych bibliotek. \cite{autopy}
 
-\subsection{Działanie programu}
+\subsubsection{Działanie programu}
 Poniżej zaprezentowano działanie programu na przykładzie pliku data\_stock.csv.
 Zostanie on najpierw przygotowany do testów,
 następnie brakujace dane zostaną wypełnione z wykorzystaniem jednego z algorytmów,
 po czym zostanie obliczona dokładność tego wypełnienia.
-\subsubsection{Uruchomienie}
+
+% Uruchomienie
 Po uruchomieniu "mgr\_suite.exe" wyświetlone zostaje okno służące do wyboru modułu, pokazane na rysunku \ref{Fig:main}.
 
 \begin{figure}[ht]
@@ -235,8 +310,8 @@ Po uruchomieniu "mgr\_suite.exe" wyświetlone zostaje okno służące do wyboru 
 	\caption{Główne okno programu, pozwalajace na wybór modułu do uruchomienia}
 \label{Fig:main}
 \end{figure}
-
-\subsubsection{Przygotowanie danych}
+\FloatBarrier
+% Przygotowanie danych
 
 Pierwszy moduł odpowiada za przygotowanie danych do wypełniania poprzez usunięcie losowych wartości ze zbioru danych.
 Pierwszym krokiem jest wybranie pliku który ma zostać przygotowany
@@ -252,6 +327,7 @@ natomiast nazwa zaczynać się ma od prefiksu "data\_" i nie posiadać żadnych 
 	\caption{Okno wyboru pliku do przygotowania}
 \label{Fig:gen_file}
 \end{figure}
+\FloatBarrier
 
 Następnie wybrane z listy zostają kolumny w których maja zostać usunięte dane.
 Wyboru dokonuje się z użyciem okna pokazanego na rysunku \ref{Fig:gen_col}.
@@ -264,6 +340,7 @@ Wybrać można dowolną ilość, lecz zalecane jest poniżej 50\%.
 	\caption{Okno wyboru kolumn}
 \label{Fig:gen_col}
 \end{figure}
+\FloatBarrier
 
 W wybranych kolumnach zostaje usunięte od 5\%
 do 15\% wartości - dla każdej kolumny ilość jest losowana.
@@ -282,8 +359,9 @@ przez dodanie sufiksu "\_journal" do nazwy oryginalnego pliku.
 	\caption{Okno z podsumowaniem}
 \label{Fig:gen_end}
 \end{figure}
+\FloatBarrier
 
-\subsubsection{Wypełnianie brakujących wartości}
+% Wypełnianie brakujących wartości
 
 Drugi moduł służy do wypełniania brakujacych wartości w zbiorze danych z użyciem wybranego algorytmu. 
 
@@ -297,6 +375,7 @@ Wyświetlane są wyłącznie pliki posiadające sufiks "\_holes\_X" w nazwie, be
 	\caption{Okno wyboru pliku do wypełnienia}
 \label{Fig:fill_file}
 \end{figure}
+\FloatBarrier
 
 Następnie z użyciem okna jak na rysunku \ref{Fig:fill_alg}
 wybrany zostaje algorytm który ma zostać wykorzystany do wypełniania brakujących wartości.
@@ -308,6 +387,7 @@ Wyświetlona zostaje też nazwa wybranego wcześniej pliku w celu uniknięcia b�
 	\caption{Okno wyboru algorytmu}
 \label{Fig:fill_alg}
 \end{figure}
+\FloatBarrier
 
 Puste miejsca zostają wypełnione z wykorzystaniem wybranego algorytmu.
 Dokładny sposób działania algorytmów zostanie opisany w kolejnych rozdziałach.
@@ -320,8 +400,9 @@ Nazwa pliku wynikowego tworzona jest poprzez dodanie sufixu "\_filled\_Y", gdzie
 	\caption{Okno z podsumowaniem wypełniania}
 \label{Fig:fill_end}
 \end{figure}
+\FloatBarrier
 
-\subsubsection{Sprawdzenie skuteczności wypełniania}
+% Sprawdzenie skuteczności wypełniania
 
 Ostatni moduł odpowiada za wygenerowanie danych,
 które można wykorzystać do oceny skuteczności wypełniania brakujących wartości.
@@ -340,6 +421,7 @@ posiadają wartości wypełnione za pomocą któregoś algorytmu z użyciem odpo
 	\caption{Okno wyboru pliku do analizy}
 \label{Fig:acc_file}
 \end{figure}
+\FloatBarrier
 
 Z użyciem wybranego pliku, oryginalnego pliku z danymi przed usunięciem losowych danych
 oraz pliku z informacją które dane zostały usunięte a następnie wypełnione,
@@ -389,13 +471,131 @@ a wynik obliczeń zapisywany jest w dwóch plikach
 	\caption{Okno z podsumowaniem}
 \label{Fig:acc_end}
 \end{figure}
+\FloatBarrier
 
-\clearpage
-\section{Implementacja i testy algorytmu}
-\subsection{Opis implementacji}
-\subsubsection{Alg 1}
-\subsubsection{Alg 2}
-\subsubsection{Alg 3}
+\subsection{Opis implementacji algorytmów}
+
+Implementowane algorytmy opierają się o kolejne rozwinięcia idei zaprezentowanej przez Piętal M. w \cite{wyb_zag}.
+Polega ona na sformułowaniu problemu wypełniania problemu wypełniania brakujących wartości jako problemu decyzyjnego.
+Wynikają z tego następujące założenia:
+\begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
+    \item kolumny wypełniane są pojedyńczo,
+    \item samo wypełnianie przeprowadzane jest przez system decycyjny,
+    \item algorytm ma za zadanie wybrać kolejność wypełniania kolumn oraz
+    określić jakie kolumny będą zawarte w zbiorze danych uczących systemu decyzyjnego.
+\end{itemize}
+
+Działanie poszczególnych algorytmów zostanie zaprezentowane na przykładowej tabeli \ref{tab:base}
+przedstawiającej zbiór danych:
+\begin{table}[ht]
+\caption{Tabela wyjściowa}
+\centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+           & A & B & C & D & E & F & G & H & I & J & K & L & M & N \\ \hline
+        1  & * & * & x & * & * & * & x & * & * & * & x & * & * & * \\ \hline
+        2  & x & * & * & * & * & * & * & * & * & * & * & x & * & * \\ \hline
+        3  & * & * & * & * & x & * & * & * & * & * & * & x & * & * \\ \hline
+        4  & x & * & x & * & x & * & x & x & * & * & x & x & * & * \\ \hline
+        5  & * & * & * & * & x & * & * & x & x & * & * & * & * & * \\ \hline
+        6  & * & * & * & * & x & * & x & x & * & * & * & * & * & * \\ \hline
+        7  & * & * & * & * & x & * & * & * & * & * & * & * & * & * \\ \hline
+        8  & * & * & * & * & * & * & * & x & * & * & x & * & x & * \\ \hline
+        9  & * & * & * & * & x & * & * & * & x & * & * & * & x & * \\ \hline
+        10 & * & * & * & * & * & * & x & * & x & * & * & * & * & * \\ \hline
+        11 & * & x & * & * & x & * & * & * & * & * & * & * & * & * \\ \hline
+    \end{tabular}
+\label{tab:base}
+\end{table}
+\FloatBarrier
+gdzie: $*$ -- istniejąca wartość, $x$ -- brakująca wartość.
+
+\subsubsection{Prosty}
+
+Procedura dla algorytmu prostego wygląda następująco:
+
+\begin{enumerate}[label=\arabic*), leftmargin=1.25cm]
+    \item Tworzony jest zbiór kolumn z brakującymi wartościami $X$.
+    Dla przykładowej tabeli będzie to zbiór $X=\{A,B,C,E,G,H,I,K,L,M\}$.
+    \item Kolumny w zbiorze $X$ są następnie sortowane od kolumn zawierających
+    najmniejszą ilość brakujących wartości do zawierających ich najwięcej, dając ciąg $\eta$.
+    W przypadku kolumn o takiej samej ilości brakujących danych kolejność nie ma znaczenia.
+    Dla przykładowej tabeli zbiór ten będzie wyglądał następująco: $\eta=(B,M,C,A,L,K,I,H,G,E)$.
+    \item Pierwszy element w ciągu $\eta$ zostaje wybrany jako kolumna która zostanie wypełniona.
+    W przykładzie będzie to element $B$.
+    \item Tabela zostaje rozdzielona na dwie: w jednej znajdują się rekordy
+    w których w kolumnie wybranej do wypełnienia znajdują się dane,
+    a w drugiej rekordy w których w wybranej tabeli danych brakuje.
+    Dla przykładowej tabeli będzie to wyglądało następująco,
+    gdzie tabela \ref{tab:simple_full} przedstawia tabelę z danymi w wybranej kolumnie,
+    natomiast tabela \ref{tab:simple_nan} przedstawia tabelę z brakiem danych w wybranej kolumnie.
+    Dla lepszej czytelności, przesunięto rozważaną kolumnę na początek tabeli:
+
+        \begin{table}[ht]
+        \caption{Tabela wydzielona z oryginalnej, zawierająca wyłacznie rekordy z danymi w rozważanej kolumnie}
+        \centering
+            \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+                \hline
+                   & A & B & C & D & E & F & G & H & I & J & K & L & M & N \\ \hline
+                1  & * & * & x & * & * & * & x & * & * & * & x & * & * & * \\ \hline
+                2  & x & * & * & * & * & * & * & * & * & * & * & x & * & * \\ \hline
+                3  & * & * & * & * & x & * & * & * & * & * & * & x & * & * \\ \hline
+                4  & x & * & x & * & x & * & x & x & * & * & x & x & * & * \\ \hline
+                5  & * & * & * & * & x & * & * & x & x & * & * & * & * & * \\ \hline
+                6  & * & * & * & * & x & * & x & x & * & * & * & * & * & * \\ \hline
+                7  & * & * & * & * & x & * & * & * & * & * & * & * & * & * \\ \hline
+                8  & * & * & * & * & * & * & * & x & * & * & x & * & x & * \\ \hline
+                9  & * & * & * & * & x & * & * & * & x & * & * & * & x & * \\ \hline
+                10 & * & * & * & * & * & * & x & * & x & * & * & * & * & * \\ \hline
+            \end{tabular}
+        \label{tab:simple_full}
+        \end{table}
+        \FloatBarrier
+
+        \begin{table}[ht]
+        \caption{Tabela wydzielona z oryginalnej, zawierająca wyłacznie rekordy z brakiem danych w rozważanej kolumnie}
+        \centering
+            \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+                \hline
+                   & A & B & C & D & E & F & G & H & I & J & K & L & M & N \\ \hline
+                11 & * & x & * & * & x & * & * & * & * & * & * & * & * & * \\ \hline
+            \end{tabular}
+        \label{tab:simple_nan}
+        \end{table}
+        \FloatBarrier
+
+    \item Pierwsza z tabel - w przykładzie tabela \ref{tab:simple_full} - posłuży do uczenia modelu uczenia maszynowego.
+    Wypełniana kolumna służy jako cel, a pozostałe jako dane uczące.
+    \item Następnie nauczony model zostaje wykorzystany do wypełnienia brakujących wartości w drugiej tabeli,
+    w przykładzie tabeli \ref{tab:simple_nan}.
+    \item Na koniec tabele są łączone w jedną co w przykładzie poskutkuje tabelą \ref{tab:simple_end},
+    a algorytm jest powtarzany aż do wypełnienia wszystkich brakujących wartości.
+
+    \begin{table}[ht]
+        \caption{Tabela prezentująca wygląd danych po pojedynczym przejściu algorytmu}
+        \centering
+            \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+                \hline
+                   & A & B & C & D & E & F & G & H & I & J & K & L & M & N \\ \hline
+                1  & * & * & x & * & * & * & x & * & * & * & x & * & * & * \\ \hline
+                2  & x & * & * & * & * & * & * & * & * & * & * & x & * & * \\ \hline
+                3  & * & * & * & * & x & * & * & * & * & * & * & x & * & * \\ \hline
+                4  & x & * & x & * & x & * & x & x & * & * & x & x & * & * \\ \hline
+                5  & * & * & * & * & x & * & * & x & x & * & * & * & * & * \\ \hline
+                6  & * & * & * & * & x & * & x & x & * & * & * & * & * & * \\ \hline
+                7  & * & * & * & * & x & * & * & * & * & * & * & * & * & * \\ \hline
+                8  & * & * & * & * & * & * & * & x & * & * & x & * & x & * \\ \hline
+                9  & * & * & * & * & x & * & * & * & x & * & * & * & x & * \\ \hline
+                10 & * & * & * & * & * & * & x & * & x & * & * & * & * & * \\ \hline
+                11 & * & * & * & * & x & * & * & * & * & * & * & * & * & * \\ \hline
+            \end{tabular}
+        \label{tab:simple_end}
+        \end{table}
+        \FloatBarrier
+\end{enumerate}
+
+\subsubsection{Uproszczony Downward Imputation}
+\subsubsection{Downward Imputation}
 \subsection{Napotkane problemy}
 \subsection{Testy algorytmów na wybranych źródłach danych}
 \clearpage
@@ -416,8 +616,23 @@ a wynik obliczeń zapisywany jest w dwóch plikach
 \addcontentsline{toc}{section}{Literatura}
 
 \begin{thebibliography}{4}
-    \bibitem{adult} archive.ics.uci.edu/ml/datasets/adult. Dostęp 26.02.2023.
+    % Narzędzia
+    \bibitem{python} https://www.python.org/. Dostęp 26.02.2023.
+    \bibitem{VSC} https://code.visualstudio.com/. Dostęp 26.02.2023.
+    % Biblioteki
+    \bibitem{pandas} https://pandas.pydata.org/. Dostęp 26.02.2023.
+    \bibitem{numeric} https://pypi.org/project/Numeric/. Dostęp 26.02.2023.
+    \bibitem{numarray} https://pypi.org/project/numarray/. Dostęp 26.02.2023.
+    \bibitem{numpy} https://numpy.org/. Dostęp 26.02.2023.
+    \bibitem{scikit} https://scikit-learn.org/stable/. Dostęp 26.02.2023.
+    \bibitem{tkinter} https://docs.python.org/3/library/tkinter.html. Dostęp 26.02.2023.
+    \bibitem{easygui} https://easygui.sourceforge.net/. Dostęp 26.02.2023.
+    % Źródła danych
+    \bibitem{adult} https://archive-beta.ics.uci.edu/dataset/2/adult. Dostęp 26.02.2023.
     \bibitem{stock} www.kaggle.com/datasets/mattiuzc/stock-exchange-data. Dostęp 26.02.2023.
+    \bibitem{autopy} https://pypi.org/project/auto-py-to-exe/. Dostęp 26.02.2023.
+    % Implementacja
+    \bibitem{wyb_zag} Brański A.: Wybrane zagadnienia informatyki stosowanej. Oficyna Wydawnicza Politechniki Rzeszowskiej, Rzeszów 2020.
 \end{thebibliography}
 
 \clearpage

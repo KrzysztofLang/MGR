@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.16)  28 MAR 2023 00:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.16)  29 MAR 2023 00:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -336,7 +336,7 @@ Package: environ 2014/05/04 v0.3 A new way to define environments
  (c:/texlive/2022/texmf-dist/tex/latex/trimspaces/trimspaces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 )))
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 54.
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 52.
  (c:/texlive/2022/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) (c:/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
@@ -346,20 +346,20 @@ File: l3backend-pdftex.def 2022-10-26 L3 backend support: PDF output (pdfTeX)
 ) (./Mag.aux)
 \openout1 = `Mag.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
  (c:/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count290
@@ -418,15 +418,15 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 <auxiliary/logoweii.jpg, id=1, 400.1349pt x 117.67966pt>
 File: auxiliary/logoweii.jpg Graphic file (type jpg)
 <use auxiliary/logoweii.jpg>
-Package pdftex.def Info: auxiliary/logoweii.jpg  used on input line 57.
+Package pdftex.def Info: auxiliary/logoweii.jpg  used on input line 55.
 (pdftex.def)             Requested size: 355.65944pt x 104.60167pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 57--57
+Underfull \hbox (badness 10000) in paragraph at lines 55--55
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 57--57
+Underfull \hbox (badness 10000) in paragraph at lines 55--55
 
  []
 
@@ -465,119 +465,112 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 2.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 2.
-
-Underfull \vbox (badness 2772) has occurred while \output is active []
-
- [3])
+)
 \tf@toc=\write4
 \openout4 = `Mag.toc'.
 
- [4] [5
+ [3] [4
 
-] [6] [7
+] [5] [6
 
-] [8
+] [7
 
-] [9] [10] [11] [12
+] [8] [9] [10] [11] [12] [13
 
 ]
-Overfull \hbox (3.53943pt too wide) in paragraph at lines 223--227
+Overfull \hbox (3.53943pt too wide) in paragraph at lines 299--303
 []\T1/lmr/m/n/12 Poni»ej za-pre-zen-to-wano dzia-ªa-nie pro-gramu na przy-kªa-dzie pliku data_stock.csv.
  []
 
-<img/01.jpg, id=46, 442.65375pt x 261.22594pt>
+<img/01.jpg, id=50, 442.65375pt x 261.22594pt>
 File: img/01.jpg Graphic file (type jpg)
 <use img/01.jpg>
-Package pdftex.def Info: img/01.jpg  used on input line 232.
+Package pdftex.def Info: img/01.jpg  used on input line 309.
 (pdftex.def)             Requested size: 341.43306pt x 201.50331pt.
-[13]
-<img/02.jpg, id=51, 442.65375pt x 261.22594pt>
+[14]
+<img/02.jpg, id=54, 442.65375pt x 261.22594pt>
 File: img/02.jpg Graphic file (type jpg)
 <use img/02.jpg>
-Package pdftex.def Info: img/02.jpg  used on input line 249.
+Package pdftex.def Info: img/02.jpg  used on input line 326.
 (pdftex.def)             Requested size: 341.43306pt x 201.50331pt.
-<img/03.jpg, id=52, 442.65375pt x 273.27094pt>
+ [15 <./img/01.jpg> <./img/02.jpg>]
+<img/03.jpg, id=58, 442.65375pt x 273.27094pt>
 File: img/03.jpg Graphic file (type jpg)
 <use img/03.jpg>
-Package pdftex.def Info: img/03.jpg  used on input line 261.
+Package pdftex.def Info: img/03.jpg  used on input line 339.
 (pdftex.def)             Requested size: 341.43306pt x 210.79453pt.
- [14 <./img/01.jpg> <./img/02.jpg>]
-<img/04.jpg, id=56, 536.75531pt x 444.91219pt>
+<img/04.jpg, id=59, 536.75531pt x 444.91219pt>
 File: img/04.jpg Graphic file (type jpg)
 <use img/04.jpg>
-Package pdftex.def Info: img/04.jpg  used on input line 279.
+Package pdftex.def Info: img/04.jpg  used on input line 358.
 (pdftex.def)             Requested size: 341.43306pt x 283.01167pt.
-<img/05.jpg, id=57, 442.65375pt x 249.93375pt>
+ [16 <./img/03.jpg>]
+<img/05.jpg, id=63, 442.65375pt x 249.93375pt>
 File: img/05.jpg Graphic file (type jpg)
 <use img/05.jpg>
-Package pdftex.def Info: img/05.jpg  used on input line 294.
+Package pdftex.def Info: img/05.jpg  used on input line 374.
 (pdftex.def)             Requested size: 341.43306pt x 192.7928pt.
- [15 <./img/03.jpg>]
-<img/06.jpg, id=61, 442.65375pt x 201.00093pt>
+ [17 <./img/04.jpg>]
+<img/06.jpg, id=67, 442.65375pt x 201.00093pt>
 File: img/06.jpg Graphic file (type jpg)
 <use img/06.jpg>
-Package pdftex.def Info: img/06.jpg  used on input line 305.
+Package pdftex.def Info: img/06.jpg  used on input line 386.
 (pdftex.def)             Requested size: 341.43306pt x 155.04721pt.
-<img/07.jpg, id=62, 508.90125pt x 174.6525pt>
+<img/07.jpg, id=68, 508.90125pt x 174.6525pt>
 File: img/07.jpg Graphic file (type jpg)
 <use img/07.jpg>
-Package pdftex.def Info: img/07.jpg  used on input line 317.
+Package pdftex.def Info: img/07.jpg  used on input line 399.
 (pdftex.def)             Requested size: 341.43306pt x 117.1818pt.
-
-Underfull \vbox (badness 1694) has occurred while \output is active []
-
- [16 <./img/04.jpg>]
-<img/08.jpg, id=66, 442.65375pt x 297.36093pt>
+ [18 <./img/05.jpg> <./img/06.jpg>]
+<img/08.jpg, id=72, 442.65375pt x 297.36093pt>
 File: img/08.jpg Graphic file (type jpg)
 <use img/08.jpg>
-Package pdftex.def Info: img/08.jpg  used on input line 337.
+Package pdftex.def Info: img/08.jpg  used on input line 420.
 (pdftex.def)             Requested size: 341.43306pt x 229.37698pt.
- [17 <./img/05.jpg> <./img/06.jpg>] [18 <./img/07.jpg> <./img/08.jpg>]
-<img/09.jpg, id=79, 508.90125pt x 174.6525pt>
+
+Underfull \vbox (badness 3179) has occurred while \output is active []
+
+ [19 <./img/07.jpg> <./img/08.jpg>]
+<img/09.jpg, id=77, 508.90125pt x 174.6525pt>
 File: img/09.jpg Graphic file (type jpg)
 <use img/09.jpg>
-Package pdftex.def Info: img/09.jpg  used on input line 386.
+Package pdftex.def Info: img/09.jpg  used on input line 470.
 (pdftex.def)             Requested size: 341.43306pt x 117.1818pt.
- [19 <./img/09.jpg>] [20
+ [20] [21 <./img/09.jpg>] [22] [23] [24] [25
 
-] [21
+] [26
 
-] [22
-
-] [23
+] [27
 
 ]
-Overfull \hbox (14.2264pt too wide) in paragraph at lines 424--424
+Overfull \hbox (14.2264pt too wide) in paragraph at lines 641--641
 [][]| 
  []
 
 
-Overfull \hbox (14.2264pt too wide) in paragraph at lines 424--424
+Overfull \hbox (14.2264pt too wide) in paragraph at lines 641--641
 [][]| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 424--424
+Underfull \hbox (badness 10000) in paragraph at lines 641--641
 [][]
  []
 
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[24] (./Mag.aux) ) 
+[28] (./Mag.aux) ) 
 Here is how much of TeX's memory you used:
- 7489 strings out of 474968
- 117532 string characters out of 5780080
- 493407 words of memory out of 5000000
- 28864 multiletter control sequences out of 15000+600000
+ 7504 strings out of 474968
+ 117681 string characters out of 5780080
+ 524516 words of memory out of 5000000
+ 28879 multiletter control sequences out of 15000+600000
  511551 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,13n,76p,357b,355s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 70i,13n,76p,357b,381s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmmi12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmmi9.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr9.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmsy10.pfb>
-Output written on Mag.pdf (24 pages, 1177752 bytes).
+Output written on Mag.pdf (28 pages, 1194963 bytes).
 PDF statistics:
- 149 PDF objects out of 1000 (max. 8388607)
- 91 compressed objects within 1 object stream
+ 162 PDF objects out of 1000 (max. 8388607)
+ 100 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  51 words of extra memory for PDF output out of 10000 (max. 10000000)
 
