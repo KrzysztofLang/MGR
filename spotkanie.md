@@ -1,6 +1,8 @@
-# Spotkanie 17.03.2023
+# Spotkania
 
-## Co sprawdzić
+## Spotkanie 17.03.2023
+
+### Co sprawdzić
 
 - ~3 zbiory danych
 - Wytłumaczyć wyniki dla jakiegoś atrybutu
@@ -8,7 +10,7 @@
 - Porównanie z oryginalnymi danymi - 0/1 i ABS(old-new)
 - Najważniejszy float
 
-## Treść
+### Treść
 
 1. Wstęp
 2. Wprowadzenie - wypełnianie brakuących wartości
@@ -34,3 +36,17 @@
    2. Napotkane problemy
    3. Testy algorytmów na wybranych źródłach danych
 5. Podsumowanie i wnioski końcowe
+
+## Spotkanie 28.03.2023
+
+### O czym napisać
+
+- O brakujących wartościach z książki
+- O dużych zbiorach danych (zbieractwo, wpływ na deep learning)
+- Algorytm Rubina
+- Dlaczego supply odpadło
+- Bibliografia!
+- open gov data - z doświadczenia promotora wiele rakujących wartości
+- Wstęp - w rozdziale pierwszym... drugim...
+- Zostało zrobine, wykonane, sprawdzone... BEZ JA
+- Krzysztof Lang, BSc
