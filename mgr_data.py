@@ -111,9 +111,9 @@ class Data:
             exit()
 
         choices = [
-            "Prosty",
-            "Downward Imputation",
-            "Uproszczony Downward Imputation",
+            "Algorytm 1",
+            "Algorytm 2",
+            "Algorytm 3",
         ]
         self.algorithm = choicebox(
             "Wybrano plik "

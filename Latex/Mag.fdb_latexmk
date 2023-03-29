@@ -1,10 +1,10 @@
 # Fdb version 4
-["pdflatex"] 1680043214 "c:/Users/kaktu/OneDrive/Polibuda/Magister/Praca Mag/MGR/Latex/Mag.tex" "Mag.pdf" "Mag" 1680043215 0
-  "Mag.aux" 1680043215 7495 c5fa7df62e6230a98095f586e8d25f7a "pdflatex"
-  "Mag.tex" 1680043211 33411 817c7f0b04f7fbadd7aeda145496bf9c ""
-  "Mag.toc" 1680043215 2724 8dcf862582c6b1c2f388e5789bf90a8e "pdflatex"
+["pdflatex"] 1680131070 "c:/Users/kaktu/OneDrive/Polibuda/Magister/Praca Mag/MGR/Latex/Mag.tex" "Mag.pdf" "Mag" 1680131072 0
+  "Mag.aux" 1680131072 11049 302bd85497dc8f53f99958231c4d47ac "pdflatex"
+  "Mag.tex" 1680131067 56680 98ffb6a3f59b3fd480daa3fa92ff2499 ""
+  "Mag.toc" 1680131072 2741 8721306e7348e9ece495897be574f869 "pdflatex"
   "auxiliary/logoweii.jpg" 1671563457 629754 fc53d0837ea5b2ed4c7ef8557a9c1d89 ""
-  "c:/Users/kaktu/OneDrive/Polibuda/Magister/Praca Mag/MGR/Latex/Mag.tex" 1680043211 33411 817c7f0b04f7fbadd7aeda145496bf9c ""
+  "c:/Users/kaktu/OneDrive/Polibuda/Magister/Praca Mag/MGR/Latex/Mag.tex" 1680131067 56680 98ffb6a3f59b3fd480daa3fa92ff2499 ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1671194651 2375 baa924870cfb487815765f9094cf3728 ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc" 1671194651 3486 c7eadf5dcc57b3b2d11736679f6636ba ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc" 1671194651 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
@@ -101,11 +101,11 @@
   "img/03.jpg" 1679849931 40611 c263952a64688822a8d5adfccaeb7d3a ""
   "img/04.jpg" 1679857681 72575 b58ba905dbe8d3f95c5a4b9b979a0403 ""
   "img/05.jpg" 1679858466 34667 bb2269a455c8fbe0086fae220088a844 ""
-  "img/06.jpg" 1679858478 28475 e18776ef41d674837853c3e5df345dfb ""
-  "img/07.jpg" 1679859382 20226 e19329e5d3678f2ecbd903ca7a24825a ""
+  "img/06.jpg" 1680118951 26144 110ef2d8edfe754d473c98b7df6e3c8e ""
+  "img/07.jpg" 1680119005 18837 a004823215527f7de1ae1fffb236d4aa ""
   "img/08.jpg" 1679949756 52990 25761aa3953c434e050ff9e9c211e5fe ""
   "img/09.jpg" 1679949802 22142 b366a36cf21143a6bfde0cd5a6a2bd2d ""
-  "weiiszablon.sty" 1680028030 12660 213d7828195d305cc56a4c875a9005ed ""
+  "weiiszablon.sty" 1680106235 12691 5724eaa8246322f1658d93d6b6930652 ""
   (generated)
   "Mag.aux"
   "Mag.log"

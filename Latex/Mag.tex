@@ -17,7 +17,7 @@
 \studentID{EF-148853}
 
 \title{Implementacja wybranych algorytmów wypełniania brakujących wartości, dla strumieni dużych zbiorów danych}
-\titleEN{Implemetation of selected missing value filling algorithms for large data sets}
+\titleEN{Implemetation of selected missing value imputation algorithms for large data sets}
 
 
 %%% wybierz rodzaj pracy wpisując jeden z poniższych numerów: ...
@@ -35,7 +35,7 @@
 %%% promotor ze stopniami naukowymi po angielsku
 \supervisorEN{Michał Piętal, PhD}
 
-\abstract{Dla poprawnej analizy danych ważna jest ich kompletność.
+\abstract{Dla poprawnej analizy danych ważna jest jej kompletność.
 Istnieje wiele sposobów radzenia sobie z brakującymi danymi.
 Najprostsze metody opierające się między innymi na średniej bądź najczęściej występującej wartości w wielu przypadkach
 mogą negatywnie wpłynąć na skuteczność analizy. Niniejsza praca ma na celu przeanalizować skuteczność uzupełniania
@@ -43,10 +43,10 @@ brakujących danych z użyciem bardziej zaawansowanych metod opierających się 
 Te metody mają na celu wypełnić brakujące dane wartościami dużo bardziej zbliżonymi do rzeczywistych,
 minimalizując negatywny wpływ na skuteczność późniejszej analizy danych.}
 \abstractEN{For correct data analysis, completeness is important. There are many ways to deal with missing data.
-The simplest methods based on, among other things, nthe average or the most frequently occurring value
-in many cases can negatively affect the effectiveness of the analysis. This paper aims to analyze the effectiveness
-of filling in missing data using more advanced methods based on the use of machine learning.
-These methods are designed to fill in missing data with values much closer to the actual data,
+The simplest methods based on, among other things, the average or the most frequently occurring value
+in many cases can negatively affect the effectiveness of the analysis. This thesis aims to analyze the effectiveness
+of imputing missing data using more advanced methods based on the use of machine learning.
+These methods are designed to impute missing data with values much closer to the actual data,
 minimizing the negative impact on the effectiveness of subsequent data analysis.}
 
 \begin{document}
@@ -64,6 +64,17 @@ minimizing the negative impact on the effectiveness of subsequent data analysis.
 
 \section{Wstęp}
 
+W pracy opisano znaczenie wypełniania brakujących wartości w zbiorach danych.
+Przedstawiono 3 algorytmy służące wypełnianiu brakujących danych, które następnie zostały zaimplementowane z użyciem
+stworzonej na te potrzeby aplikacji. Dokonano porównania dokładności wypełniania danych dla poszczególnych algorytmów
+i przeanalizowano uzyskane wyniki. Do przygotowania aplikacji wykorzystano język programowania Python \cite{python},
+z wykorzystaniem bibliotek służących do analiz i manipulacji danymi: Pandas \cite{pandas},
+NumPy \cite{numpy} i SciKit-learn oraz biblioteki
+udostęniającej narzędzia do przygotowania interfejsu graficznego EasyGUI \cite{easygui}.
+Dane wykorzystane do testów pochodzą z repozytorium danych do uczenia maszynowego
+Uniwersytetu Kalifornijskiego w Irvine \cite{uci} oraz zbioru bazy danych
+udostęnionych w serwisie Kaggle.com  \cite{kaggle}.
+
 W pierwszym rozdziale przedstawiono zarys treści dalszej pracy.
 W drugim rozdziale przybliżono ideę wypełniania brakujących wartości w duzych zbiorach danych,
 na co składa się rys historyczny zagadnienia, przedstawienie istniejących rozwiązań i ich znaczenie,
@@ -71,18 +82,18 @@ oraz zastanowiono się nad przyszłością zagadnmienia.
 Trzeci rozdział przybliża narzędzia użyte do przygotowania części praktycznej niniejszej pracy,
 to jest programu realizującego testy algorytmów wypełniajacych puste miejsca oraz
 dane wykorzystane do testów.
-Na rodział czwarty składa się opis praktycznej części badań. 
+Na rodział czwarty składa się opis praktycznej części badań.
 Znajduje się w nim opis przygotowanego programu wraz z przykłądem działana, opisy zaimplementowanych algorytmów,
 oraz przedstawione zostały wyniki przeprowadzonych testów.
-Rozdział piąty składa się z podsumowania przeprowadzonych działań i przedstawienia wyciągniętych wniosków.
+Rozdział piąty składa się z podsumowania przeprowadzonych analiz i przedstawienia wyciągniętych wniosków.
 
 \clearpage
 
 
-\section{Wprowadzenie do wypełniania brakujących wartości}
+\section{Wprowadzenie}
 
 \subsection{Rys historyczny}
-\subsection{Na czym polega wypełnianie brakujących wartości}
+\subsection{Idea wypełniania brakujących wartości}
 \subsection{Korzyści i zagrożenia}
 \subsection{Perspektywy na przyszłość}
 \clearpage
@@ -93,32 +104,52 @@ Rozdział piąty składa się z podsumowania przeprowadzonych działań i przeds
 \subsection{Python}
 
 Python to interpretowany język wysokiego poziomu o ogólnym zastosowaniu.
-Stworzony został w roku 1991 przez Guido van Rossum i jest wciąż wciąż rozwijany.
-Najnowsza stabilna wersja to 3.11.2.
+Stworzony został w roku 1991 przez Guido van Rossuma.
+Został zaprojektowany jako następca języka ABC \cite{abc}, posiadający obsługę wyjątków i działający na systemie operacyjnym Amoeba. \cite{python2}
+Python jest wciąż wciąż rozwijany, najnowsza stabilna wersja to 3.11.2.
 
 Python znany jest ze swojej prostej do zrozumienia składni,
 czytelnego kodu, wsparcia różnych paradygmatów programowania (obiektowego, imperatywnego, funkcyjnego),
-dużej biblioteki standardowej i bardzo szerokiego wyboru dodatkowych bibliotek. \cite{python}
+dużej biblioteki standardowej i bardzo szerokiego wyboru dodatkowych bibliotek. \cite{python3}
 
 Do słabszych stron języka zaliczyć można słabą wydajność pod względem prędkości działania i wykorzystania pamięci
-bądź problemy z kompatybilnością kodu napisanego w różnych wersjach lub implementacjach Pythona.
+bądź problemy z kompatybilnością kodu napisanego w różnych wersjach lub implementacjach Pythona. \cite{python3}
 
 \subsection{Visual Studio Code}
 
-Jako środowisko programowania wybrano "Microsoft Visual Studio Code".
-Jest to darmowy edytor kodu o otawrtym kodzie. Stworzony został przez firmę Microsoft w roku 2015.
-Zaprojektowany został z myślą tworzenia nowoczesnych aplikacji webowych i chmurowych z wykorzystaniem wielu języków. \cite{VSC}
-Ze wzglądu na otwartość kodu, dostępne jest wiele rozszerzeń do programu,
-które znacznie ułatwiają tworzenie nawet skomplikowanych projektów.
+Zintegrowane środowisko programistyczne, w skrócie IDE (od ang. integrated development enviroment)
+to aplikacja dostarczająca komplet narzędzi potrzebnych programistom w celu tworzenia aplikacji.
+Zazwyczaj IDE składa się z minimum: edytora kodu, kompilatora i debuggera.
+Niektóre środowiska oferują dodatkowe funkcje takie jak automatyczne uzupełnianie kodu, podświetlanie składni,
+automatyczne formatowanie kodu, narządzia do analizy kodu czy narządzia kontroli wersji.
+Dobór odpowiedniego środowiska programowania jest istotny, ponieważ może znacznie zwiększyć produktywność programisty. \cite{ide}
 
-W celu umożliwienia pracy nad programem z wielu urządzeń
-oraz dla zachowania pełnej historii tworzenia programu wykorzystano integrację "Visual Studio Code" z repozytorium GitHub.
+Jako środowisko programowania wykorzystane do przygotowania programu do testowania algorytmów
+wybrano Microsoft Visual Studio Code. \cite{vsc}
+Jest to darmowy IDE o otawrtym kodzie źródłowym. Stworzony został przez firmę Microsoft w roku 2015.
+Zaprojektowany został z myślą tworzenia aplikacji webowych i chmurowych z wykorzystaniem wielu języków.
+Ze wzglądu na otwartość kodu, dostępne jest wiele rozszerzeń do programu,
+które znacznie ułatwiają tworzenie także projektów o dużym stopniu złożoności. \cite{vsc2}
+
+\subsection{GitHub}
+
+W celu umożliwienia pracy nad programem z wielu urządzeń oraz dla zachowania pełnej historii
+tworzenia programu wykorzystano integrację Visual Studio Code z repozytorium GitHub, tworząc
+prywatne repozytorium kodu. \cite{github}
+
+GitHub to platforma umożliwiająca programistom współpracę nad projektami, udostępnianie kodu i
+udzielanie się w projektach o otwartym kodzie źródłowym. Jest to największa tego typu platforma na świecie. \cite{github2}
+
+Jednym z najważniejszych elementów GitHub jest Git. Jest to rozproszony system kontrol wersji,
+przygotowany przez Linusa Torvaldsa i wydany w roku 2005. Oryginalnie służył do pomocy przy rozwoju jądra Linux.
+Pozwala na śledzenie zmian w kodzie oraz pracę nad wieloma gałęziami projektu w tym samym czasie. \cite{git}
+
 \subsection{Biblioteki}
 \subsubsection{Pandas}
 
 Pandas to popularna biblioteka służąca manipulacji i analizy danych w Pythonie.
-Stworzona została w roku 2008 przez Wesa McKinney i jest stale rozwijana przez dużą grupę deweloperów.
-Nazwa Pandas pochodzi od "Python data analysis".
+Stworzona została w roku 2008 przez Wesa McKinney'a i jest stale rozwijana przez grupę deweloperów.
+Nazwa Pandas pochodzi od "Python data analysis". \cite{pandas}
 Najważniejsze zalety Pandas to:
 
 \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
@@ -129,29 +160,29 @@ Najważniejsze zalety Pandas to:
     \item bardzo rozbudowana dokumentacja.
 \end{itemize}
 
-Pandas wykorzystuje dwie główne struktury danych: "Series" i "DataFrame".
+Pandas wykorzystuje dwie główne struktury danych: Series i DataFrame.
 Ta pierwsza to jednowymiarowa tablica wartości posiadająca indeksy każdego elementu,
 z kolei druga to dwuwymiarowa tablica wartości z indeksami zarówno rzędów jak i kolumn.
-Obydwie struktury mogą przechowywać dowolne typy danych. \cite{pandas}
+Obydwie struktury mogą przechowywać dowolne typy danych. \cite{pandas2}
 
 \subsubsection{NumPy}
 
 NumPy to biblioteka dla Pythona wykorzystywana do pracy na obiektach będących wielowymiarowymi tablicami
-oraz udostęniajaca szereg narzędzi do obliczeń naukowych. Została stworzona w roku 2005 przez Travisa Oliphant
-jako następca bibliotek Numeric \cite{numeric} i Numarray \cite{numarray}. Biblioteka jest wciąż rozwijana przez zaangażowaną grupę programistów.
-NumPy jest szeroko wykorzystywana do przeprowadzania obliczeń naukowych ze względu na szereg zalet:
+oraz udostęniajaca szereg narzędzi do obliczeń naukowych. Została stworzona w roku 2005 przez Travisa Oliphanta
+jako następca bibliotek Numeric \cite{numeric} i Numarray \cite{numarray}. Biblioteka jest wciąż rozwijana przez grupę programistów.
+NumPy jest szeroko wykorzystywana do przeprowadzania obliczeń naukowych ze względu na szereg zalet: \cite{numpy2}\cite{numpy3}
 
 \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
     \item wspiera wielowymiarowe tabele, zarówno o homogenicznych jak i heterogenicznych typach danych,
     \item oferuje dużą ilość funkcji matematycznych, generatorów liczb pseudolosowych, transformat i innych narzędzi
-    przydatnych w zastosowaniach naukowych,
+          przydatnych w zastosowaniach naukowych,
     \item łatwo integruje się z innymi bibliotekami,
     \item posiada bardzo rozbudowaną dokumentację.
 \end{itemize}
 
-Do wad zaliczają się stosunkowo niska wydajność i problemy z obsługą niektórych typów danych i brakujących wartości. \cite{numpy}
+Do wad zaliczają się stosunkowo niska wydajność i problemy z obsługą niektórych typów danych i brakujących wartości. \cite{numpy3}
 
-\subsubsection{SciEKit-learn}
+\subsubsection{SciKit-learn}
 
 SciKit-learn to biblioteka zawierająca narzędzia związane z uczeniem maszynowym dla Pythona.
 Jest częścią większego zestawu narzędzi SciKit,
@@ -165,13 +196,13 @@ które obejmują między innymi spójność, rozsądne domyślne ustawienia i do
 \subsubsection{EasyGUI}
 
 EasyGUI to biblioteka Pythona służaca do implementacji prostego interfejsu graficznego.
-Został stworzony przez Stephena Ferg i udostęniony w roku 2004. Oparty jest na bibliotece Tkinter \cite{tkinter}.
+Został stworzony przez Stephena Ferga i udostęniony w roku 2004. Oparty jest na bibliotece Tkinter \cite{tkinter}.
 Główną zaletą EasyGUI jest jego prosta składnia, pozwalajaca na tworzenie nieskomplikowanych aplikacji bez
 konieczności uczenia się stosowania bardziej zaawansowanych bibliotek.
 Osiągnięte to zostało przez zastosowanie predefiniowanych okien spełniających najczęściej wykorzystywane role,
-taklie jak okna wyboru, wyświetlanie wiadomości, wpisywanie tekstu i inne.
+takie jak okna wyboru, wyświetlanie wiadomości, wpisywanie tekstu i inne.
 Niestety zaprzestano dalszego rozwoju biblioteki, przez co nie można spodziewać się dodania nowych funkcji
-czy popraw działania istniejących. \cite{easygui}
+czy poprawy działania istniejących. \cite{easygui}
 
 \subsection{Źródła danych}
 
@@ -184,20 +215,21 @@ W celu znalezienia odpowiednich zbiorów danych, przyjęto następujące założ
 \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
     \item zbiór danych musi być wystarczająco duży,
     \item zbiór danych musi zawierać odpowiedniż ilość atrybutów aby modele decyzyjne miały
-    do dyspozycji wystarczającą ilość danych uczących,
+          do dyspozycji wystarczającą ilość danych uczących,
     \item atrybuty powinny zawierać różnorodne typy danych w celu przetestowania wypełniania zarówno danych
-    liczbowych (całkowitych i zmiennoprzecinkowych) jak i kategorycznych,
+          liczbowych (całkowitych i zmiennoprzecinkowych) jak i kategorycznych,
     \item zbiór danych nie może mieć pustych wartości.
 \end{itemize}
 
-Do wyszukania odpowiednich zbiorów danych wykorzystano narzędzie "Google Dataset Search".
+Do wyszukania odpowiednich zbiorów danych wykorzystano narzędzie Google Dataset Search. \cite{googlesearch}\cite{googlesearch2}
 Z jego pomocą wybrano 2 zbiory danych z róźnych dziedzin.
 Po uprzedniej ich obróbce zostały wykorzystane do przeprowadzenia testów algorytów wypełniania.
 \subsubsection{Adult Data Set}
 
-Zbiór danych "Adult Data Set" zawiera dane ze spisu ludności przeprowadzonego w roku 1994 w Stanach Zjednoczonych.
+Piwerwszy zbiór danych "Adult Data Set" zawiera dane ze spisu ludności przeprowadzonego w roku 1994 w Stanach Zjednoczonych.
 Jest szeroko wykorzystywany do testowania uczenia maszynowego.
 Zawiera ponad 30000 rekordów i 15 atrybutów. \cite{adult} Opis atrybutów:
+
 \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
     \item age: wiek spisanej osoby, liczba całkowita,
     \item workclass: rodzaj zatrudnienia, dane kategoryczne, 8 możliwych wartości,
@@ -215,15 +247,16 @@ Zawiera ponad 30000 rekordów i 15 atrybutów. \cite{adult} Opis atrybutów:
     \item native-country: kraj pochodzenia, dane kategoryczne, 41 możliwych wartości,
     \item attribute: czy osoba zarabia powyżej czy poniżej 50000\$ rocznie.
 \end{itemize}
+
 Ten zbiór danych został wybrany ze względu na występowanie zarówno atrybutów liczbowych jak i kategorycznych,
 zadowalajacą ilość rekordów oraz atrybutów.
-Ma na celu przetestowanie skuteczności działania algorytmów do wypełniania brakujących miejsc
+został wybrany do celu przetestowanie skuteczności działania algorytmów do wypełniania brakujących miejsc
 w zbiorach danych z brakami w danych o różnych typach.
-Nie wymaga dodatkowej obróbki przed rozpoczęciem testów. 
+Nie wymaga dodatkowej obróbki przed rozpoczęciem testów.
 \subsubsection{Stock Exchange Data}
 
-Zbiór danych "Stock Exchange Data" zawiera informacje o cenach akcji na giełdach w różnych krajach w latach 1965-2021.
-Dane zostały zebrane z "Yahoo Finance", posiadającego dane o giełdzie z wielu lat w wielu krajach.
+Drugi zbiór danych "Stock Exchange Data" zawiera informacje o cenach akcji na giełdach w różnych krajach w latach 1965-2021.
+Dane zostały zebrane z Yahoo Finance, posiadającego dane o giełdzie z wielu lat w wielu krajach.
 Posiada ponad 100000 rekordów i 9 atrybutów. \cite{stock} Opis atrybutów:
 \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
     \item Index: symbol wskazujacy z jakiej giełdy pochodzą dane, dane kategoryczne, 5 możliwych wartości,
@@ -238,20 +271,19 @@ Posiada ponad 100000 rekordów i 9 atrybutów. \cite{stock} Opis atrybutów:
 \end{itemize}
 Ten zbiór danych został wybrany ze względu na bardzo popularną kategorię danych, to jest dane finansowe.
 Ma na celu przetestowanie skuteczności działania algorytmów w przypadku danych numerycznych,
-w szególności liczb wymiernych.
-W celu lepszego przygotowania do testów zakodowano kolumnę "Data" z wykorzystaniem "label encoding",
+w szególności liczb wymiernych (typu float).
+W celu lepszego przygotowania do testów zakodowano kolumnę Data z wykorzystaniem label encoding,
 to jest zamiany danych na postać numeryczną.
 Usunięto też rekordy posiadające wartość "0" w kolumnie "Volume".
-Ich duża ilość (ponad 30\%) mogła by negatywnie wpłynąć na uczenie modeli decyzyjnych.
-W wyniku tego zmniejszono liczbę rekordów do ponad 62000,
-co wciąż jest ilością spełniajacą założenia dla zbiorów danych.
+Ich duża liczba (ponad 30\%) mogłaby negatywnie wpłynąć na uczenie modeli decyzyjnych.
+W wyniku tego zmniejszono liczbę rekordów do ponad 62000.
 
 
 \clearpage
 \section{Implementacja i testy}
 \subsection{Opis przygotowanego programu}
 \subsubsection{Założenia i realizacja}
-Założono, że program ma rtealizować 3 zadania:
+Założono, że program ma realizować 3 zadania:
 
 \begin{enumerate}[label=\arabic*), leftmargin=1.25cm]
     \item Przygotować dane do wypełniania poprzez sztuczne utworzenie brakujacych wartości.
@@ -261,6 +293,7 @@ Założono, że program ma rtealizować 3 zadania:
 
 Poszczególne zadania zrealizowano jako osobne moduły.
 
+\vspace{5mm}
 Przyjęto też następujące założenia:
 
 \begin{enumerate}[label=\arabic*), leftmargin=1.25cm]
@@ -270,29 +303,29 @@ Przyjęto też następujące założenia:
     \item Interakcja z programem ma opierać się o prosty interfejs graficzny.
     \item Dostęp do wszystkich modułów programu ma być zapewniony z jednego miejsca.
     \item Pliki wygenerowane przez jeden moduł mają być przygotowane w sposób umożliwiający
-    wykorzystanie ich przez kolejny. Oprócz odpowiedniego formatowania wewnątrz pliku,
-    oznacza to przyjęcie konwencji nazewnictwa plików opartej o prefiksy i sufiksy.
+          wykorzystanie ich przez kolejny. Oprócz odpowiedniego formatowania wewnątrz pliku,
+          oznacza to przyjęcie konwencji nazewnictwa plików opartej o prefiksy i sufiksy.
 \end{enumerate}
 
 Program składa się z następujacych plików:
 
 \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
     \item mgr\_main.py: główny plik nie zawierający żadnej klasy, odpowiadający za wybór modułu do uruchomienia,
-    i uruchomienie odpowiedniego modułu po wybraniu,
-    \item mgr\_nan\_gen" plik zawierajacy klasę "NanGen", odpowiadającą za realizację modułu przygotowujacego plik,
-    \item mgr\_fill.py: plik zawierający klasę "Fill", odpowiadającą za realizację modułu wypełniajacego brakuące dane,
-    \item mgr\_data.py: plik zawierający klasę "Data",
-    odpowiadającą za wybranie pliku do wypełnienia i przygotowanie do do dalszej obróbki, oraz klasę "PrepareData",
-    odpowiadającą za przygotowanie danych do przekazania silnikowi uczenia maszynowego celem wypełnienia
-    oraz późniejszemu przywróceniu danym ich pierwotnego wyglądu
+          i uruchomienie odpowiedniego modułu po wybraniu,
+    \item mgr\_nan\_gen.py: plik zawierajacy klasę NanGen, odpowiadającą za realizację modułu przygotowujacego plik,
+    \item mgr\_fill.py: plik zawierający klasę Fill, odpowiadającą za realizację modułu wypełniajacego brakuące dane,
+    \item mgr\_data.py: plik zawierający klasę Data,
+          odpowiadającą za wybranie pliku do wypełnienia i przygotowanie do do dalszej obróbki, oraz klasę PrepareData,
+          odpowiadającą za przygotowanie danych do przekazania silnikowi uczenia maszynowego celem wypełnienia
+          oraz późniejszemu przywróceniu danym ich pierwotnego wyglądu
     \item mgr\_di.py: plik zawierjący klasę DownImpu,
-    odpowiadającą za przygotowanie danych dla algorytmu "Downward Imputation"
-    \item mgr\_temp\_fill: plik zawierający klasę "TempFill", odpowiadającą za tymczasowe wypełnianie brakujących miejsc,
-    potrzebne podczas przygotowywania danych dla algorytmu "Prostego"
-    \item mgr\_acc: plik zawierający klasę "AccuracyTester", odpowiadającą za obliczanie skuteczności wypełniania danych
+          odpowiadającą za przygotowanie danych dla algorytmu trzeciego.
+    \item mgr\_temp\_fill: plik zawierający klasę TempFill, odpowiadającą za tymczasowe wypełnianie brakujących miejsc,
+          potrzebne podczas przygotowywania danych dla algorytmu Prostego
+    \item mgr\_acc: plik zawierający klasę AccuracyTester, odpowiadającą za obliczanie skuteczności wypełniania danych
 \end{itemize}
 
-Wykorzystując narzędzie "auto-py-to-exe", utworzono plik "mgr\_suite.exe",
+Wykorzystując narzędzie auto-py-to-exe, utworzono plik mgr\_suite.exe,
 pozwalajacy uruchomić program bez konieczności instalowania interpretera Python i potrzebnych bibliotek. \cite{autopy}
 
 \subsubsection{Działanie programu}
@@ -301,14 +334,15 @@ Zostanie on najpierw przygotowany do testów,
 następnie brakujace dane zostaną wypełnione z wykorzystaniem jednego z algorytmów,
 po czym zostanie obliczona dokładność tego wypełnienia.
 
+\vspace{5mm}
 % Uruchomienie
-Po uruchomieniu "mgr\_suite.exe" wyświetlone zostaje okno służące do wyboru modułu, pokazane na rysunku \ref{Fig:main}.
+Po uruchomieniu mgr\_suite.exe wyświetlone zostaje okno służące do wyboru modułu, pokazane na rysunku \ref{Fig:main}.
 
 \begin{figure}[ht]
-	\centering
-	\includegraphics[width=12cm]{img/01.jpg}
-	\caption{Główne okno programu, pozwalajace na wybór modułu do uruchomienia}
-\label{Fig:main}
+    \centering
+    \includegraphics[width=12cm]{img/01.jpg}
+    \caption{Główne okno programu, pozwalajace na wybór modułu do uruchomienia}
+    \label{Fig:main}
 \end{figure}
 \FloatBarrier
 % Przygotowanie danych
@@ -319,61 +353,61 @@ z użyciem okna pokazanego na rysunku \ref{Fig:gen_file}.
 Lista plików generowana jest na podstawie plików znajdujących się
 w tym samym folderze co uruchamiany program spełniających założony format nazwy.
 Założono, że pliki które nadają się do wypełnienia mają być zapisane w formacie CSV,
-natomiast nazwa zaczynać się ma od prefiksu "data\_" i nie posiadać żadnych sufiksów.
+natomiast nazwa zaczynać się ma od prefiksu ``data\_'' i nie posiadać żadnych sufiksów.
 
 \begin{figure}[ht]
-	\centering
-	\includegraphics[width=12cm]{img/02.jpg}
-	\caption{Okno wyboru pliku do przygotowania}
-\label{Fig:gen_file}
+    \centering
+    \includegraphics[width=12cm]{img/02.jpg}
+    \caption{Okno wyboru pliku do przygotowania}
+    \label{Fig:gen_file}
 \end{figure}
 \FloatBarrier
 
 Następnie wybrane z listy zostają kolumny w których maja zostać usunięte dane.
 Wyboru dokonuje się z użyciem okna pokazanego na rysunku \ref{Fig:gen_col}.
-Kolumny do wyboru zaczerpnięte są bezpośrednio z załadowanego wcześniej pliku.
-Wybrać można dowolną ilość, lecz zalecane jest poniżej 50\%.
+Kolumny do wyboru wyekstrahowane są bezpośrednio z załadowanego wcześniej pliku.
+Wybrać można dowolną kombinację, lecz zalecane jest poniżej 50\%.
 
 \begin{figure}[ht]
-	\centering
-	\includegraphics[width=12cm]{img/03.jpg}
-	\caption{Okno wyboru kolumn}
-\label{Fig:gen_col}
+    \centering
+    \includegraphics[width=12cm]{img/03.jpg}
+    \caption{Okno wyboru kolumn}
+    \label{Fig:gen_col}
 \end{figure}
 \FloatBarrier
 
 W wybranych kolumnach zostaje usunięte od 5\%
-do 15\% wartości - dla każdej kolumny ilość jest losowana.
+do 15\% wartości - dla każdej kolumny faktyczna wartość jest losowana.
 Dodatkowo stworzony zostaje plik przechowujęcy informacje które wartości zostały usunięte.
 Ta informacja zostaje później wykorzystana do oceny skuteczności wypełnienia zbioru danych.
 Po zakończeniu usuwania wartości wyświetlone zostaje okno z podsumowaniem jak na rysunku \ref{Fig:gen_end}.
 Nazwa utworzonego pliku z gotowymi danymi tworzona jest
-poprzez dodanie sufiksu "\_holes\_X" do nazwy oryginalnego pliku, gdzie X to kolejna liczba naturalna.
+poprzez dodanie sufiksu ``\_holes\_X'' do nazwy oryginalnego pliku, gdzie X to kolejna liczba naturalna.
 Umożliwia to tworzenie plików z danymi usuniętymi z różnych zestawów kolumn bez konieczności ręcznej zmiany ich nazw.
 Nazwa pliku z informacją które dane zostały usunięte tworzona jest
-przez dodanie sufiksu "\_journal" do nazwy oryginalnego pliku.
+przez dodanie sufiksu ``\_journal'' do nazwy oryginalnego pliku.
 
 \begin{figure}[ht]
-	\centering
-	\includegraphics[width=12cm]{img/04.jpg}
-	\caption{Okno z podsumowaniem}
-\label{Fig:gen_end}
+    \centering
+    \includegraphics[width=12cm]{img/04.jpg}
+    \caption{Okno z podsumowaniem}
+    \label{Fig:gen_end}
 \end{figure}
 \FloatBarrier
 
 % Wypełnianie brakujących wartości
 
-Drugi moduł służy do wypełniania brakujacych wartości w zbiorze danych z użyciem wybranego algorytmu. 
+Drugi moduł służy do wypełniania brakujacych wartości w zbiorze danych z użyciem wybranego algorytmu.
 
 Najpierw należy wskazać plik który ma zostać wypełniony z użyciem okna wyboru pokazanego na rysunku \ref{Fig:fill_file}.
 Tak jak wcześniej, lista tworzona jest na podstawie plików w folderze i przyjętej konwencji nazewnictwa plików.
-Wyświetlane są wyłącznie pliki posiadające sufiks "\_holes\_X" w nazwie, bez kolejnych sufiksów.
+Wyświetlane są wyłącznie pliki posiadające sufiks ``\_holes\_X'' w nazwie, bez kolejnych sufiksów.
 
 \begin{figure}[ht]
-	\centering
-	\includegraphics[width=12cm]{img/05.jpg}
-	\caption{Okno wyboru pliku do wypełnienia}
-\label{Fig:fill_file}
+    \centering
+    \includegraphics[width=12cm]{img/05.jpg}
+    \caption{Okno wyboru pliku do wypełnienia}
+    \label{Fig:fill_file}
 \end{figure}
 \FloatBarrier
 
@@ -382,23 +416,23 @@ wybrany zostaje algorytm który ma zostać wykorzystany do wypełniania brakują
 Wyświetlona zostaje też nazwa wybranego wcześniej pliku w celu uniknięcia błędu wybrania niewłaściwego pliku.
 
 \begin{figure}[ht]
-	\centering
-	\includegraphics[width=12cm]{img/06.jpg}
-	\caption{Okno wyboru algorytmu}
-\label{Fig:fill_alg}
+    \centering
+    \includegraphics[width=12cm]{img/06.jpg}
+    \caption{Okno wyboru algorytmu}
+    \label{Fig:fill_alg}
 \end{figure}
 \FloatBarrier
 
 Puste miejsca zostają wypełnione z wykorzystaniem wybranego algorytmu.
 Dokładny sposób działania algorytmów zostanie opisany w kolejnych rozdziałach.
 Po zakończeniu wypełniania wyświetlone zostaje podsumowanie jak na rysunku \ref{Fig:fill_end}.
-Nazwa pliku wynikowego tworzona jest poprzez dodanie sufixu "\_filled\_Y", gdzie Y to nazwa wybranego algorytmu.
+Nazwa pliku wynikowego tworzona jest poprzez dodanie sufixu ``\_filled\_Y'', gdzie Y to nazwa wybranego algorytmu.
 
 \begin{figure}[ht]
-	\centering
-	\includegraphics[width=12cm]{img/07.jpg}
-	\caption{Okno z podsumowaniem wypełniania}
-\label{Fig:fill_end}
+    \centering
+    \includegraphics[width=12cm]{img/07.jpg}
+    \caption{Okno z podsumowaniem wypełniania}
+    \label{Fig:fill_end}
 \end{figure}
 \FloatBarrier
 
@@ -412,14 +446,14 @@ Obie wartości są obliczane dla poszczególnych wypełnionych kolumn.
 
 Jak w przypadku poprzednich modułów, zacząć należy od wyboru pliku który ma zostać poddany analizie.
 Wyboru dokonuje się z użyciem okna pokazanego na rysunku \ref{Fig:acc_file}.
-Wyświetlane są tylko pliki zawierające słowo "filled" w nazwie, ponieważ takie pliki
+Wyświetlane są tylko pliki zawierające słowo ``filled'' w nazwie, ponieważ takie pliki
 posiadają wartości wypełnione za pomocą któregoś algorytmu z użyciem odpowiedniego modułu.
 
 \begin{figure}[ht]
-	\centering
-	\includegraphics[width=12cm]{img/08.jpg}
-	\caption{Okno wyboru pliku do analizy}
-\label{Fig:acc_file}
+    \centering
+    \includegraphics[width=12cm]{img/08.jpg}
+    \caption{Okno wyboru pliku do analizy}
+    \label{Fig:acc_file}
 \end{figure}
 \FloatBarrier
 
@@ -432,23 +466,23 @@ Obliczenie procentowej skuteczności wypełnienia przebiega następująco:
 \begin{enumerate}[label=\arabic*), leftmargin=1.25cm]
     \item Sprawdzenie ilości wypełnianych wartości w danej kolumnie.
     \item Zsumowanie ilości poprawnie wypełnionych danych w kolumnie poprzez porównanie wartości o współrzędnych
-    zapisanych w pliku tworzonym podczas przygotowywania danych.
+          zapisanych w pliku tworzonym podczas przygotowywania danych.
     \item Zastosować wzór \ref{Eq:acc}:
-        \begin{equation}
-        ACC=\frac{m}{n}\times100\%
-        \label{Eq:acc}
-        \end{equation}
-    gdzie: $ACC$ -- procentowa skuteczność wypełnienia kolumny,
-    $m$ -- ilość poprawnie wypełnionych wartości,
-    $n$ -- ilość wypełnionych wartości.
+          \begin{equation}
+              ACC=\frac{m}{n}\times100\%
+              \label{Eq:acc}
+          \end{equation}
+          gdzie: $ACC$ -- procentowa skuteczność wypełnienia kolumny,
+          $m$ -- ilość poprawnie wypełnionych wartości,
+          $n$ -- ilość wypełnionych wartości.
 \end{enumerate}
 
 Aby obliczyć średnie odchylenie bezwzględne należy zastosować wzór \ref{Eq:aad}:
 
-    \begin{equation}
+\begin{equation}
     AAD=\frac{\sum_{i=1}^{n}|x_i - \hat{x_i}|}{n}
     \label{Eq:aad}
-    \end{equation}
+\end{equation}
 
 gdzie: $AAD$ -- średnie odchylenie bezwzględne dla danej kolumny,
 $n$ -- ilość wypełnionych wartości w kolumnie,
@@ -460,36 +494,36 @@ a wynik obliczeń zapisywany jest w dwóch plikach
 
 \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
     \item wyniki obliczania procentowej skuteczności jest zapisywany w pliku o nazwie
-    tworzonej przez dodanie do nazwy analizowanego pliku sufiksu "\_aad",
+          tworzonej przez dodanie do nazwy analizowanego pliku sufiksu "\_aad",
     \item wyniki obliczania średniego odchylenia bezwzględnego jest zapisywany w pliku o nazwie
-    tworzonej przez dodanie do nazwy analizowanego pliku sufiksu "\_acc".
+          tworzonej przez dodanie do nazwy analizowanego pliku sufiksu "\_acc".
 \end{itemize}
 
 \begin{figure}[ht]
-	\centering
-	\includegraphics[width=12cm]{img/09.jpg}
-	\caption{Okno z podsumowaniem}
-\label{Fig:acc_end}
+    \centering
+    \includegraphics[width=12cm]{img/09.jpg}
+    \caption{Okno z podsumowaniem}
+    \label{Fig:acc_end}
 \end{figure}
 \FloatBarrier
 
 \subsection{Opis implementacji algorytmów}
 
-Implementowane algorytmy opierają się o kolejne rozwinięcia idei zaprezentowanej przez Piętal M. w \cite{wyb_zag}.
+Implementowane algorytmy opierają się o kolejne rozwinięcia idei zaprezentowanej w \cite{wybZag}.
 Polega ona na sformułowaniu problemu wypełniania problemu wypełniania brakujących wartości jako problemu decyzyjnego.
 Wynikają z tego następujące założenia:
 \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
     \item kolumny wypełniane są pojedyńczo,
-    \item samo wypełnianie przeprowadzane jest przez system decycyjny,
+    \item samo wypełnianie przeprowadzane jest przez system decyzyjny,
     \item algorytm ma za zadanie wybrać kolejność wypełniania kolumn oraz
-    określić jakie kolumny będą zawarte w zbiorze danych uczących systemu decyzyjnego.
+          określić jakie kolumny będą zawarte w zbiorze danych uczących systemu decyzyjnego.
 \end{itemize}
 
 Działanie poszczególnych algorytmów zostanie zaprezentowane na przykładowej tabeli \ref{tab:base}
 przedstawiającej zbiór danych:
 \begin{table}[ht]
-\caption{Tabela wyjściowa}
-\centering
+    \caption{Tabela wyjściowa}
+    \centering
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
         \hline
            & A & B & C & D & E & F & G & H & I & J & K & L & M & N \\ \hline
@@ -505,97 +539,436 @@ przedstawiającej zbiór danych:
         10 & * & * & * & * & * & * & x & * & x & * & * & * & * & * \\ \hline
         11 & * & x & * & * & x & * & * & * & * & * & * & * & * & * \\ \hline
     \end{tabular}
-\label{tab:base}
+    \label{tab:base}
 \end{table}
 \FloatBarrier
 gdzie: $*$ -- istniejąca wartość, $x$ -- brakująca wartość.
 
-\subsubsection{Prosty}
+\subsubsection{Algorytm pierwszy}
 
-Procedura dla algorytmu prostego wygląda następująco:
+Procedura dla algorytmu pierwszego wygląda następująco:
 
 \begin{enumerate}[label=\arabic*), leftmargin=1.25cm]
     \item Tworzony jest zbiór kolumn z brakującymi wartościami $X$.
-    Dla przykładowej tabeli będzie to zbiór $X=\{A,B,C,E,G,H,I,K,L,M\}$.
+          Dla przykładowej tabeli zbiór będzie wyglądał następująco:
+
+          $X=\{A,B,C,E,G,H,I,K,L,M\}$.
     \item Kolumny w zbiorze $X$ są następnie sortowane od kolumn zawierających
-    najmniejszą ilość brakujących wartości do zawierających ich najwięcej, dając ciąg $\eta$.
-    W przypadku kolumn o takiej samej ilości brakujących danych kolejność nie ma znaczenia.
-    Dla przykładowej tabeli zbiór ten będzie wyglądał następująco: $\eta=(B,M,C,A,L,K,I,H,G,E)$.
+          najmniejszą ilość brakujących wartości do zawierających ich najwięcej, dając ciąg $\eta$.
+          W przypadku kolumn o takiej samej ilości brakujących danych kolejność nie ma znaczenia.
+          Dla przykładowej tabeli zbiór ten będzie wyglądał następująco:
+
+          $\eta=(B,M,C,A,L,K,I,H,G,E)$.
     \item Pierwszy element w ciągu $\eta$ zostaje wybrany jako kolumna która zostanie wypełniona.
-    W przykładzie będzie to element $B$.
+          W przykładzie będzie to element $B$.
     \item Tabela zostaje rozdzielona na dwie: w jednej znajdują się rekordy
-    w których w kolumnie wybranej do wypełnienia znajdują się dane,
-    a w drugiej rekordy w których w wybranej tabeli danych brakuje.
-    Dla przykładowej tabeli będzie to wyglądało następująco,
-    gdzie tabela \ref{tab:simple_full} przedstawia tabelę z danymi w wybranej kolumnie,
-    natomiast tabela \ref{tab:simple_nan} przedstawia tabelę z brakiem danych w wybranej kolumnie.
-    Dla lepszej czytelności, przesunięto rozważaną kolumnę na początek tabeli:
+          w których w kolumnie wybranej do wypełnienia znajdują się dane,
+          a w drugiej rekordy w których w wybranej tabeli danych brakuje.
+          Dla przykładowej tabeli będzie to wyglądało następująco,
+          gdzie tabela \ref{tab:1_full} przedstawia tabelę z danymi w wybranej kolumnie,
+          natomiast tabela \ref{tab:1_nan} przedstawia tabelę z brakiem danych w wybranej kolumnie.
 
-        \begin{table}[ht]
-        \caption{Tabela wydzielona z oryginalnej, zawierająca wyłacznie rekordy z danymi w rozważanej kolumnie}
-        \centering
-            \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
-                \hline
-                   & A & B & C & D & E & F & G & H & I & J & K & L & M & N \\ \hline
-                1  & * & * & x & * & * & * & x & * & * & * & x & * & * & * \\ \hline
-                2  & x & * & * & * & * & * & * & * & * & * & * & x & * & * \\ \hline
-                3  & * & * & * & * & x & * & * & * & * & * & * & x & * & * \\ \hline
-                4  & x & * & x & * & x & * & x & x & * & * & x & x & * & * \\ \hline
-                5  & * & * & * & * & x & * & * & x & x & * & * & * & * & * \\ \hline
-                6  & * & * & * & * & x & * & x & x & * & * & * & * & * & * \\ \hline
-                7  & * & * & * & * & x & * & * & * & * & * & * & * & * & * \\ \hline
-                8  & * & * & * & * & * & * & * & x & * & * & x & * & x & * \\ \hline
-                9  & * & * & * & * & x & * & * & * & x & * & * & * & x & * \\ \hline
-                10 & * & * & * & * & * & * & x & * & x & * & * & * & * & * \\ \hline
-            \end{tabular}
-        \label{tab:simple_full}
-        \end{table}
-        \FloatBarrier
+          \begin{table}[ht]
+              \caption{Tabela wydzielona z oryginalnej, zawierająca wyłacznie rekordy z danymi w rozważanej kolumnie}
+              \centering
+              \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+                  \hline
+                     & A & B & C & D & E & F & G & H & I & J & K & L & M & N \\ \hline
+                  1  & * & * & x & * & * & * & x & * & * & * & x & * & * & * \\ \hline
+                  2  & x & * & * & * & * & * & * & * & * & * & * & x & * & * \\ \hline
+                  3  & * & * & * & * & x & * & * & * & * & * & * & x & * & * \\ \hline
+                  4  & x & * & x & * & x & * & x & x & * & * & x & x & * & * \\ \hline
+                  5  & * & * & * & * & x & * & * & x & x & * & * & * & * & * \\ \hline
+                  6  & * & * & * & * & x & * & x & x & * & * & * & * & * & * \\ \hline
+                  7  & * & * & * & * & x & * & * & * & * & * & * & * & * & * \\ \hline
+                  8  & * & * & * & * & * & * & * & x & * & * & x & * & x & * \\ \hline
+                  9  & * & * & * & * & x & * & * & * & x & * & * & * & x & * \\ \hline
+                  10 & * & * & * & * & * & * & x & * & x & * & * & * & * & * \\ \hline
+              \end{tabular}
+              \label{tab:1_full}
+          \end{table}
+          \FloatBarrier
 
-        \begin{table}[ht]
-        \caption{Tabela wydzielona z oryginalnej, zawierająca wyłacznie rekordy z brakiem danych w rozważanej kolumnie}
-        \centering
-            \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
-                \hline
-                   & A & B & C & D & E & F & G & H & I & J & K & L & M & N \\ \hline
-                11 & * & x & * & * & x & * & * & * & * & * & * & * & * & * \\ \hline
-            \end{tabular}
-        \label{tab:simple_nan}
-        \end{table}
-        \FloatBarrier
+          \begin{table}[ht]
+              \caption{Tabela wydzielona z oryginalnej,
+                  zawierająca wyłacznie rekordy z brakiem danych w rozważanej kolumnie}
+              \centering
+              \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+                  \hline
+                     & A & B & C & D & E & F & G & H & I & J & K & L & M & N \\ \hline
+                  11 & * & x & * & * & x & * & * & * & * & * & * & * & * & * \\ \hline
+              \end{tabular}
+              \label{tab:1_nan}
+          \end{table}
+          \FloatBarrier
 
-    \item Pierwsza z tabel - w przykładzie tabela \ref{tab:simple_full} - posłuży do uczenia modelu uczenia maszynowego.
-    Wypełniana kolumna służy jako cel, a pozostałe jako dane uczące.
+    \item Pierwsza z tabel - w przykładzie tabela \ref{tab:1_full} - posłuży do uczenia modelu uczenia maszynowego.
+          Wypełniana kolumna służy jako cel, a pozostałe jako dane uczące.
     \item Następnie nauczony model zostaje wykorzystany do wypełnienia brakujących wartości w drugiej tabeli,
-    w przykładzie tabeli \ref{tab:simple_nan}.
-    \item Na koniec tabele są łączone w jedną co w przykładzie poskutkuje tabelą \ref{tab:simple_end},
-    a algorytm jest powtarzany aż do wypełnienia wszystkich brakujących wartości.
+          w przykładzie tabeli \ref{tab:1_nan}.
+    \item Na koniec tabele są łączone w jedną co w przykładzie poskutkuje tabelą \ref{tab:1_end},
+          a algorytm jest powtarzany aż do wypełnienia wszystkich brakujących wartości.
 
-    \begin{table}[ht]
-        \caption{Tabela prezentująca wygląd danych po pojedynczym przejściu algorytmu}
-        \centering
-            \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
-                \hline
-                   & A & B & C & D & E & F & G & H & I & J & K & L & M & N \\ \hline
-                1  & * & * & x & * & * & * & x & * & * & * & x & * & * & * \\ \hline
-                2  & x & * & * & * & * & * & * & * & * & * & * & x & * & * \\ \hline
-                3  & * & * & * & * & x & * & * & * & * & * & * & x & * & * \\ \hline
-                4  & x & * & x & * & x & * & x & x & * & * & x & x & * & * \\ \hline
-                5  & * & * & * & * & x & * & * & x & x & * & * & * & * & * \\ \hline
-                6  & * & * & * & * & x & * & x & x & * & * & * & * & * & * \\ \hline
-                7  & * & * & * & * & x & * & * & * & * & * & * & * & * & * \\ \hline
-                8  & * & * & * & * & * & * & * & x & * & * & x & * & x & * \\ \hline
-                9  & * & * & * & * & x & * & * & * & x & * & * & * & x & * \\ \hline
-                10 & * & * & * & * & * & * & x & * & x & * & * & * & * & * \\ \hline
-                11 & * & * & * & * & x & * & * & * & * & * & * & * & * & * \\ \hline
-            \end{tabular}
-        \label{tab:simple_end}
-        \end{table}
-        \FloatBarrier
+          \begin{table}[ht]
+              \caption{Tabela prezentująca wygląd danych po pojedynczym przejściu głównej pętli algorytmu}
+              \centering
+              \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+                  \hline
+                     & A & B & C & D & E & F & G & H & I & J & K & L & M & N \\ \hline
+                  1  & * & * & x & * & * & * & x & * & * & * & x & * & * & * \\ \hline
+                  2  & x & * & * & * & * & * & * & * & * & * & * & x & * & * \\ \hline
+                  3  & * & * & * & * & x & * & * & * & * & * & * & x & * & * \\ \hline
+                  4  & x & * & x & * & x & * & x & x & * & * & x & x & * & * \\ \hline
+                  5  & * & * & * & * & x & * & * & x & x & * & * & * & * & * \\ \hline
+                  6  & * & * & * & * & x & * & x & x & * & * & * & * & * & * \\ \hline
+                  7  & * & * & * & * & x & * & * & * & * & * & * & * & * & * \\ \hline
+                  8  & * & * & * & * & * & * & * & x & * & * & x & * & x & * \\ \hline
+                  9  & * & * & * & * & x & * & * & * & x & * & * & * & x & * \\ \hline
+                  10 & * & * & * & * & * & * & x & * & x & * & * & * & * & * \\ \hline
+                  11 & * & * & * & * & x & * & * & * & * & * & * & * & * & * \\ \hline
+              \end{tabular}
+              \label{tab:1_end}
+          \end{table}
+          \FloatBarrier
 \end{enumerate}
 
-\subsubsection{Uproszczony Downward Imputation}
-\subsubsection{Downward Imputation}
+\subsubsection{Algorytm drugi}
+
+Algorytm drugi jest rozwinięciem pierwszego. Róźni się sposobem wyboru kolumn mających pełnić rolę
+danych uczących. Eliminuje on z tego zbioru kolumny które również posiadają brakujące dane.
+Oznacza to, że kolumny wypełniane w pierwszej kolejności wypełniane są z użyciem silnika uczenia maszynowego
+uczącego się na mniejszej ilości danych, lecz lepszej jakości.
+
+Procedura dla algorytmu drugiego wygląda następująco:
+
+\begin{enumerate}[label=\arabic*), leftmargin=1.25cm]
+    \item Tworzony jest zbiór kolumn z brakującymi wartościami $X$.
+          Dla przykładowej tabeli zbiór będzie wyglądał następująco:
+
+          $X=\{A,B,C,E,G,H,I,K,L,M\}$.
+    \item Kolumny w zbiorze $X$ są następnie sortowane od kolumn zawierających
+          najmniejszą ilość brakujących wartości do zawierających ich najwięcej, dając ciąg $\eta$.
+          W przypadku kolumn o takiej samej ilości brakujących danych kolejność nie ma znaczenia.
+          Dla przykładowej tabeli zbiór ten będzie wyglądał następująco:
+
+          $\eta=(B,M,C,A,L,K,I,H,G,E)$.
+    \item Pierwszy element w ciągu $\eta$ zostaje wybrany jako kolumna która zostanie wypełniona.
+          W przykładzie będzie to element $B$.
+    \item Tabela zostaje podzielona na dwie. W jednej znajdują się kolumny z pustymi wartościami,
+          oprócz tej która ma zostać wypełniona.
+          W drugiej znajdują się kolumny pełne oraz ta wyzznaczona do wypełnienia.
+          Tabele \ref{tab:2_nan} i \ref{tab:2_full} przedstawiają rodzielenie tabeli dla rozważanego przykładu:
+
+          \begin{table}[ht]
+              \caption{Tabela wydzielona z oryginalnej, zawierająca tylko kolumny z brakującymi danymi,
+                  z wyjątkiem wyznaczonej do wypełnienia}
+              \centering
+              \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+                  \hline
+                     & A & C & E & G & H & I & K & L & M \\ \hline
+                  1  & * & x & * & x & * & * & x & * & * \\ \hline
+                  2  & x & * & * & * & * & * & * & x & * \\ \hline
+                  3  & * & * & x & * & * & * & * & x & * \\ \hline
+                  4  & x & x & x & x & x & * & x & x & * \\ \hline
+                  5  & * & * & x & * & x & x & * & * & * \\ \hline
+                  6  & * & * & x & x & x & * & * & * & * \\ \hline
+                  7  & * & * & x & * & * & * & * & * & * \\ \hline
+                  8  & * & * & * & * & x & * & x & * & x \\ \hline
+                  9  & * & * & x & * & * & x & * & * & x \\ \hline
+                  10 & * & * & * & x & * & x & * & * & * \\ \hline
+                  11 & * & * & x & * & * & * & * & * & * \\ \hline
+              \end{tabular}
+              \label{tab:2_nan}
+          \end{table}
+          \FloatBarrier
+
+          \begin{table}[ht]
+              \caption{Tabela wydzielona z oryginalnej,
+                  zawierająca tylko kolumny bez brakujących danych i kolumnę wyznaczoną do wypełnienia}
+              \centering
+              \begin{tabular}{|c|c|c|c|c|c|}
+                  \hline
+                     & B & D & F & J & N \\ \hline
+                  1  & * & * & * & * & * \\ \hline
+                  2  & * & * & * & * & * \\ \hline
+                  3  & * & * & * & * & * \\ \hline
+                  4  & * & * & * & * & * \\ \hline
+                  5  & * & * & * & * & * \\ \hline
+                  6  & * & * & * & * & * \\ \hline
+                  7  & * & * & * & * & * \\ \hline
+                  8  & * & * & * & * & * \\ \hline
+                  9  & * & * & * & * & * \\ \hline
+                  10 & * & * & * & * & * \\ \hline
+                  11 & x & * & * & * & * \\ \hline
+              \end{tabular}
+              \label{tab:2_full}
+          \end{table}
+          \FloatBarrier
+
+    \item Tabela z kolumną do wypełnienia znowu zostaje rozdzielona. W jednej znajdują się rekordy
+          w których w kolumnie wybranej do wypełnienia znajdują się dane,
+          a w drugiej rekordy w których w wybranej tabeli danych brakuje.
+          Dla przykładowej tabeli będzie to wyglądało następująco,
+          gdzie tabela \ref{tab:2_full_full} przedstawia tabelę z danymi w wybranej kolumnie,
+          natomiast tabela \ref{tab:2_full_nan} przedstawia tabelę z brakiem danych w wybranej kolumnie.
+
+          \begin{table}[ht]
+              \caption{Tabela wydzielona z oryginalnej,
+                  zawierająca tylko kolumny bez brakujących danych i kolumnę wyznaczoną do wypełnienia}
+              \centering
+              \begin{tabular}{|c|c|c|c|c|c|}
+                  \hline
+                     & B & D & F & J & N \\ \hline
+                  1  & * & * & * & * & * \\ \hline
+                  2  & * & * & * & * & * \\ \hline
+                  3  & * & * & * & * & * \\ \hline
+                  4  & * & * & * & * & * \\ \hline
+                  5  & * & * & * & * & * \\ \hline
+                  6  & * & * & * & * & * \\ \hline
+                  7  & * & * & * & * & * \\ \hline
+                  8  & * & * & * & * & * \\ \hline
+                  9  & * & * & * & * & * \\ \hline
+                  10 & * & * & * & * & * \\ \hline
+              \end{tabular}
+              \label{tab:2_full_full}
+          \end{table}
+          \FloatBarrier
+
+          \begin{table}[ht]
+              \caption{Tabela wydzielona z oryginalnej,
+                  zawierająca tylko kolumny bez brakujących danych i kolumnę wyznaczoną do wypełnienia}
+              \centering
+              \begin{tabular}{|c|c|c|c|c|c|}
+                  \hline
+                     & B & D & F & J & N \\ \hline
+                  11 & x & * & * & * & * \\ \hline
+              \end{tabular}
+              \label{tab:2_full_nan}
+          \end{table}
+          \FloatBarrier
+
+    \item Pierwsza z tabel - w przykładzie tabela \ref{tab:2_full_full} - posłuży do uczenia modelu uczenia maszynowego.
+          Wypełniana kolumna służy jako cel, a pozostałe jako dane uczące.
+    \item Następnie nauczony model zostaje wykorzystany do wypełnienia brakujących wartości w drugiej tabeli,
+          w przykładzie tabeli \ref{tab:2_full_nan}.
+    \item Nastęnie tabele są łączone spowrotem w jedną, przywracając oryginalne rozmiary. W pierwszej kolejności
+          łączone są ze sobą tabele które brały udział w uczeniu i wypełnianiu.
+          W przykładzie będą to tabele \ref{tab:2_full_full} i \ref{tab:2_full_nan} tworząc \ref{tab:2_full_end}.
+
+          \begin{table}[ht]
+              \caption{Tabela wynikająca z połączenia tabel biorących udział w nauczaniu i wypełnianiu}
+              \centering
+              \begin{tabular}{|c|c|c|c|c|c|}
+                  \hline
+                     & B & D & F & J & N \\ \hline
+                  1  & * & * & * & * & * \\ \hline
+                  2  & * & * & * & * & * \\ \hline
+                  3  & * & * & * & * & * \\ \hline
+                  4  & * & * & * & * & * \\ \hline
+                  5  & * & * & * & * & * \\ \hline
+                  6  & * & * & * & * & * \\ \hline
+                  7  & * & * & * & * & * \\ \hline
+                  8  & * & * & * & * & * \\ \hline
+                  9  & * & * & * & * & * \\ \hline
+                  10 & * & * & * & * & * \\ \hline
+                  11 & * & * & * & * & * \\ \hline
+              \end{tabular}
+              \label{tab:2_full_end}
+          \end{table}
+          \FloatBarrier
+
+    \item Na koniec dołączana jest wcześniej utworzona tabela zawierająca wyłaczine kolumny z brakującymi wartościami.
+          W przykładzie oznacza to łączenie tabel \ref{tab:2_full_end} i \ref{tab:2_nan}, uzyskując tabelę \ref{tab:2_end}.
+
+          \begin{table}[ht]
+              \caption{Tabela prezentująca wygląd danych po pojedynczym przejściu głównej pętli algorytmu}
+              \centering
+              \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+                  \hline
+                     & B & D & F & J & N & A & C & E & G & H & I & K & L & M \\ \hline
+                  1  & * & * & * & * & * & * & x & * & x & * & * & x & * & * \\ \hline
+                  2  & * & * & * & * & * & x & * & * & * & * & * & * & x & * \\ \hline
+                  3  & * & * & * & * & * & * & * & x & * & * & * & * & x & * \\ \hline
+                  4  & * & * & * & * & * & x & x & x & x & x & * & x & x & * \\ \hline
+                  5  & * & * & * & * & * & * & * & x & * & x & x & * & * & * \\ \hline
+                  6  & * & * & * & * & * & * & * & x & x & x & * & * & * & * \\ \hline
+                  7  & * & * & * & * & * & * & * & x & * & * & * & * & * & * \\ \hline
+                  8  & * & * & * & * & * & * & * & * & * & x & * & x & * & x \\ \hline
+                  9  & * & * & * & * & * & * & * & x & * & * & x & * & * & x \\ \hline
+                  10 & * & * & * & * & * & * & * & * & x & * & x & * & * & * \\ \hline
+                  11 & * & * & * & * & * & * & * & x & * & * & * & * & * & * \\ \hline
+              \end{tabular}
+              \label{tab:2_end}
+          \end{table}
+          \FloatBarrier
+
+\end{enumerate}
+\subsubsection{Algorytm trzeci}
+
+Algorytm trzeci jest kolejnym rozwinięciem drugiego. On również skupia się głównie na zmianie logiki
+stojącej za doborem kolumn do wykorzystania w uczeniu silnika.
+Dodatkowo zmieniany jest sposób wyboru kolejności w jakiej wypełniane są kolumny.
+W przeciwieństwie do poprzedniego algorytmu, kolejność wypełniania kolumn nie jest dyktowana przez samą ilość
+brakujących wartości, a ilość brakujących wartości występujących w tych samych rekordach.
+Ma to na celu jak najbardiezj efektywne uzyskanie informacji mających znaczenie przy wypełnianiu kolejnych kolumn.
+Również w tym celu kolumny o najmniejszym wpływie dla wypełniania innych kolumn wypełniane są w sposób prosty,
+to znaczy w oparciu o najczęściej występującą wartość lub średnią wartość w kolumnie, zależnie od typu danych.
+
+Procedura dla algorytmu trzeciego wygląda następująco:
+
+\begin{enumerate}[label=\arabic*), leftmargin=1.25cm]
+    \item Tworzony jest zbiór kolumn z brakującymi wartościami $X$.
+          Dla przykładowej tabeli zbiór będzie wyglądał następująco:
+
+          $X=\{A,B,C,E,G,H,I,K,L,M\}$
+    \item Ze zbioru $X$ wybierana jest kolumna z największą liczbą brakujących wartości.
+          Ta kolumna kolumna jest usuwana ze zbioru $X$ i dodawana do ciągu $\eta$,
+          natomiast liczba brakujących wartości w tej kolumnie dodawana jest do ciągu $\delta$.
+          W przykładzie jest to kolumna $E$ z 7 brakującymi elementami, a zbiór i ciągi będą wyglądały następująco:
+
+          $X=\{A,B,C,G,H,I,K,L,M\}$, $\eta=(E)$, $\delta=(7)$
+    \item Następnie z tak powstałego zbioru $X$ zostaje wybrana kolumna mająca najwięcej wspólnych z poprzednio wybraną
+          kolumną brakujacych wartości w rekordach.
+          W przypadku gdy liczba wspólnych braków jest równa dla kilku kolumn, można wybrać dowolną z nich.
+          Wybrana kolumna usuwana jest ze zbioru $X$ i dodawana do ciągu $\eta$,
+          a liczba wspólnych brakujących wartości do ciągu $\delta$.
+          W przykładzie jest to $H$, z 3 wspólnymi elementami. Poskutkuje to zbiorem i ciągami:
+
+          $X=\{A,C,G,I,K,L,M\}$, $\eta=(E,H)$, $\delta=(7,3)$
+    \item Powyższy krok jest powtarzany aż do wyczerpania elementów zbioru $X$
+          W ten sposób tworzone są 2 ciągi. Jeden zawiera kolumny w uzyskanej w ten sposób kolejności, oznaczony jako $\eta$,
+          oraz drugi mu odpowiadający oznaczony $\delta$,
+          zawierający wartości liczbowe oznaczające liczbę wspólnych z poprzednim elementem brakujacych wartości.
+          Te ciągi dla przykładowej tabeli będą wyglądać następująco:
+
+          $\eta=(E,H,G,K,C,L,A,I,M,B)$, $\delta=(7,3,2,2,2,1,2,0,1,0)$
+    \item Jeśli ciąg $\delta$ zawiera na końcu wartości zerowe to są one usuwane z tego ciągu,
+          to odpowiadające im kolumny zostają wypełnione w sposób prosty i usuwane z ciągu $\eta$.
+          W przykładzie poskutkuje to ciągami:
+
+          $\eta=(E,H,G,K,C,L,A,I,M)$, $\delta=(7,3,2,2,2,1,2,0,1)$
+    \item Tabela zostaje rozdzielona na podstawie zawartości ciągu $\eta$.
+          Jedna tabela wynikowa zawiera kolumny zawarte w tym ciągu, a druga pozostałe, zawierająca wyłącznie kompletne dane.
+          Tabele dla przykładu będą wyglądać następująco, gdzie tabela \ref{tab:3_nan} zawiera kolumny z ciągu $\eta$, a tabela \ref{tab:3_full} pozostałe:
+
+          \begin{table}[ht]
+              \caption{Tabela zawierająca kolumny zawarte w ciągu $\eta$}
+              \centering
+              \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+                  \hline
+                     & A & C & E & G & H & I & K & L & M \\ \hline
+                  1  & * & x & * & x & * & * & x & * & * \\ \hline
+                  2  & x & * & * & * & * & * & * & x & * \\ \hline
+                  3  & * & * & x & * & * & * & * & x & * \\ \hline
+                  4  & x & x & x & x & x & * & x & x & * \\ \hline
+                  5  & * & * & x & * & x & x & * & * & * \\ \hline
+                  6  & * & * & x & x & x & * & * & * & * \\ \hline
+                  7  & * & * & x & * & * & * & * & * & * \\ \hline
+                  8  & * & * & * & * & x & * & x & * & x \\ \hline
+                  9  & * & * & x & * & * & x & * & * & x \\ \hline
+                  10 & * & * & * & x & * & x & * & * & * \\ \hline
+                  11 & * & * & x & * & * & * & * & * & * \\ \hline
+              \end{tabular}
+              \label{tab:3_nan}
+          \end{table}
+          \FloatBarrier
+
+          \begin{table}[ht]
+              \caption{Tabela zawierająca kolumny nie zawarte w ciągu $\eta$}
+              \centering
+              \begin{tabular}{|c|c|c|c|c|c|}
+                  \hline
+                     & B & D & F & J & N \\ \hline
+                  1  & * & * & * & * & * \\ \hline
+                  2  & * & * & * & * & * \\ \hline
+                  3  & * & * & * & * & * \\ \hline
+                  4  & * & * & * & * & * \\ \hline
+                  5  & * & * & * & * & * \\ \hline
+                  6  & * & * & * & * & * \\ \hline
+                  7  & * & * & * & * & * \\ \hline
+                  8  & * & * & * & * & * \\ \hline
+                  9  & * & * & * & * & * \\ \hline
+                  10 & * & * & * & * & * \\ \hline
+                  11 & * & * & * & * & * \\ \hline
+              \end{tabular}
+              \label{tab:3_full}
+          \end{table}
+          \FloatBarrier
+
+
+
+    \item Ze zbioru $\eta$ usuwana jest kolumna będąca ostatnim elementem ciągu
+          i dokładana do tabeli zawierającej kompletne dane. Ta kolumna zostanie wypełniana.
+          Tabela dzielona jest na dwie, jedną zawierającą rekordy w których wypełniana kolumna zawiera dane,
+          i drugą w której wypełniana kolumna danych nie posiada. Pierwsza z nich posłuży jako dane treningowe dla modelu uczenia maszynowego,
+          a druga zostanie z jego użyciem wypełniona.
+          W rozpatrywanym przypadku przenoszoną kolumną będzie $M$, więc ciągi po jej usunięciu będą wyglądały następująco:
+
+          $\eta=(E,H,G,K,C,L,A,I)$, $\delta=(7,3,2,2,2,1,2,0)$
+          Z kolei tabela zawierająca dane treningowe będzie wyglądała jak \ref{tab:3_full_full} , z kolei tabela do wypełnienia jak \ref{tab:3_full_nan}.
+
+          \begin{table}[ht]
+              \caption{Tabela zawierająca kolumny nie zawarte w ciągu $\eta$}
+              \centering
+              \begin{tabular}{|c|c|c|c|c|c|c|}
+                  \hline
+                     & B & D & F & J & N & M \\ \hline
+                  1  & * & * & * & * & * & * \\ \hline
+                  2  & * & * & * & * & * & * \\ \hline
+                  3  & * & * & * & * & * & * \\ \hline
+                  4  & * & * & * & * & * & * \\ \hline
+                  5  & * & * & * & * & * & * \\ \hline
+                  6  & * & * & * & * & * & * \\ \hline
+                  7  & * & * & * & * & * & * \\ \hline
+                  10 & * & * & * & * & * & * \\ \hline
+                  11 & * & * & * & * & * & * \\ \hline
+              \end{tabular}
+              \label{tab:3_full_full}
+          \end{table}
+          \FloatBarrier
+
+          \begin{table}[ht]
+              \caption{Tabela zawierająca kolumny nie zawarte w ciągu $\eta$}
+              \centering
+              \begin{tabular}{|c|c|c|c|c|c|c|}
+                  \hline
+                    & B & D & F & J & N & M \\ \hline
+                  8 & * & * & * & * & * & x \\ \hline
+                  9 & * & * & * & * & * & x \\ \hline
+              \end{tabular}
+              \label{tab:3_full_nan}
+          \end{table}
+          \FloatBarrier
+
+    \item Następnie usyskane po wypełnieniu tabele są łączone w jedną,
+          a powyższa procedura polegająca na przenoszeniu i wypełnianiu ostatniej kolumny z ciągu $\eta$
+          jest powtarzana aż do jego wyczerpania i tym samym wypełnienia wszystkich kolumn.
+          Tabela \ref{tab:3_end} przedstawia tabelę po połączeniu tabel \ref{tab:3_full_full} i \ref{tab:3_full_nan},
+          gotową do dodania kolejnej tabeli z ciągu $\eta$
+
+          \begin{table}[ht]
+              \caption{Tabela gotowa do powtórzenia procedury dodania i wypełnienia kolumny}
+              \centering
+              \begin{tabular}{|c|c|c|c|c|c|c|}
+                  \hline
+                     & B & D & F & J & N & M \\ \hline
+                  1  & * & * & * & * & * & * \\ \hline
+                  2  & * & * & * & * & * & * \\ \hline
+                  3  & * & * & * & * & * & * \\ \hline
+                  4  & * & * & * & * & * & * \\ \hline
+                  5  & * & * & * & * & * & * \\ \hline
+                  6  & * & * & * & * & * & * \\ \hline
+                  7  & * & * & * & * & * & * \\ \hline
+                  8  & * & * & * & * & * & * \\ \hline
+                  9  & * & * & * & * & * & * \\ \hline
+                  10 & * & * & * & * & * & * \\ \hline
+                  11 & * & * & * & * & * & * \\ \hline
+              \end{tabular}
+              \label{tab:3_end}
+          \end{table}
+          \FloatBarrier
+\end{enumerate}
+
 \subsection{Napotkane problemy}
 \subsection{Testy algorytmów na wybranych źródłach danych}
 \clearpage
@@ -616,23 +989,39 @@ Procedura dla algorytmu prostego wygląda następująco:
 \addcontentsline{toc}{section}{Literatura}
 
 \begin{thebibliography}{4}
-    % Narzędzia
+    % Wstęp
     \bibitem{python} https://www.python.org/. Dostęp 26.02.2023.
-    \bibitem{VSC} https://code.visualstudio.com/. Dostęp 26.02.2023.
-    % Biblioteki
     \bibitem{pandas} https://pandas.pydata.org/. Dostęp 26.02.2023.
-    \bibitem{numeric} https://pypi.org/project/Numeric/. Dostęp 26.02.2023.
-    \bibitem{numarray} https://pypi.org/project/numarray/. Dostęp 26.02.2023.
     \bibitem{numpy} https://numpy.org/. Dostęp 26.02.2023.
     \bibitem{scikit} https://scikit-learn.org/stable/. Dostęp 26.02.2023.
-    \bibitem{tkinter} https://docs.python.org/3/library/tkinter.html. Dostęp 26.02.2023.
     \bibitem{easygui} https://easygui.sourceforge.net/. Dostęp 26.02.2023.
+    \bibitem{uci} https://archive-beta.ics.uci.edu/. Dostęp 26.02.2023.
+    \bibitem{kaggle} https://www.kaggle.com/datasets. Dostęp 26.02.2023.
+    % Narzędzia
+    \bibitem{abc} Geurts L., Meertens L., Pemberton S.: ABC Programmer's Handbook. Bosko Books, Londyn 2005.
+    \bibitem{python2} https://www.artima.com/articles/the-making-of-python. Dostęp 26.02.2023.
+    \bibitem{python3} Lutz M.: Learning Python, 5th Edition. O'Reilly Media Inc, Sebastopol 2013.
+    \bibitem{ide} https://www.redhat.com/en/topics/middleware/what-is-ide. Dostęp 26.02.2023.
+    \bibitem{vsc} https://code.visualstudio.com/. Dostęp 26.02.2023.
+    \bibitem{vsc2} Johnson B.: Visual Studio Code: End-to-End Editing and Debugging Tools for Web Developers. John Wiley \& Sons, Indianapolis 2019.
+    \bibitem{github} https://github.com/. Dostęp 26.02.2023.
+    \bibitem{github2} Chacon S., Straub B.: Pro Git 2nd ed. Apress, 2014.
+    \bibitem{git} Laster B.: Professional Git. John Wiley \& Sons, Indianapolis 2017.
+    % Biblioteki
+    \bibitem{pandas2} Petrou T.: Pandas Cookbook: Recipes for Scientific Computing, Time Series Analysis and Data Visualization using Python. Packt Publishing, Birmingham 2017.
+    \bibitem{numeric} https://pypi.org/project/Numeric/. Dostęp 26.02.2023.
+    \bibitem{numarray} https://pypi.org/project/numarray/. Dostęp 26.02.2023.
+    \bibitem{numpy2} Ranjani J., Sheela A., Meena K. P.: "Combination of NumPy, SciPy and Matplotlib/Pylab -a good alternative methodology to MATLAB - A Comparative analysis" 2019 1st International Conference on Innovations in Information and Communication Technology (ICIICT), Chennai 2019
+    \bibitem{numpy3} McKinney W.: Python for Data Analysis. O'Reilly Media Inc, Sebastopol 2012.
+    \bibitem{tkinter} https://docs.python.org/3/library/tkinter.html. Dostęp 26.02.2023.
     % Źródła danych
+    \bibitem{googlesearch} https://datasetsearch.research.google.com/. Dostęp 26.02.2023.
+    \bibitem{googlesearch2} Noy N., Burgess M., Brickley D.: Google Dataset Search: Building a search engine for datasets in an open Web ecosystem. WebConf'2019, San Francisco 2019
     \bibitem{adult} https://archive-beta.ics.uci.edu/dataset/2/adult. Dostęp 26.02.2023.
     \bibitem{stock} www.kaggle.com/datasets/mattiuzc/stock-exchange-data. Dostęp 26.02.2023.
     \bibitem{autopy} https://pypi.org/project/auto-py-to-exe/. Dostęp 26.02.2023.
     % Implementacja
-    \bibitem{wyb_zag} Brański A.: Wybrane zagadnienia informatyki stosowanej. Oficyna Wydawnicza Politechniki Rzeszowskiej, Rzeszów 2020.
+    \bibitem{wybZag} Brański A.: Wybrane zagadnienia informatyki stosowanej. Oficyna Wydawnicza Politechniki Rzeszowskiej, Rzeszów 2020.
 \end{thebibliography}
 
 \clearpage
@@ -640,4 +1029,4 @@ Procedura dla algorytmu prostego wygląda następująco:
 
 \makesummary
 
-\end{document} 
+\end{document}

@@ -95,7 +95,7 @@ class Fill:
         self.progress = 0
         print("Postęp wypełniania: ", round(self.progress), "%")
         match data.algorithm:
-            case "Prosty":
+            case "Algorytm 1":
                 while True:
                     if data.cols_to_fill:
                         type, col = self.check_datatype(data)
@@ -136,7 +136,54 @@ class Fill:
                                 self.progress_up()
                     else:
                         self.save(data)
-            case "Downward Imputation":
+
+            case "Algorytm 2":
+                di = mgr_di.DownImpu()
+                while True:
+                    if data.cols_to_fill:
+                        type, col = self.check_datatype(data)
+                        print("Wypełnianie kolumny", col)
+                        match type:
+                            case "num":
+                                di.prepare(col, data)
+                                mgr_data.PrepareData.prepare_numerical(
+                                    data, col
+                                )
+
+                                self.progress_up()
+
+                                self.fill_numerical(data, col)
+
+                                self.progress_up()
+
+                                mgr_data.PrepareData.revert_numerical(
+                                    data, col
+                                )
+
+                                self.progress_up()
+
+                                data.df = di.temp_df.join(data.df)
+                            case "cat":
+                                di.prepare(col, data)
+                                mgr_data.PrepareData.prepare_categorical(
+                                    data, col
+                                )
+
+                                self.progress_up()
+
+                                self.fill_categorical(data, col)
+                                mgr_data.PrepareData.revert_categorical(
+                                    data, col
+                                )
+
+                                self.progress_up()
+
+                                data.df = di.temp_df.join(data.df)
+
+                                self.progress_up()
+                    else:
+                        self.save(data)
+            case "Algorytm 3":
                 di = mgr_di.DownImpu()
                 di.prime(data)
                 while True:
@@ -183,51 +230,5 @@ class Fill:
 
                                 data.df = di.temp_df.join(data.df)
 
-                    else:
-                        self.save(data)
-            case "Uproszczony Downward Imputation":
-                di = mgr_di.DownImpu()
-                while True:
-                    if data.cols_to_fill:
-                        type, col = self.check_datatype(data)
-                        print("Wypełnianie kolumny", col)
-                        match type:
-                            case "num":
-                                di.prepare(col, data)
-                                mgr_data.PrepareData.prepare_numerical(
-                                    data, col
-                                )
-
-                                self.progress_up()
-
-                                self.fill_numerical(data, col)
-
-                                self.progress_up()
-
-                                mgr_data.PrepareData.revert_numerical(
-                                    data, col
-                                )
-
-                                self.progress_up()
-
-                                data.df = di.temp_df.join(data.df)
-                            case "cat":
-                                di.prepare(col, data)
-                                mgr_data.PrepareData.prepare_categorical(
-                                    data, col
-                                )
-
-                                self.progress_up()
-
-                                self.fill_categorical(data, col)
-                                mgr_data.PrepareData.revert_categorical(
-                                    data, col
-                                )
-
-                                self.progress_up()
-
-                                data.df = di.temp_df.join(data.df)
-
-                                self.progress_up()
                     else:
                         self.save(data)
