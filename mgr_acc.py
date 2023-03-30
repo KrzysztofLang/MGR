@@ -120,7 +120,7 @@ class AccuracyTester:
                         self.acc.at[index, "count"] + 1,
                     ]
             else:
-                self.acc.loc[len(self.acc)] = [item[1], 1, 1]
+                self.acc.loc[len(self.acc)] = [item[1], 0, 1]
 
             if round(progress) % 10 == 0 and round(progress) != last_prog:
                 print("Postęp: ", round(progress), "%")

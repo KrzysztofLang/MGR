@@ -92,13 +92,95 @@ Rozdział piąty składa się z podsumowania przeprowadzonych analiz i przedstaw
 
 \section{Wprowadzenie}
 
-\subsection{Rys historyczny}
-\subsection{Idea wypełniania brakujących wartości}
+\subsection{Problematyka wypełniania brakujących wartości}
+
+Brakujące wartości są częstym problemem występującym w wielu dziedzinach,
+szczególnie tych operujacych na dużych bazach danych. Utrudniają one analizę zebranych informacji,
+pogarszając wartość danych. Przykładowe rodzaje danych dla których może to mieć znaczenie to między innymi:
+
+\begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
+    \item dane finansowe, gdzie dane wykorzystywane są między innymi do przewidywania zachowania rynków, \cite{fin}
+    \item dane medyczne, gdzie dane wykorzystywane są między innymi do pracy nad nowymi lekami i terapiami, \cite{med}
+    \item dane statystyczne dotyczące populacji, których analiza może być wykorzystana
+          do planowania inwestycji w miastach, \cite{pop}
+    \item dane o ruchu sieciowym, mogące posłużyć do wykrywania problemów w sieci czy zapobiegania atakom. \cite{net}
+\end{itemize}
+
+Powyższe przykłady to tylko drobny wycinek potencjalnych zastosowań analizy dużych zbiorów danych,
+dla których jej dokładność jest kluczowa.
+
+Braki w danych mogą wystęować z różnych powodów, mogą pojawiać się zarówno podczas samego zbierania danych jak i później.
+Przykładowymi źródłami brakujących danych są:
+
+\begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
+    \item błędy w sposobie zbierania danych,
+    \item niepoprawnie zaprojektowana baza danych,
+    \item uszkodzenie nośnika danych,
+    \item błędy wynikające z niepoprawnego importu danych,
+    \item czynnik ludzki,
+    \item uszkodzone instrumenty zbierające dane.
+\end{itemize}
+
+Brakujące dane można zakwalifikować do jednego z 3 typów \cite{types}:
+
+\begin{enumerate}[label=\arabic*), leftmargin=1.25cm]
+    \item MCAR (ang. missing completly at random) -- brakujące w pełni losowo. Oznacza to,
+          że brakujące wartości rozmieszczone są losowo, bez powiązania z innymi danymi.
+    \item MAR (ang. missing at random) -- brakujące losowo. Takie dane rozmieszczone są losowo,
+          lecz widoczne jest powiązanie z innymi danymi.
+    \item MNAR (ang. missing not at random) -- brakujące w sposób nielosowy. Oznacza to,
+          że brakujące wartości można powiązać i innymi danymi.
+\end{enumerate}
+
+Historia prób wypełniania brakujących wartości sięga wczesnych lat XX wieku.
+Wtedy statystycy tacy jak Ronald Fisher i Edwin Wilson zaproponowali metody oparte o średnią i medianę
+rozpatrywanych danych. Te metody są stosowane do dziś w niektórych przypadkach gdy dane zaliczają się do kategorii
+MCAR. \cite{fisher}\cite{wilson}
+
+Dużym przełomem dla wypełniania brakujących danych była publikacja pracy Donalda Rubina pod koniec XX wieku.
+Zaprezentowano w niej koncept wielokrotnej imputacji (MI, ang. multiple imputation).
+Polega on na generowaniu kilku zestawów danych z imputowanymi wartościami na podstawie rozkładu
+wielowymiarowego danych. Następnie stosuje się metodę statystyczną do każdego zestawu danych i łączy się wyniki,
+aby uzyskać oszacowania parametrów i ich błędy. \cite{rubin}
+
+Od tego czasu medoda wielokrotnej imputacji stała się populkarnym sposobem uzupełniania brakujących danych
+w wielu dziedzinach. \cite{multi}
+
 \subsection{Korzyści i zagrożenia}
+
+Różne metody wypełniania są przydatne dla różnych zastosowań. Wśród nich jest zwiększanie jakości danych,
+ułatwienie bądź umożliwienie przeprowadzenia analizy danych, zwiększenie wydajności systemów korzystających z danych.
+Należy jednak mieć na uwadze potencjalne zagrożenia wynikające ze sztucznego tworzenia danych,
+jak to ma miejsce w przypadku wypełniania.
+Aby zminimalizować ryzyko pogorszenia zamiast poprawienia jakości zbioru danych należy dostosować wykorzystane metody
+do charakteru danych. Należy brać pod uwagę:
+
+\begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
+    \item ilość brakujących danych -- bardzo duże braki mogą nawet uniemożliwić poprawne wypełnianie,
+    \item rodzaj danych -- przykładowo dane liczbowe wymagają zastosowania innych metod niż kategoryczne,
+    \item źródło danych -- dane zebrane przez przyrządy pomiarowe znacząco różnią się
+          od danych zebranych w ramach ankiety.
+\end{itemize}
 \subsection{Perspektywy na przyszłość}
+
+Aktualne trendy wskazują, że metody wypełniania zbiorów danych będą zyskiwały na znaczeniu.
+Wynika to z rosnącego znaczenia zbierania i analizowania danych. Coraz więcej branż zaczyna opierać swoje działania
+na analizie danych z różnych źródeł.
+Tworzone, przechowywane i analizowane są ogromne zbiory danych o różnym przeznaczeniu, tak zwane Big Data. \cite{bigata}
+Uruchamiane są przedsięwzięcia Open Government Data, polegające na udostępnianiu przez organy administracji publicznej
+swoich zbiorów danych. \cite{ogd} \cite{ogdpl}
+
+Większa ilość danych oznacza większą ilość braków. Większa ilość braków wymusza tworzenie nowych,
+dokładniejszych i szybszych metod ich wypełniania. Przewidywane kierunki rozwoju algorytmó wypełniania obejmują: \cite{future}
+
+\begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
+    \item nowe, bardziej zaawansowane metody wypełniania, tworzone z myślą o konkretnych typach danych,
+    \item zwiększanie integracji z innymi narzędziami do analizy danych,
+    \item zwiększanie znaczenia uczenia maszynowego,
+    \item więcej metod weryfikujących wypełnienia.
+\end{itemize}
+
 \clearpage
-
-
 \section{Omówienie narzędzi i danych}
 
 \subsection{Python}
@@ -267,7 +349,7 @@ Posiada ponad 100000 rekordów i 9 atrybutów. \cite{stock} Opis atrybutów:
     \item Close: cena akcji w momencie zamknięcia, liczba wymierna,
     \item Adj Close: cena akcji w momencie zamknięcia skorygowana o podziały jak i dywidendy, liczba wymierna,
     \item Volume: liczba akcji będących przedmiotem obrotu w ciągu dnia sesyjnego, liczba całkowita,
-    \item CloseUSD: cana akcji w momencie zamknięcia wyrażona w dolarach amerykańskich
+    \item CloseUSD: cana akcji w momencie zamknięcia wyrażona w dolarach amerykańskich.
 \end{itemize}
 Ten zbiór danych został wybrany ze względu na bardzo popularną kategorię danych, to jest dane finansowe.
 Ma na celu przetestowanie skuteczności działania algorytmów w przypadku danych numerycznych,
@@ -322,12 +404,11 @@ Program składa się z następujacych plików:
           odpowiadającą za przygotowanie danych dla algorytmu trzeciego.
     \item mgr\_temp\_fill: plik zawierający klasę TempFill, odpowiadającą za tymczasowe wypełnianie brakujących miejsc,
           potrzebne podczas przygotowywania danych dla algorytmu Prostego
-    \item mgr\_acc: plik zawierający klasę AccuracyTester, odpowiadającą za obliczanie skuteczności wypełniania danych
+    \item mgr\_acc: plik zawierający klasę AccuracyTester, odpowiadającą za obliczanie skuteczności wypełniania danych.
 \end{itemize}
 
 Wykorzystując narzędzie auto-py-to-exe, utworzono plik mgr\_suite.exe,
 pozwalajacy uruchomić program bez konieczności instalowania interpretera Python i potrzebnych bibliotek. \cite{autopy}
-
 \subsubsection{Działanie programu}
 Poniżej zaprezentowano działanie programu na przykładzie pliku data\_stock.csv.
 Zostanie on najpierw przygotowany do testów,
@@ -971,14 +1052,158 @@ Procedura dla algorytmu trzeciego wygląda następująco:
 
 \subsection{Napotkane problemy}
 \subsection{Testy algorytmów na wybranych źródłach danych}
+
+Procedura przeprowadzonych testów:
+
+\begin{enumerate}[label=\arabic*), leftmargin=1.25cm]
+    \item Wybrano zbiory danych do testów: Adult Data Set \cite{adult} i Stock Exchange Data \cite{stock}.
+    \item Przygotowano dane w sposób umożliwiający wykorzystanie ich w programie.
+          Dane zapisano do plików odpowiednio data\_adult.csv i data\_stock.csv.
+    \item Obydwa pliki załadowano do pierwszego modułu programu, przygotowującego dane poprzez wygenerowanie
+          brakujacych wartości. Dla pliku data\_adult.csv wybrano kolumny:
+
+          \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
+              \item age -- dane liczbowe typu int
+              \item education -- dane kategoryczne
+              \item occupation -- dane kategoryczne
+              \item race -- dane kategoryczne
+              \item hours-per-week -- dane liczbowe typu int
+              \item attribute -- dane kategoryczne
+          \end{itemize}
+
+          Te kolumny zostały wybrane aby przetestować skuteczność wypełniania
+          zarówno danych liczbowych typu int jak i danych kategorycznych.
+
+          Dla pliku data\_stock.csv wybrano z kolei kolumny:
+
+          \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
+              \item Open -- dane liczbowe typu float
+              \item Low -- dane liczbowe typu float
+              \item Volume -- dane liczbowe typu int
+              \item CloseUSD -- dane liczbowe typu float
+          \end{itemize}
+
+          Te kolumny zostały wybrane aby przetestować skuteczność wypełniania
+          zarówno danych liczbowych typu float oraz int.
+
+          W ten sposób wygenerowano gotowe do wypełniania pliki:
+
+          \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
+              \item data\_adult\_holes\_1.csv
+              \item data\_stock\_holes\_1.csv
+          \end{itemize}
+
+          Oraz odpowiadające im pliki przechowujące informacje które dane usunięto:
+
+          \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
+              \item data\_adult\_holes\_1\_journal.csv
+              \item data\_stock\_holes\_1\_journal.csv
+          \end{itemize}
+    \item Następnie dane zostały wypełnione z wykorzystaniem drugiego modułu programu.
+          Do wypełniania obu plików wykorzystano wszystkie 3 algorytmy. Uzyskano w ten sposób zestawy wypełnionych plików:
+
+          Wypełnione pliki bazujące na Adult Data Set:
+          \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
+              \item data\_adult\_holes\_1\_filled\_Algorytm 1.csv
+              \item data\_adult\_holes\_1\_filled\_Algorytm 2.csv
+              \item data\_adult\_holes\_1\_filled\_Algorytm 3.csv
+          \end{itemize}
+
+          Wypełnione pliki bazujące na Stock Exchange Data:
+          \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
+              \item data\_stock\_holes\_1\_filled\_Algorytm 1.csv
+              \item data\_stock\_holes\_1\_filled\_Algorytm 2.csv
+              \item data\_stock\_holes\_1\_filled\_Algorytm 3.csv
+          \end{itemize}
+    \item Każdy z wypełnionych plików został następnie poddany analizie trzecim modułem programu.
+          Wygenerował on dla każdego analizowanego pliku informacje o dokładności wypełniania.
+          To te pliki są podstawą oceny skuteczności poszczególnych algorytmów.
+          Wygenerowane pliki to:
+          \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
+              \item data\_adult\_holes\_1\_filled\_Algorytm 1\_aad.csv
+              \item data\_adult\_holes\_1\_filled\_Algorytm 1\_acc.csv
+              \item data\_adult\_holes\_1\_filled\_Algorytm 2\_aad.csv
+              \item data\_adult\_holes\_1\_filled\_Algorytm 2\_acc.csv
+              \item data\_adult\_holes\_1\_filled\_Algorytm 3\_aad.csv
+              \item data\_adult\_holes\_1\_filled\_Algorytm 3\_acc.csv
+              \item data\_stock\_holes\_1\_filled\_Algorytm 1\_aad.csv
+              \item data\_stock\_holes\_1\_filled\_Algorytm 1\_acc.csv
+              \item data\_stock\_holes\_1\_filled\_Algorytm 2\_aad.csv
+              \item data\_stock\_holes\_1\_filled\_Algorytm 2\_acc.csv
+              \item data\_stock\_holes\_1\_filled\_Algorytm 3\_aad.csv
+              \item data\_stock\_holes\_1\_filled\_Algorytm 3\_acc.csv
+          \end{itemize}
+\end{enumerate}
+
+Wyniki testów zebrano, i na ich przygotowano tabele \ref{tab:adult_aad}, \ref{tab:adult_acc}, \ref{tab:stock_aad} i \ref{tab:stock_acc} w czytelniejszy sposób przedstawiające wyniki:
+
+\begin{table}[ht]
+    \caption{Tabela porównująca średnie odchylenie wartości po wypełnianiu danych w zbiorze Adult Data Set}
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \textbf{Kolumna} & \textbf{Algorytm 1} & \textbf{Algorytm 2} & \textbf{Algorytm 3} \\ \hline
+        age              & 8,049               & 8,056               & 8,072               \\ \hline
+        hours-per-week   & 7,290               & 7,324               & 7,324               \\ \hline
+    \end{tabular}
+    \label{tab:adult_aad}
+\end{table}
+\FloatBarrier
+
+\begin{table}[ht]
+    \caption{Tabela porównująca procentową skuteczność algorytmów w wypełnianiu danych w zbiorze Adult Data Set}
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{Kolumna} & \textbf{Algorytm 1} & \textbf{Algorytm 2} & \textbf{Algorytm 3} \\ \hline
+        age              & 3,673               & 3,647               & 3,520               \\ \hline
+        education        & 100,000             & 100,000             & 100,000             \\ \hline
+        occupation       & 26,724              & 24,005              & 26,658              \\ \hline
+        race             & 80,434              & 18,481              & 16,822              \\ \hline
+        hours-per-week   & 5,495               & 4,974               & 5,258               \\ \hline
+        attribute        & 77,089              & 76,989              & 76,194              \\ \hline
+    \end{tabular}
+    \label{tab:adult_acc}
+\end{table}
+\FloatBarrier
+
+\begin{table}[ht]
+    \caption{Tabela porównująca średnie odchylenie wartości po wypełnianiu danych w zbiorze Stock Exchange Data}
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{Kolumna} & \textbf{Algorytm 1} & \textbf{Algorytm 2} & \textbf{Algorytm 3} \\ \hline
+        Open             & 38,639              & 38,487              & 38,652              \\ \hline
+        Low              & 25,429              & 25,381              & 25,382              \\ \hline
+        Volume           & 514744105,743       & 517121563,891       & 512315098,820       \\ \hline
+        CloseUSD         & 1010,382            & 1036,041            & 1036,041            \\ \hline
+    \end{tabular}
+    \label{tab:stock_aad}
+\end{table}
+\FloatBarrier
+
+\begin{table}[ht]
+    \caption{Tabela porównująca procentową skuteczność algorytmów w wypełnianiu danych w zbiorze Stock Exchange Data}
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{Kolumna} & \textbf{Algorytm 1} & \textbf{Algorytm 2} & \textbf{Algorytm 3} \\ \hline
+        Open             & 0                   & 0                   & 0                   \\ \hline
+        Low              & 0                   & 0                   & 0                   \\ \hline
+        Volume           & 0                   & 0                   & 0                   \\ \hline
+        CloseUSD         & 0                   & 0                   & 0                   \\ \hline
+    \end{tabular}
+    \label{tab:stock_acc}
+\end{table}
+\FloatBarrier
+
+
+
 \clearpage
-
-
 \section{Podsumowanie i wnioski końcowe}
 
+
 \clearpage
-
-
 \section*{Załączniki}
 
 \addcontentsline{toc}{section}{Załączniki}
@@ -990,36 +1215,51 @@ Procedura dla algorytmu trzeciego wygląda następująco:
 
 \begin{thebibliography}{4}
     % Wstęp
-    \bibitem{python} https://www.python.org/. Dostęp 26.02.2023.
-    \bibitem{pandas} https://pandas.pydata.org/. Dostęp 26.02.2023.
-    \bibitem{numpy} https://numpy.org/. Dostęp 26.02.2023.
-    \bibitem{scikit} https://scikit-learn.org/stable/. Dostęp 26.02.2023.
-    \bibitem{easygui} https://easygui.sourceforge.net/. Dostęp 26.02.2023.
-    \bibitem{uci} https://archive-beta.ics.uci.edu/. Dostęp 26.02.2023.
-    \bibitem{kaggle} https://www.kaggle.com/datasets. Dostęp 26.02.2023.
+    \bibitem{python} https://www.python.org/. Dostęp 30.03.2023.
+    \bibitem{pandas} https://pandas.pydata.org/. Dostęp 30.03.2023.
+    \bibitem{numpy} https://numpy.org/. Dostęp 30.03.2023.
+    \bibitem{scikit} https://scikit-learn.org/stable/. Dostęp 30.03.2023.
+    \bibitem{easygui} https://easygui.sourceforge.net/. Dostęp 30.03.2023.
+    \bibitem{uci} https://archive-beta.ics.uci.edu/. Dostęp 30.03.2023.
+    \bibitem{kaggle} https://www.kaggle.com/datasets. Dostęp 30.03.2023.
+    % Wprowadzenie
+    \bibitem{fin} Sun Y., Shi Y., Zhang Z.: Finance Big Data: Management, Analysis, and Applications. International Journal of Electronic Commerce, 2019.
+    \bibitem{med} Austin P., White I., Lee D., van Buuren S.: Missing Data in Clinical Research: A Tutorial on Multiple Imputation. The Canadian journal of cardiology vol. 37,9, 2020.
+    \bibitem{pop} Balk D., Leyk S., Jones B., Montgomery M.R., Clark A.: Understanding urbanization: A study of census and satellite-derived urban classes in the United States, 1990-2010. PLOS ONE, 2018.
+    \bibitem{net} Casas P., D'Alconzo A., Zseby T., Mellia M.: Big-DAMA: Big Data Analytics for Network Traffic Monitoring and Analysis. 2016.
+    \bibitem{types} https://www.scribbr.com/statistics/missing-data/. Dostęp 30.03.2023.
+    \bibitem{fisher} Fisher R. A.: The Goodness of Fit of Regression Formulae, and the Distribution of Regression Coefficients. Journal of the Royal Statistical Society, 1922.
+    \bibitem{wilson} Wilson E. B.: Probable Inference, the Law of Succession, and Statistical Inference. Journal of the American Statistical Association, 1927.
+    \bibitem{rubin} Rubin D. B.: Multiple Imputation for Nonresponse in Surveys. Wileys, John Wiley \& Sons, Indianapolis 198z.
+    \bibitem{multi} Bayzid S., Bhattacharjee A.: Machine learning based imputation techniques for estimating phylogenetic trees from incomplete distance matrices. BMC Genomics, 2019.
+    \bibitem{impu} https://towardsdatascience.com/implementation-and-limitations-of-imputation-methods-b6576bf31a6c. Dostęp 30.03.2023.
+    \bibitem{bigata} https://www.oracle.com/pl/big-data/what-is-big-data/. Dostęp 30.03.2023.
+    \bibitem{ogd} https://www.oecd.org/gov/digital-government/open-government-data.htm. Dostęp 30.03.2023.
+    \bibitem{ogdpl} https://dane.gov.pl/pl. Dostęp 30.03.2023.
+    \bibitem{future} Adnan F., Jamaludin K., Muhamad W., Miskon S.: A Review of Current Publications Trend on Missing Data Imputation Over Three Decades: Direction and Future Research. 2021.
     % Narzędzia
     \bibitem{abc} Geurts L., Meertens L., Pemberton S.: ABC Programmer's Handbook. Bosko Books, Londyn 2005.
-    \bibitem{python2} https://www.artima.com/articles/the-making-of-python. Dostęp 26.02.2023.
+    \bibitem{python2} https://www.artima.com/articles/the-making-of-python. Dostęp 30.03.2023.
     \bibitem{python3} Lutz M.: Learning Python, 5th Edition. O'Reilly Media Inc, Sebastopol 2013.
-    \bibitem{ide} https://www.redhat.com/en/topics/middleware/what-is-ide. Dostęp 26.02.2023.
-    \bibitem{vsc} https://code.visualstudio.com/. Dostęp 26.02.2023.
+    \bibitem{ide} https://www.redhat.com/en/topics/middleware/what-is-ide. Dostęp 30.03.2023.
+    \bibitem{vsc} https://code.visualstudio.com/. Dostęp 30.03.2023.
     \bibitem{vsc2} Johnson B.: Visual Studio Code: End-to-End Editing and Debugging Tools for Web Developers. John Wiley \& Sons, Indianapolis 2019.
-    \bibitem{github} https://github.com/. Dostęp 26.02.2023.
+    \bibitem{github} https://github.com/. Dostęp 30.03.2023.
     \bibitem{github2} Chacon S., Straub B.: Pro Git 2nd ed. Apress, 2014.
     \bibitem{git} Laster B.: Professional Git. John Wiley \& Sons, Indianapolis 2017.
     % Biblioteki
     \bibitem{pandas2} Petrou T.: Pandas Cookbook: Recipes for Scientific Computing, Time Series Analysis and Data Visualization using Python. Packt Publishing, Birmingham 2017.
-    \bibitem{numeric} https://pypi.org/project/Numeric/. Dostęp 26.02.2023.
-    \bibitem{numarray} https://pypi.org/project/numarray/. Dostęp 26.02.2023.
+    \bibitem{numeric} https://pypi.org/project/Numeric/. Dostęp 30.03.2023.
+    \bibitem{numarray} https://pypi.org/project/numarray/. Dostęp 30.03.2023.
     \bibitem{numpy2} Ranjani J., Sheela A., Meena K. P.: "Combination of NumPy, SciPy and Matplotlib/Pylab -a good alternative methodology to MATLAB - A Comparative analysis" 2019 1st International Conference on Innovations in Information and Communication Technology (ICIICT), Chennai 2019
     \bibitem{numpy3} McKinney W.: Python for Data Analysis. O'Reilly Media Inc, Sebastopol 2012.
-    \bibitem{tkinter} https://docs.python.org/3/library/tkinter.html. Dostęp 26.02.2023.
+    \bibitem{tkinter} https://docs.python.org/3/library/tkinter.html. Dostęp 30.03.2023.
     % Źródła danych
-    \bibitem{googlesearch} https://datasetsearch.research.google.com/. Dostęp 26.02.2023.
+    \bibitem{googlesearch} https://datasetsearch.research.google.com/. Dostęp 30.03.2023.
     \bibitem{googlesearch2} Noy N., Burgess M., Brickley D.: Google Dataset Search: Building a search engine for datasets in an open Web ecosystem. WebConf'2019, San Francisco 2019
-    \bibitem{adult} https://archive-beta.ics.uci.edu/dataset/2/adult. Dostęp 26.02.2023.
-    \bibitem{stock} www.kaggle.com/datasets/mattiuzc/stock-exchange-data. Dostęp 26.02.2023.
-    \bibitem{autopy} https://pypi.org/project/auto-py-to-exe/. Dostęp 26.02.2023.
+    \bibitem{adult} https://archive-beta.ics.uci.edu/dataset/2/adult. Dostęp 30.03.2023.
+    \bibitem{stock} www.kaggle.com/datasets/mattiuzc/stock-exchange-data. Dostęp 30.03.2023.
+    \bibitem{autopy} https://pypi.org/project/auto-py-to-exe/. Dostęp 30.03.2023.
     % Implementacja
     \bibitem{wybZag} Brański A.: Wybrane zagadnienia informatyki stosowanej. Oficyna Wydawnicza Politechniki Rzeszowskiej, Rzeszów 2020.
 \end{thebibliography}
