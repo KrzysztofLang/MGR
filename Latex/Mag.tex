@@ -64,26 +64,26 @@ minimizing the negative impact on the effectiveness of subsequent data analysis.
 
 \section{Wstęp}
 
-W pracy opisano znaczenie wypełniania brakujących wartości w zbiorach danych.
+W pracy opisano znaczenie wypełniania brakujących wartości w dużych zbiorach danych.
 Przedstawiono 3 algorytmy służące wypełnianiu brakujących danych, które następnie zostały zaimplementowane z użyciem
 stworzonej na te potrzeby aplikacji. Dokonano porównania dokładności wypełniania danych dla poszczególnych algorytmów
 i przeanalizowano uzyskane wyniki. Do przygotowania aplikacji wykorzystano język programowania Python \cite{python},
 z wykorzystaniem bibliotek służących do analiz i manipulacji danymi: Pandas \cite{pandas},
-NumPy \cite{numpy} i SciKit-learn oraz biblioteki
+NumPy \cite{numpy} i SciKit-learn \cite{scikit} oraz biblioteki
 udostęniającej narzędzia do przygotowania interfejsu graficznego EasyGUI \cite{easygui}.
 Dane wykorzystane do testów pochodzą z repozytorium danych do uczenia maszynowego
-Uniwersytetu Kalifornijskiego w Irvine \cite{uci} oraz zbioru bazy danych
+Uniwersytetu Kalifornijskiego w Irvine \cite{uci} oraz zbioru baz danych
 udostęnionych w serwisie Kaggle.com  \cite{kaggle}.
 
 W pierwszym rozdziale przedstawiono zarys treści dalszej pracy.
 W drugim rozdziale przybliżono ideę wypełniania brakujących wartości w duzych zbiorach danych,
 na co składa się rys historyczny zagadnienia, przedstawienie istniejących rozwiązań i ich znaczenie,
-oraz zastanowiono się nad przyszłością zagadnmienia.
+oraz zastanowiono się nad przyszłością zagadnienia.
 Trzeci rozdział przybliża narzędzia użyte do przygotowania części praktycznej niniejszej pracy,
 to jest programu realizującego testy algorytmów wypełniajacych puste miejsca oraz
 dane wykorzystane do testów.
 Na rodział czwarty składa się opis praktycznej części badań.
-Znajduje się w nim opis przygotowanego programu wraz z przykłądem działana, opisy zaimplementowanych algorytmów,
+Znajduje się w nim opis przygotowanego programu wraz z przykładem działana, opisy zaimplementowanych algorytmów,
 oraz przedstawione zostały wyniki przeprowadzonych testów.
 Rozdział piąty składa się z podsumowania przeprowadzonych analiz i przedstawienia wyciągniętych wniosków.
 
@@ -109,7 +109,7 @@ pogarszając wartość danych. Przykładowe rodzaje danych dla których może to
 Powyższe przykłady to tylko drobny wycinek potencjalnych zastosowań analizy dużych zbiorów danych,
 dla których jej dokładność jest kluczowa.
 
-Braki w danych mogą wystęować z różnych powodów, mogą pojawiać się zarówno podczas samego zbierania danych jak i później.
+Braki w danych mogą występować z różnych powodów, mogą pojawiać się zarówno podczas samego zbierania danych jak i później.
 Przykładowymi źródłami brakujących danych są:
 
 \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
@@ -129,12 +129,12 @@ Brakujące dane można zakwalifikować do jednego z 3 typów \cite{types}:
     \item MAR (ang. missing at random) -- brakujące losowo. Takie dane rozmieszczone są losowo,
           lecz widoczne jest powiązanie z innymi danymi.
     \item MNAR (ang. missing not at random) -- brakujące w sposób nielosowy. Oznacza to,
-          że brakujące wartości można powiązać i innymi danymi.
+          że brakujące wartości można powiązać z innymi danymi.
 \end{enumerate}
 
 Historia prób wypełniania brakujących wartości sięga wczesnych lat XX wieku.
 Wtedy statystycy tacy jak Ronald Fisher i Edwin Wilson zaproponowali metody oparte o średnią i medianę
-rozpatrywanych danych. Te metody są stosowane do dziś w niektórych przypadkach gdy dane zaliczają się do kategorii
+rozpatrywanych danych. Te metody są stosowane do dziś w niektórych przypadkach, na przykład gdy dane zaliczają się do kategorii
 MCAR. \cite{fisher}\cite{wilson}
 
 Dużym przełomem dla wypełniania brakujących danych była publikacja pracy Donalda Rubina pod koniec XX wieku.
@@ -171,13 +171,13 @@ Uruchamiane są przedsięwzięcia Open Government Data, polegające na udostępn
 swoich zbiorów danych. \cite{ogd} \cite{ogdpl}
 
 Większa ilość danych oznacza większą ilość braków. Większa ilość braków wymusza tworzenie nowych,
-dokładniejszych i szybszych metod ich wypełniania. Przewidywane kierunki rozwoju algorytmó wypełniania obejmują: \cite{future}
+dokładniejszych i szybszych metod ich wypełniania. Przewidywane kierunki rozwoju algorytmów wypełniania obejmują: \cite{future}
 
 \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
     \item nowe, bardziej zaawansowane metody wypełniania, tworzone z myślą o konkretnych typach danych,
     \item zwiększanie integracji z innymi narzędziami do analizy danych,
     \item zwiększanie znaczenia uczenia maszynowego,
-    \item więcej metod weryfikujących wypełnienia.
+    \item więcej metod weryfikujących poprawność wypełnienia.
 \end{itemize}
 
 \clearpage
@@ -208,7 +208,7 @@ Dobór odpowiedniego środowiska programowania jest istotny, ponieważ może zna
 
 Jako środowisko programowania wykorzystane do przygotowania programu do testowania algorytmów
 wybrano Microsoft Visual Studio Code. \cite{vsc}
-Jest to darmowy IDE o otawrtym kodzie źródłowym. Stworzony został przez firmę Microsoft w roku 2015.
+Jest to darmowy IDE o otwartym kodzie źródłowym. Stworzony został przez firmę Microsoft w roku 2015.
 Zaprojektowany został z myślą tworzenia aplikacji webowych i chmurowych z wykorzystaniem wielu języków.
 Ze wzglądu na otwartość kodu, dostępne jest wiele rozszerzeń do programu,
 które znacznie ułatwiają tworzenie także projektów o dużym stopniu złożoności. \cite{vsc2}
@@ -222,7 +222,7 @@ prywatne repozytorium kodu. \cite{github}
 GitHub to platforma umożliwiająca programistom współpracę nad projektami, udostępnianie kodu i
 udzielanie się w projektach o otwartym kodzie źródłowym. Jest to największa tego typu platforma na świecie. \cite{github2}
 
-Jednym z najważniejszych elementów GitHub jest Git. Jest to rozproszony system kontrol wersji,
+Jednym z najważniejszych elementów GitHub jest Git. Jest to rozproszony system kontroli wersji,
 przygotowany przez Linusa Torvaldsa i wydany w roku 2005. Oryginalnie służył do pomocy przy rozwoju jądra Linux.
 Pozwala na śledzenie zmian w kodzie oraz pracę nad wieloma gałęziami projektu w tym samym czasie. \cite{git}
 
@@ -232,6 +232,7 @@ Pozwala na śledzenie zmian w kodzie oraz pracę nad wieloma gałęziami projekt
 Pandas to popularna biblioteka służąca manipulacji i analizy danych w Pythonie.
 Stworzona została w roku 2008 przez Wesa McKinney'a i jest stale rozwijana przez grupę deweloperów.
 Nazwa Pandas pochodzi od "Python data analysis". \cite{pandas}
+
 Najważniejsze zalety Pandas to:
 
 \begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
@@ -269,16 +270,16 @@ Do wad zaliczają się stosunkowo niska wydajność i problemy z obsługą niekt
 SciKit-learn to biblioteka zawierająca narzędzia związane z uczeniem maszynowym dla Pythona.
 Jest częścią większego zestawu narzędzi SciKit,
 zawierającego biblioteki oferujące szeroki wachlarz narzędzi do analizy danych.
-Początkowo stworzony przez Davida Cournapeau jako projekt w ramach "Google Summer of Code" w roku 2007,
-został później przepisany i rozwinięty głównie przez Francuski Instytut Badań w Dziedzinie Informatyki i Automatyki (INRIA)
-i udostępniony publicznie w roku 2010.
+Początkowo stworzony przez Davida Cournapeau jako projekt w ramach ``Google Summer of Code'' w roku 2007,
+został później przepisany i rozwinięty przez Francuski Instytut Badań w Dziedzinie Informatyki i Automatyki (INRIA)
+i udostępniony publicznie w roku 2010.\cite{inria}
 SciKit-learn przestrzega zasad projektowania API dla oprogramowania uczenia maszynowego,
 które obejmują między innymi spójność, rozsądne domyślne ustawienia i dokumentację. \cite{scikit}
 
 \subsubsection{EasyGUI}
 
 EasyGUI to biblioteka Pythona służaca do implementacji prostego interfejsu graficznego.
-Został stworzony przez Stephena Ferga i udostęniony w roku 2004. Oparty jest na bibliotece Tkinter \cite{tkinter}.
+Został stworzony przez Stephena Ferga i udostępniony w roku 2004. Oparty jest na bibliotece Tkinter \cite{tkinter}.
 Główną zaletą EasyGUI jest jego prosta składnia, pozwalajaca na tworzenie nieskomplikowanych aplikacji bez
 konieczności uczenia się stosowania bardziej zaawansowanych bibliotek.
 Osiągnięte to zostało przez zastosowanie predefiniowanych okien spełniających najczęściej wykorzystywane role,
@@ -683,7 +684,7 @@ Procedura dla algorytmu pierwszego wygląda następująco:
           \end{table}
           \FloatBarrier
 
-    \item Pierwsza z tabel - w przykładzie tabela \ref{tab:1_full} - posłuży do uczenia modelu uczenia maszynowego.
+    \item Pierwsza z tabel - w przykładzie tabela \ref{tab:1_full} - posłuży do trenowania modelu uczenia maszynowego.
           Wypełniana kolumna służy jako cel, a pozostałe jako dane uczące.
     \item Następnie nauczony model zostaje wykorzystany do wypełnienia brakujących wartości w drugiej tabeli,
           w przykładzie tabeli \ref{tab:1_nan}.
@@ -737,7 +738,7 @@ Procedura dla algorytmu drugiego wygląda następująco:
           W przykładzie będzie to element $B$.
     \item Tabela zostaje podzielona na dwie. W jednej znajdują się kolumny z pustymi wartościami,
           oprócz tej która ma zostać wypełniona.
-          W drugiej znajdują się kolumny pełne oraz ta wyzznaczona do wypełnienia.
+          W drugiej znajdują się kolumny pełne oraz ta wyznaczona do wypełnienia.
           Tabele \ref{tab:2_nan} i \ref{tab:2_full} przedstawiają rodzielenie tabeli dla rozważanego przykładu:
 
           \begin{table}[ht]
@@ -828,11 +829,11 @@ Procedura dla algorytmu drugiego wygląda następująco:
           \end{table}
           \FloatBarrier
 
-    \item Pierwsza z tabel - w przykładzie tabela \ref{tab:2_full_full} - posłuży do uczenia modelu uczenia maszynowego.
+    \item Pierwsza z tabel - w przykładzie tabela \ref{tab:2_full_full} - posłuży do trenowania modelu uczenia maszynowego.
           Wypełniana kolumna służy jako cel, a pozostałe jako dane uczące.
     \item Następnie nauczony model zostaje wykorzystany do wypełnienia brakujących wartości w drugiej tabeli,
           w przykładzie tabeli \ref{tab:2_full_nan}.
-    \item Nastęnie tabele są łączone spowrotem w jedną, przywracając oryginalne rozmiary. W pierwszej kolejności
+    \item Następnie tabele są łączone spowrotem w jedną, przywracając oryginalne rozmiary. W pierwszej kolejności
           łączone są ze sobą tabele które brały udział w uczeniu i wypełnianiu.
           W przykładzie będą to tabele \ref{tab:2_full_full} i \ref{tab:2_full_nan} tworząc \ref{tab:2_full_end}.
 
@@ -858,7 +859,7 @@ Procedura dla algorytmu drugiego wygląda następująco:
           \end{table}
           \FloatBarrier
 
-    \item Na koniec dołączana jest wcześniej utworzona tabela zawierająca wyłaczine kolumny z brakującymi wartościami.
+    \item Na koniec dołączana jest wcześniej utworzona tabela zawierająca wyłącznie kolumny z brakującymi wartościami.
           W przykładzie oznacza to łączenie tabel \ref{tab:2_full_end} i \ref{tab:2_nan}, uzyskując tabelę \ref{tab:2_end}.
 
           \begin{table}[ht]
@@ -891,7 +892,7 @@ stojącej za doborem kolumn do wykorzystania w uczeniu silnika.
 Dodatkowo zmieniany jest sposób wyboru kolejności w jakiej wypełniane są kolumny.
 W przeciwieństwie do poprzedniego algorytmu, kolejność wypełniania kolumn nie jest dyktowana przez samą ilość
 brakujących wartości, a ilość brakujących wartości występujących w tych samych rekordach.
-Ma to na celu jak najbardiezj efektywne uzyskanie informacji mających znaczenie przy wypełnianiu kolejnych kolumn.
+Ma to na celu jak najbardziej efektywne uzyskanie informacji mających znaczenie przy wypełnianiu kolejnych kolumn.
 Również w tym celu kolumny o najmniejszym wpływie dla wypełniania innych kolumn wypełniane są w sposób prosty,
 to znaczy w oparciu o najczęściej występującą wartość lub średnią wartość w kolumnie, zależnie od typu danych.
 
@@ -924,7 +925,7 @@ Procedura dla algorytmu trzeciego wygląda następująco:
 
           $\eta=(E,H,G,K,C,L,A,I,M,B)$, $\delta=(7,3,2,2,2,1,2,0,1,0)$
     \item Jeśli ciąg $\delta$ zawiera na końcu wartości zerowe to są one usuwane z tego ciągu,
-          to odpowiadające im kolumny zostają wypełnione w sposób prosty i usuwane z ciągu $\eta$.
+          a odpowiadające im kolumny zostają wypełnione w sposób prosty i usuwane z ciągu $\eta$.
           W przykładzie poskutkuje to ciągami:
 
           $\eta=(E,H,G,K,C,L,A,I,M)$, $\delta=(7,3,2,2,2,1,2,0,1)$
@@ -986,7 +987,7 @@ Procedura dla algorytmu trzeciego wygląda następująco:
           W rozpatrywanym przypadku przenoszoną kolumną będzie $M$, więc ciągi po jej usunięciu będą wyglądały następująco:
 
           $\eta=(E,H,G,K,C,L,A,I)$, $\delta=(7,3,2,2,2,1,2,0)$
-          Z kolei tabela zawierająca dane treningowe będzie wyglądała jak \ref{tab:3_full_full} , z kolei tabela do wypełnienia jak \ref{tab:3_full_nan}.
+          Z kolei tabela zawierająca dane treningowe będzie wyglądała jak \ref{tab:3_full_full} , natomist tabela do wypełnienia jak \ref{tab:3_full_nan}.
 
           \begin{table}[ht]
               \caption{Tabela zawierająca kolumny nie zawarte w ciągu $\eta$}
@@ -1139,8 +1140,8 @@ Procedura przeprowadzonych testów wyglądała następująco:
 
 \subsubsection{Przedstawienie otrzymanych wyników}
 
-Wyniki testów zebrano, i na ich przygotowano tabele \ref{tab:adult_aad}, \ref{tab:adult_acc},
-\ref{tab:stock_aad} i \ref{tab:stock_acc} w czytelniejszy sposób przedstawiające wyniki, zaokrąglone do 3 miejsc po przecinku:
+Wyniki testów zebrano i na ich przygotowano tabele \ref{tab:adult_aad}, \ref{tab:adult_acc},
+\ref{tab:stock_aad} i \ref{tab:stock_acc} w czytelniejszy sposób przedstawiające wyniki testów, zaokrąglone do 3 miejsc po przecinku:
 
 \begin{table}[ht]
     \caption{Tabela porównująca średnie odchylenie wartości po wypełnianiu danych w zbiorze Adult Data Set}
@@ -1239,6 +1240,7 @@ transakcji w ciągu dnia, wartości ujemne są więc niedopuszczalne.
 Niska procentowa dokładność wypełniania danych liczbowych jest spodziewanym rezultatem.
 Ponieważ tylko idealne dopasowanie jest liczone jako poprawnie wypełniona wartość, nawet najmniejsze odstępstwa
 powodują spadek tego wskaźnika. Jest to szczególnie widoczne w przypadku danych typu float, gdzie ten wskaźnik wynosi 0\%.
+Dla danych liczbowych znacznie ważniejszym wskaźnikiem jest średnie odchylenie wartości.
 
 Powyższe sugeruje, że przyjęte założenie mówiące, że zmiana logiki stojącej za doborem kolejności wypełniania kolumn
 jest niepoprawne i w rzeczywistości ma stosunkowo niskie znaczenie.
@@ -1325,6 +1327,7 @@ Do pracy załączono kod źródłowy przygotowanej aplikacji.
     \bibitem{numarray} https://pypi.org/project/numarray/. Dostęp 30.03.2023.
     \bibitem{numpy2} Ranjani J., Sheela A., Meena K. P.: "Combination of NumPy, SciPy and Matplotlib/Pylab -a good alternative methodology to MATLAB - A Comparative analysis" 2019 1st International Conference on Innovations in Information and Communication Technology (ICIICT), Chennai 2019
     \bibitem{numpy3} McKinney W.: Python for Data Analysis. O'Reilly Media Inc, Sebastopol 2012.
+    \bibitem{inria} https://www.inria.fr/en. Dostęp 30.03.2023.
     \bibitem{tkinter} https://docs.python.org/3/library/tkinter.html. Dostęp 30.03.2023.
     % Źródła danych
     \bibitem{googlesearch} https://datasetsearch.research.google.com/. Dostęp 30.03.2023.
