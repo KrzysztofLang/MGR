@@ -1053,7 +1053,9 @@ Procedura dla algorytmu trzeciego wygląda następująco:
 \subsection{Napotkane problemy}
 \subsection{Testy algorytmów na wybranych źródłach danych}
 
-Procedura przeprowadzonych testów:
+\subsubsection{Procedura przeprowadzania testu}
+
+Procedura przeprowadzonych testów wyglądała następująco:
 
 \begin{enumerate}[label=\arabic*), leftmargin=1.25cm]
     \item Wybrano zbiory danych do testów: Adult Data Set \cite{adult} i Stock Exchange Data \cite{stock}.
@@ -1135,7 +1137,10 @@ Procedura przeprowadzonych testów:
           \end{itemize}
 \end{enumerate}
 
-Wyniki testów zebrano, i na ich przygotowano tabele \ref{tab:adult_aad}, \ref{tab:adult_acc}, \ref{tab:stock_aad} i \ref{tab:stock_acc} w czytelniejszy sposób przedstawiające wyniki:
+\subsubsection{Przedstawienie otrzymanych wyników}
+
+Wyniki testów zebrano, i na ich przygotowano tabele \ref{tab:adult_aad}, \ref{tab:adult_acc},
+\ref{tab:stock_aad} i \ref{tab:stock_acc} w czytelniejszy sposób przedstawiające wyniki, zaokrąglone do 3 miejsc po przecinku:
 
 \begin{table}[ht]
     \caption{Tabela porównująca średnie odchylenie wartości po wypełnianiu danych w zbiorze Adult Data Set}
@@ -1197,16 +1202,83 @@ Wyniki testów zebrano, i na ich przygotowano tabele \ref{tab:adult_aad}, \ref{t
 \end{table}
 \FloatBarrier
 
+\subsubsection{Interpretacja wyników}
 
+Najważniejszym wnioskiem jest fakt, że różnice w skuteczności między poszczególnymi algorytmami są znikome.
+Nie jest to spowodowane charakterystyką danego zbioru danych ani ich typu - we wszystkich przypadkach
+różnice w procentowej skuteczności wypełniania nie przekraczają jednego punktu procentowego, a średnie odchylenienie
+nie różni się między algorytmami o więcej niż kilka procent.
+
+Jedynym wyjątkiem jest tutaj kolumna ``race'',
+której skuteczność dla algorytmu pierwszego po zaokrągleniu wypełniania wyniosła 80\%,
+a dla drugiego i trzeciego odpowiednio 18\% i 17\%.
+Wynika to z faktu, że w algorytmie drugim i trzecim kolumny wypełniane jako pierwsze
+bazują na uczeniu z wykorzystaniem najmniejszej liczby danych.
+Jeśli w uczeniu silnika maszynowego mającego wypełnić tą kolumnę brakowało danych z którymi ta jest mocno skorelowana,
+słaba skuteczność wypełnienia jest spodziewana.
+
+
+
+Kolejną zaobserwowaną właściwością jest duża rozpiętość uzyskanej dokładności wypełniania danych kategorycznych.
+Dla kolumny ``education'' jest to aż 100\%, dla ``attribute'' akceptowalne 77\%,
+a dla ``occupation'' już tylko okolice 25\%, niezależnie od wykorzystnego algorytmu
+(przypadek kolumny ``race'' zostaje tutaj pominięty, ponieważ został już omówiony wcześniej).
+
+Tutaj rolę odgrywa stopień korelacji danych w jednej kolumnie z pozostałymi.
+Łatwo pokazać to na przykładzie kolumny ``education''.
+Ponieważ kolumna ``education-num'' przechowuje dokładnie te same informacje lecz zakodowane w inny sposób
+(numerycznie zamiast tekstowo) odgadnięcie właściwej wartości przez uczenie maszynowe nie stanowi problemu.
+Dla pozostałych kolumn silnik nie znalazł porównywalnie mocnych korelacji,
+więc skuteczność wypełniania jest niższa.
+
+Ogromne średnie odchylenie dla kolumny ``Volume'' prawdopodobnie wynika z błędu albo w przygotowanym programie albo
+wykorzystanym silniku uczenia maszynowego. Po sprawdzeniu uzupełnionych danych, okazało się że wszystkie one są ujemne,
+mimo że w oryginalnym zbiorze nie ma żadnych ujemnych wartości - ta kolumna przedstawia liczbę przeprowadzonych
+transakcji w ciągu dnia, wartości ujemne są więc niedopuszczalne.
+
+Niska procentowa dokładność wypełniania danych liczbowych jest spodziewanym rezultatem.
+Ponieważ tylko idealne dopasowanie jest liczone jako poprawnie wypełniona wartość, nawet najmniejsze odstępstwa
+powodują spadek tego wskaźnika. Jest to szczególnie widoczne w przypadku danych typu float, gdzie ten wskaźnik wynosi 0\%.
+
+Powyższe sugeruje, że przyjęte założenie mówiące, że zmiana logiki stojącej za doborem kolejności wypełniania kolumn
+jest niepoprawne i w rzeczywistości ma stosunkowo niskie znaczenie.
+Ważny z kolei jest dobór kolumn wykorzystanych do trenowania silnika uczenia maszynowego,
+ponieważ może mieć to ogromny wpływ na dokładność, co dosadnie pokazała kolumna ``race''.
 
 \clearpage
 \section{Podsumowanie i wnioski końcowe}
+Temat niniejszej pracy dyplomowej magisterskiej brzmi ``Implementacja wybranych algorytmów wypełniania brakujących wartości,
+dla strumieni dużych zbiorów danych''. Miała ona na celu przedstawić idee stojące za wypełnianiem brakujacych danych,
+zaprezentować działanie zaimplementowanych algorytmów oraz je porównać. Do implementacji wykorzystano program
+napisany w języku Python z zaimplementowanymi bibliotekami służącymi do obróbki i analizy danych. Testy przeprowadzono
+na wybranych odpowiednio dużych zbiorach danych.
+
+Wnioski wyciągnięte z przeprowadzonych testów zaprzeczyły przyjętemu założeniu z myślą o którym przygotowywano
+algorytmy do testowania, czyli dużej roli kolejności w jakiej wypełniane są dane. Zwróciły one jednak uwagę na
+rolę wykorzystania jak największej ilości danych do trenowania silnika uczenia maszynowego.
+
+Wypełnianie brakujących elementów w dużych zbiorach danych to wciąż rozwijająca się gałęź analizy danych.
+Rosnące znaczenie analizy danych dla kolejnych gałęzi przemysłu i nauki wymaga aby dane były tak dobrej jakości
+jak to możliwe, a to oznacza również ich kompletność.
+Różne dane wymagają różnych sposobów ich wypełniania.
+Podczas gdy dla niektórych może być wystarczające proste wstawienie średniej, inne dane będą wymagały zaawansowanych
+algorytmów ze zintegrowanymi elementami uczenia maszynowego i automatycznej korekcji błędów.
+
+Autor za własny wkład pracy uważa:
+\begin{itemize}[label=-,labelsep=0.4cm, leftmargin=1.25cm]
+    \item zebranie informacji dotyczących omawianego tematu,
+    \item przygotowanie programu służącego do przeprowadzenia testów,
+    \item przygotowanie algorytmów wypełniania brakujących wartości do porównania,
+    \item przeprowadzenie testów, analiza uzyskanych wyników i wyciągnięcie wniosków.
+\end{itemize}
 
 
 \clearpage
 \section*{Załączniki}
 
 \addcontentsline{toc}{section}{Załączniki}
+
+Do pracy załączono kod źródłowy przygotowanej aplikacji.
 
 \clearpage
 

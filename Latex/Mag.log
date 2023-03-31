@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.16)  31 MAR 2023 00:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.16)  31 MAR 2023 02:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -465,67 +465,70 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 2.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 2.
-)
+
+Underfull \vbox (badness 2521) has occurred while \output is active []
+
+ [3])
 \tf@toc=\write4
 \openout4 = `Mag.toc'.
 
- [3] [4
+ [4] [5
 
-] [5] [6
+] [6] [7
 
-] [7] [8]
+] [8] [9]
 Underfull \vbox (badness 1442) has occurred while \output is active []
 
- [9
+ [10
 
-] [10] [11] [12] [13] [14] [15
+] [11] [12] [13] [14] [15] [16
 
 ]
 Overfull \hbox (3.53943pt too wide) in paragraph at lines 413--417
 []\T1/lmr/m/n/12 Poni»ej za-pre-zen-to-wano dzia-ªa-nie pro-gramu na przy-kªa-dzie pliku data_stock.csv.
  []
 
-<img/01.jpg, id=56, 442.65375pt x 261.22594pt>
+<img/01.jpg, id=59, 442.65375pt x 261.22594pt>
 File: img/01.jpg Graphic file (type jpg)
 <use img/01.jpg>
 Package pdftex.def Info: img/01.jpg  used on input line 424.
 (pdftex.def)             Requested size: 341.43306pt x 201.50331pt.
-[16]
-<img/02.jpg, id=60, 442.65375pt x 261.22594pt>
+[17]
+<img/02.jpg, id=63, 442.65375pt x 261.22594pt>
 File: img/02.jpg Graphic file (type jpg)
 <use img/02.jpg>
 Package pdftex.def Info: img/02.jpg  used on input line 441.
 (pdftex.def)             Requested size: 341.43306pt x 201.50331pt.
- [17 <./img/01.jpg> <./img/02.jpg>]
-<img/03.jpg, id=64, 442.65375pt x 273.27094pt>
+ [18 <./img/01.jpg> <./img/02.jpg>]
+<img/03.jpg, id=67, 442.65375pt x 273.27094pt>
 File: img/03.jpg Graphic file (type jpg)
 <use img/03.jpg>
 Package pdftex.def Info: img/03.jpg  used on input line 454.
 (pdftex.def)             Requested size: 341.43306pt x 210.79453pt.
-<img/04.jpg, id=65, 536.75531pt x 444.91219pt>
+<img/04.jpg, id=68, 536.75531pt x 444.91219pt>
 File: img/04.jpg Graphic file (type jpg)
 <use img/04.jpg>
 Package pdftex.def Info: img/04.jpg  used on input line 473.
 (pdftex.def)             Requested size: 341.43306pt x 283.01167pt.
- [18 <./img/03.jpg>]
-<img/05.jpg, id=69, 442.65375pt x 249.93375pt>
+ [19 <./img/03.jpg>]
+<img/05.jpg, id=73, 442.65375pt x 249.93375pt>
 File: img/05.jpg Graphic file (type jpg)
 <use img/05.jpg>
 Package pdftex.def Info: img/05.jpg  used on input line 489.
 (pdftex.def)             Requested size: 341.43306pt x 192.7928pt.
- [19 <./img/04.jpg>]
-<img/06.jpg, id=74, 442.65375pt x 201.00093pt>
+ [20 <./img/04.jpg>]
+<img/06.jpg, id=77, 442.65375pt x 201.00093pt>
 File: img/06.jpg Graphic file (type jpg)
 <use img/06.jpg>
 Package pdftex.def Info: img/06.jpg  used on input line 501.
 (pdftex.def)             Requested size: 341.43306pt x 155.04721pt.
-<img/07.jpg, id=75, 508.90125pt x 174.6525pt>
+<img/07.jpg, id=78, 508.90125pt x 174.6525pt>
 File: img/07.jpg Graphic file (type jpg)
 <use img/07.jpg>
 Package pdftex.def Info: img/07.jpg  used on input line 514.
 (pdftex.def)             Requested size: 341.43306pt x 117.1818pt.
- [20 <./img/05.jpg> <./img/06.jpg>]
-<img/08.jpg, id=79, 442.65375pt x 297.36093pt>
+ [21 <./img/05.jpg> <./img/06.jpg>]
+<img/08.jpg, id=82, 442.65375pt x 297.36093pt>
 File: img/08.jpg Graphic file (type jpg)
 <use img/08.jpg>
 Package pdftex.def Info: img/08.jpg  used on input line 535.
@@ -533,46 +536,46 @@ Package pdftex.def Info: img/08.jpg  used on input line 535.
 
 Underfull \vbox (badness 3179) has occurred while \output is active []
 
- [21 <./img/07.jpg> <./img/08.jpg>]
-<img/09.jpg, id=83, 508.90125pt x 174.6525pt>
+ [22 <./img/07.jpg> <./img/08.jpg>]
+<img/09.jpg, id=86, 508.90125pt x 174.6525pt>
 File: img/09.jpg Graphic file (type jpg)
 <use img/09.jpg>
 Package pdftex.def Info: img/09.jpg  used on input line 585.
 (pdftex.def)             Requested size: 341.43306pt x 117.1818pt.
- [22] [23 <./img/09.jpg>] [24] [25] [26] [27] [28] [29] [30] [31] [32] [33] [34
+ [23] [24 <./img/09.jpg>] [25] [26] [27] [28] [29] [30] [31] [32] [33] [34] [35
 
-] [35] [36] [37] [38] [39] [40
+] [36] [37] [38] [39] [40] [41] [42
 
-] [41
+] [43
 
-] [42
+] [44
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 1235--1236
+Underfull \hbox (badness 10000) in paragraph at lines 1307--1308
 []\T1/lmr/m/n/12 https://towardsdatascience.com/implementation-and-limitations-of-imputation-
  []
 
 
-Underfull \hbox (badness 7667) in paragraph at lines 1237--1238
+Underfull \hbox (badness 7667) in paragraph at lines 1309--1310
 []\T1/lmr/m/n/12 https://www.oecd.org/gov/digital-government/open-government-data.htm. Do-
  []
 
-[43] [44]
-Overfull \hbox (14.2264pt too wide) in paragraph at lines 1270--1270
+[45] [46]
+Overfull \hbox (14.2264pt too wide) in paragraph at lines 1342--1342
 [][]| 
  []
 
 
-Overfull \hbox (14.2264pt too wide) in paragraph at lines 1270--1270
+Overfull \hbox (14.2264pt too wide) in paragraph at lines 1342--1342
 [][]| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1270--1270
+Underfull \hbox (badness 10000) in paragraph at lines 1342--1342
 [][]
  []
 
-[45] (./Mag.aux) ) 
+[47] (./Mag.aux) ) 
 Here is how much of TeX's memory you used:
  7536 strings out of 474968
  117917 string characters out of 5780080
@@ -580,12 +583,12 @@ Here is how much of TeX's memory you used:
  28911 multiletter control sequences out of 15000+600000
  511551 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,13n,76p,385b,416s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 70i,13n,76p,385b,412s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmmi12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmmi9.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmr9.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/lm/lmsy10.pfb>
-Output written on Mag.pdf (45 pages, 1227527 bytes).
+Output written on Mag.pdf (47 pages, 1233144 bytes).
 PDF statistics:
- 219 PDF objects out of 1000 (max. 8388607)
- 139 compressed objects within 2 object streams
+ 225 PDF objects out of 1000 (max. 8388607)
+ 143 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  51 words of extra memory for PDF output out of 10000 (max. 10000000)
 
